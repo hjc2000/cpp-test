@@ -6,7 +6,7 @@ namespace video
 	class IVideoFrameInfoCollection
 	{
 	public:
-		virtual ~IVideoFrameInfoCollection() {}
+		virtual ~IVideoFrameInfoCollection() = default;
 		IVideoFrameInfoCollection &operator=(IVideoFrameInfoCollection const &another);
 
 		virtual int Width() const = 0;

@@ -12,7 +12,7 @@ namespace video
 	class IAudioStreamInfoCollection
 	{
 	public:
-		virtual ~IAudioStreamInfoCollection() {}
+		virtual ~IAudioStreamInfoCollection() = default;
 		IAudioStreamInfoCollection &operator=(IAudioStreamInfoCollection const &value);
 
 		virtual AVRational TimeBase() const = 0;
