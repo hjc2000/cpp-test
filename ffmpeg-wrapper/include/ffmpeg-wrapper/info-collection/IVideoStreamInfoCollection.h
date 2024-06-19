@@ -5,7 +5,8 @@
 
 namespace video
 {
-	class IVideoStreamInfoCollection :public IVideoFrameInfoCollection
+	class IVideoStreamInfoCollection :
+		public IVideoFrameInfoCollection
 	{
 	public:
 		virtual ~IVideoStreamInfoCollection() = default;
