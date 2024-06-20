@@ -1,15 +1,11 @@
 ﻿#include<algorithm>
-#include<base/BaseConverter.h>
-#include<base/Counter.h>
-#include<base/math/Fraction.h>
 #include<ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include<filesystem>
-#include<sdl2-wrapper/AVPacketPlayer.h>
+#include<iostream>
+#include<stdexcept>
+//#include<sdl2-wrapper/AVPacketPlayer.h>
 //#include<QtCore/QCoreApplication>
 //#include<QtCore/QDebug>
-
-using namespace video;
-using namespace jc;
 
 int main(void)
 {
@@ -23,7 +19,7 @@ int main(void)
 	}
 	catch (std::runtime_error &e)
 	{
-		cout << e.what() << endl;
+		std::cout << e.what() << std::endl;
 		throw;
 	}
 }
