@@ -16,11 +16,11 @@ namespace video
 		public IPacketConsumer
 	{
 		std::atomic_bool _disposed = false;
-		shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
+		std::shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
 		base::CancellationTokenSource _cancel_pump_source;
-		shared_ptr<PacketPump> _packet_pump;
-		shared_ptr<IDecoderPipe> _decoder_pipe;
-		shared_ptr<VideoFramePlayer> _player;
+		std::shared_ptr<PacketPump> _packet_pump;
+		std::shared_ptr<IDecoderPipe> _decoder_pipe;
+		std::shared_ptr<VideoFramePlayer> _player;
 
 		/// <summary>
 		///		解码线程创建后会立刻等待此信号，当时机成熟，解码线程可以开始执行了，
@@ -60,7 +60,7 @@ namespace video
 
 		void Pause(bool pause);
 
-		shared_ptr<IRefTimer> RefTimer();
+		std::shared_ptr<IRefTimer> RefTimer();
 
 		/// <summary>
 		///		设置参考时钟。
@@ -69,6 +69,6 @@ namespace video
 		///		- 可以随时传入空指针来关闭音视频同步。
 		/// </summary>
 		/// <param name="value"></param>
-		void SetRefTimer(shared_ptr<IRefTimer> value);
+		void SetRefTimer(std::shared_ptr<IRefTimer> value);
 	};
 }

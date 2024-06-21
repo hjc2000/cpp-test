@@ -1,4 +1,5 @@
 #include "sdl2-wrapper/SDL_WindowWrapper.h"
+#include<iostream>
 
 video::SDL_WindowWrapper::SDL_WindowWrapper(
 	char const *title,
@@ -17,7 +18,7 @@ video::SDL_WindowWrapper::SDL_WindowWrapper(
 
 video::SDL_WindowWrapper::~SDL_WindowWrapper()
 {
-	cout << "SDL_WindowWrapper 析构函数" << endl;
+	std::cout << "SDL_WindowWrapper 析构函数" << endl;
 	::SDL_DestroyWindow(_wrapped_obj);
 }
 
@@ -31,13 +32,13 @@ SDL_Surface *video::SDL_WindowWrapper::GetWindowSurface()
 	return SDL_GetWindowSurface(_wrapped_obj);
 }
 
-shared_ptr<video::SDL_RendererWrapper> video::SDL_WindowWrapper::CreateRenderer(
+std::shared_ptr<video::SDL_RendererWrapper> video::SDL_WindowWrapper::CreateRenderer(
 	int index,
 	RendererFlags flags
 )
 {
 	auto pRender = SDL_CreateRenderer(_wrapped_obj, index, (uint32_t)flags);
-	return shared_ptr<video::SDL_RendererWrapper>{new video::SDL_RendererWrapper{ pRender }};
+	return std::shared_ptr<video::SDL_RendererWrapper>{new video::SDL_RendererWrapper { pRender }};
 }
 
 void video::SDL_WindowWrapper::SetWindowPosition(int x, int y)

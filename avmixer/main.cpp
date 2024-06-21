@@ -40,9 +40,9 @@ int main(int argc, char **argv)
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		shared_ptr<InputFormat> input_video_format { new InputFormat { video_url } };
-		shared_ptr<InputFormat> input_audio_format { new InputFormat { audio_url } };
-		shared_ptr<FileOutputFormat> output_format { new FileOutputFormat { output_file_path } };
+		std::shared_ptr<InputFormat> input_video_format { new InputFormat { video_url } };
+		std::shared_ptr<InputFormat> input_audio_format { new InputFormat { audio_url } };
+		std::shared_ptr<FileOutputFormat> output_format { new FileOutputFormat { output_file_path } };
 		AVMixer mix { input_video_format, input_audio_format, output_format };
 		base::CancellationTokenSource cancel_pump_source;
 		mix.Pump(cancel_pump_source.Token());
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	}
 	catch (std::runtime_error &e)
 	{
-		cout << e.what() << endl;
+		std::cout << e.what() << endl;
 		throw;
 	}
 }

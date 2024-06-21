@@ -12,16 +12,14 @@ VideoFrameDisplayer::VideoFrameDisplayer(
 	SDL_WindowFlags flags
 )
 {
-	_window = shared_ptr<SDL_WindowWrapper>{
-		new SDL_WindowWrapper{
-			window_title.c_str(),
-			x,
-			y,
-			width,
-			height,
-			flags
-		},
-	};
+	_window = std::shared_ptr<SDL_WindowWrapper> { new SDL_WindowWrapper {
+		window_title.c_str(),
+		x,
+		y,
+		width,
+		height,
+		flags
+	} };
 
 	_renderer = _window->CreateRenderer(-1);
 	_texture = _renderer->CreateTexture(
@@ -42,14 +40,14 @@ void VideoFrameDisplayer::SendFrame(AVFrameWrapper *frame)
 	// 更新纹理
 	if (_texture->UpdateYUVTexture(nullptr, *frame) < 0)
 	{
-		cout << SDL_GetError() << endl;
+		std::cout << SDL_GetError() << std::endl;
 		return;
 	}
 
 	_renderer->Clear();
 	if (_renderer->RenderTexture(_texture))
 	{
-		cout << SDL_GetError() << endl;
+		std::cout << SDL_GetError() << std::endl;
 		return;
 	}
 

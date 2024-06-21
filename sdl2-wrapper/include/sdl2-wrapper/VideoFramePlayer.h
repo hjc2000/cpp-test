@@ -1,14 +1,14 @@
 #pragma once
 #include<atomic>
-#include<ffmpeg-wrapper/ErrorCode.h>
 #include<ffmpeg-wrapper/base_include.h>
+#include<ffmpeg-wrapper/ErrorCode.h>
 #include<ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
 #include<ffmpeg-wrapper/pipe/interface/IFrameConsumer.h>
 #include<ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include<ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include<jccpp/IDisposable.h>
 #include<jccpp/container/HysteresisBlockingQueue.h>
 #include<jccpp/container/SafeQueue.h>
+#include<jccpp/IDisposable.h>
 #include<mutex>
 #include<sdl2-wrapper/IRefTimer.h>
 #include<sdl2-wrapper/Timer.h>
@@ -23,11 +23,11 @@ namespace video
 	{
 		std::atomic_bool _disposed = false;
 		Timer _timer;
-		shared_ptr<VideoFrameDisplayer> _displayer;
-		VideoStreamInfoCollection _video_stream_infos{};
-		jc::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue{ 10 };
+		std::shared_ptr<VideoFrameDisplayer> _displayer;
+		VideoStreamInfoCollection _video_stream_infos { };
+		jc::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue { 10 };
 		std::mutex _ref_timer_lock;
-		shared_ptr<IRefTimer> _ref_timer;
+		std::shared_ptr<IRefTimer> _ref_timer;
 		#pragma endregion
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace video
 		void SendFrame(AVFrameWrapper *frame) override;
 
 		#pragma region 参考时钟
-		shared_ptr<IRefTimer> RefTimer();
+		std::shared_ptr<IRefTimer> RefTimer();
 
 		/// <summary>
 		///		设置参考时钟。
@@ -73,7 +73,7 @@ namespace video
 		///		- 可以随时传入空指针来关闭音视频同步。
 		/// </summary>
 		/// <param name="value"></param>
-		void SetRefTimer(shared_ptr<IRefTimer> value);
+		void SetRefTimer(std::shared_ptr<IRefTimer> value);
 
 		/// <summary>
 		///		获取当前的参考时间。单位：毫秒。

@@ -1,4 +1,5 @@
 #pragma once
+#include<memory>
 #include<sdl2-wrapper/SDL_Initializer.h>
 #include<sdl2-wrapper/SDL_TextureWrapper.h>
 
@@ -71,7 +72,7 @@ namespace video
 		///		选择渲染目标的一块矩形区域作为输出，传入空指针表示将整个渲染目标作为输出
 		/// </param>
 		/// <returns>成功返回 0，失败返回错误代码</returns>
-		int RenderTexture(shared_ptr<SDL_TextureWrapper> texture, const SDL_Rect *srcrect, const SDL_Rect *dstrect);
+		int RenderTexture(std::shared_ptr<SDL_TextureWrapper> texture, const SDL_Rect *srcrect, const SDL_Rect *dstrect);
 
 		/// <summary>
 		///		将整个纹理复制到本渲染器的整个矩形中进行渲染。如果 texture
@@ -79,7 +80,7 @@ namespace video
 		/// </summary>
 		/// <param name="texture">要渲染的纹理</param>
 		/// <returns>成功返回 0，失败返回错误代码</returns>
-		int RenderTexture(shared_ptr<SDL_TextureWrapper> texture);
+		int RenderTexture(std::shared_ptr<SDL_TextureWrapper> texture);
 
 		/// <summary>
 		///		创建纹理
@@ -89,7 +90,7 @@ namespace video
 		/// <param name="w"></param>
 		/// <param name="h"></param>
 		/// <returns></returns>
-		shared_ptr<SDL_TextureWrapper> CreateTexture(
+		std::shared_ptr<SDL_TextureWrapper> CreateTexture(
 			SDL_PixelFormatEnum format,
 			SDL_TextureAccess access, int w, int h);
 

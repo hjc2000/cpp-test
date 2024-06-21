@@ -15,9 +15,9 @@ namespace video
 	*/
 	class VideoFrameDisplayer :public IFrameConsumer
 	{
-		shared_ptr<SDL_WindowWrapper> _window;
-		shared_ptr<SDL_RendererWrapper> _renderer;
-		shared_ptr<SDL_TextureWrapper> _texture;
+		std::shared_ptr<SDL_WindowWrapper> _window;
+		std::shared_ptr<SDL_RendererWrapper> _renderer;
+		std::shared_ptr<SDL_TextureWrapper> _texture;
 
 	public:
 		VideoFrameDisplayer(

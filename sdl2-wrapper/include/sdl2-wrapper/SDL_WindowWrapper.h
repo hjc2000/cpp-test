@@ -1,5 +1,6 @@
 #pragma once
 #include<base/Wrapper.h>
+#include<memory>
 #include<sdl2-wrapper/SDL_Initializer.h>
 #include<sdl2-wrapper/SDL_RendererWrapper.h>
 
@@ -63,7 +64,7 @@ namespace video
 		/// <param name="index"></param>
 		/// <param name="flags"></param>
 		/// <returns></returns>
-		shared_ptr<video::SDL_RendererWrapper> CreateRenderer(
+		std::shared_ptr<video::SDL_RendererWrapper> CreateRenderer(
 			int index,
 			RendererFlags flags = RendererFlags::Unset
 		);
