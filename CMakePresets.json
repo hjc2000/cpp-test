@@ -1,7 +1,6 @@
 ﻿{
 	"version": 3,
 	"configurePresets": [
-		// windows 配置
 		{
 			"name": "windows_base",
 			"hidden": true,
@@ -72,13 +71,6 @@
 				"CMAKE_BUILD_TYPE": "Release"
 			}
 		},
-
-
-
-
-
-
-		// linux 配置
 		{
 			"name": "linux_base",
 			"hidden": true,
