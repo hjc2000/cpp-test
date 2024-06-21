@@ -24,10 +24,7 @@
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
-					"intelliSenseMode": "linux-gcc-x64",
-					"disableExternalAnalysis": true,
-					"enableMicrosoftCodeAnalysis": false,
-					"enableClangTidyCodeAnalysis": true
+					"intelliSenseMode": "linux-gcc-x64"
 				}
 			}
 		},
@@ -84,11 +81,7 @@
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
-					"intelliSenseMode": "linux-gcc-x64",
-					"disableExternalAnalysis": true,
-					"enableMicrosoftCodeAnalysis": false,
-					"enableClangTidyCodeAnalysis": true,
-					"sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+					"intelliSenseMode": "linux-gcc-x64"
 				}
 			}
 		},
