@@ -26,7 +26,9 @@
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
 					"intelliSenseMode": "linux-gcc-x64",
-					"disableExternalAnalysis": true
+					"disableExternalAnalysis": true,
+					"enableMicrosoftCodeAnalysis": false,
+					"enableClangTidyCodeAnalysis": true
 				}
 			}
 		},
@@ -92,6 +94,8 @@
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
 					"intelliSenseMode": "linux-gcc-x64",
 					"disableExternalAnalysis": true,
+					"enableMicrosoftCodeAnalysis": false,
+					"enableClangTidyCodeAnalysis": true,
 					"sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
 				}
 			}
