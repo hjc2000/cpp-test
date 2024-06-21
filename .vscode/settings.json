@@ -1,3 +1,9 @@
 {
-	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	"files.associations": {
+		"test": "cpp",
+		"tar": "cpp",
+		"ctar": "cpp",
+		"iostream": "cpp"
+	}
 }
