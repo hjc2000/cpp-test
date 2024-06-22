@@ -1,14 +1,14 @@
 #include "sdl2-wrapper/AudioFramePlayer.h"
-#include<ffmpeg-wrapper/input-format/InputFormat.h>
-#include<ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
-#include<ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
+#include <ffmpeg-wrapper/input-format/InputFormat.h>
+#include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
+#include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
 
 using namespace video;
 
 AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
 {
 	_time_base = infos.TimeBase();
-	_device = shared_ptr<SDL_DefaultAudioDevice>{ new SDL_DefaultAudioDevice{} };
+	_device = shared_ptr<SDL_DefaultAudioDevice>{new SDL_DefaultAudioDevice{}};
 	cout << _device->ToString() << endl;
 
 	_device->_audio_callback = [&](uint8_t *stream, int len)
@@ -16,7 +16,7 @@ AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
 		AudioCallbackHandler(stream, len);
 	};
 
-	_swr_pipe = shared_ptr<SwrPipe>{ new SwrPipe {*_device} };
+	_swr_pipe = shared_ptr<SwrPipe>{new SwrPipe{*_device}};
 	_swr_pipe->FrameConsumerList().Add(_frame_queue);
 }
 
@@ -28,7 +28,8 @@ AudioFramePlayer::~AudioFramePlayer()
 
 void AudioFramePlayer::Dispose()
 {
-	if (_disposed) return;
+	if (_disposed)
+		return;
 	_disposed = true;
 
 	_frame_queue->Dispose();
@@ -48,8 +49,8 @@ void AudioFramePlayer::AudioCallbackHandler(uint8_t *stream, int len)
 	{
 		// 发生了未知错误，或者发生了 eof，即播放器已经被冲洗了。
 		/* 冲洗播放器的方法是调用本播放器对象的 send_frame 方法时传入空指针，
-		* 这将冲洗重采样器。
-		*/
+		 * 这将冲洗重采样器。
+		 */
 		Pause(true);
 		cout << "发生了错误或到达文件尾，AudioFramePlayer 停止播放" << endl;
 		return;
@@ -68,8 +69,8 @@ int64_t AudioFramePlayer::RefTime()
 void AudioFramePlayer::Pause(bool pause)
 {
 	/* 这里没什么要加锁的，设置标志位而已。而且标志位还用了原子量。_device->Pause
-	* 也是线程安全的。
-	*/
+	 * 也是线程安全的。
+	 */
 	if (pause)
 	{
 		// 暂停播放
@@ -89,7 +90,7 @@ void AudioFramePlayer::SendFrame(AVFrameWrapper *frame)
 {
 	if (_disposed)
 	{
-		throw std::runtime_error{ "此对象已释放，不能再使用" };
+		throw std::runtime_error{"此对象已释放，不能再使用"};
 	}
 
 	try
