@@ -15,6 +15,7 @@ namespace video
 		public IDisposable,
 		public IPacketConsumer
 	{
+	private:
 		std::atomic_bool _disposed = false;
 		std::shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
 		base::CancellationTokenSource _cancel_pump_source;
