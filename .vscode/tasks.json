@@ -12,6 +12,18 @@
 				"cwd": "${workspaceFolder}/out/build/x64-release"
 			},
 			"problemMatcher": []
+		},
+		{
+			"label": "ninja-debug-install",
+			"type": "shell",
+			"command": "ninja",
+			"args": [
+				"install"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/out/build/x64-debug"
+			},
+			"problemMatcher": []
 		}
 	]
 }
