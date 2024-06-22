@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 		std::string audio_url;
 		std::string output_file_path;
 
-		CLI::App app { "将不同来源的一路视频流和一路音频流混合在一起。" };
+		CLI::App app{ "将不同来源的一路视频流和一路音频流混合在一起。" };
 		app.add_option(
 			"--video_url",
 			video_url,
@@ -40,10 +40,10 @@ int main(int argc, char **argv)
 
 		auto start = std::chrono::high_resolution_clock::now();
 
-		std::shared_ptr<InputFormat> input_video_format { new InputFormat { video_url } };
-		std::shared_ptr<InputFormat> input_audio_format { new InputFormat { audio_url } };
-		std::shared_ptr<FileOutputFormat> output_format { new FileOutputFormat { output_file_path } };
-		AVMixer mix { input_video_format, input_audio_format, output_format };
+		std::shared_ptr<InputFormat> input_video_format{ new InputFormat { video_url } };
+		std::shared_ptr<InputFormat> input_audio_format{ new InputFormat { audio_url } };
+		std::shared_ptr<FileOutputFormat> output_format{ new FileOutputFormat { output_file_path } };
+		AVMixer mix{ input_video_format, input_audio_format, output_format };
 		base::CancellationTokenSource cancel_pump_source;
 		mix.Pump(cancel_pump_source.Token());
 
