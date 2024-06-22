@@ -1,8 +1,8 @@
-﻿#include<algorithm>
-#include<ffmpeg-wrapper/mux/SptsEncodeMux.h>
-#include<filesystem>
-#include<iostream>
-#include<stdexcept>
+﻿#include <algorithm>
+#include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
+#include <filesystem>
+#include <iostream>
+#include <stdexcept>
 // #include<sdl2-wrapper/AVPacketPlayer.h>
 // #include<QtCore/QCoreApplication>
 // #include<QtCore/QDebug>
