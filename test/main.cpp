@@ -1,11 +1,12 @@
-﻿#include <algorithm>
+﻿#include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
+#include <algorithm>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
+#include <sdl2-wrapper/AVPacketPlayer.h>
 #include <stdexcept>
-// #include<sdl2-wrapper/AVPacketPlayer.h>
-// #include<QtCore/QCoreApplication>
-// #include<QtCore/QDebug>
+#include <test_tsduck.h>
 
 int main(void)
 {
