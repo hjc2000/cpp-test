@@ -1,7 +1,7 @@
 {
 	"configurations": [
 		{
-			"preLaunchTask": "$ninja-debug-install",
+			"preLaunchTask": "ninja-debug-install",
 			"name": "test.exe",
 			"type": "cppdbg",
 			"request": "launch",
