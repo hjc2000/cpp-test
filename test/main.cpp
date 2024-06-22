@@ -3,9 +3,9 @@
 #include<filesystem>
 #include<iostream>
 #include<stdexcept>
-//#include<sdl2-wrapper/AVPacketPlayer.h>
-//#include<QtCore/QCoreApplication>
-//#include<QtCore/QDebug>
+// #include<sdl2-wrapper/AVPacketPlayer.h>
+// #include<QtCore/QCoreApplication>
+// #include<QtCore/QDebug>
 
 int main(void)
 {
@@ -13,8 +13,8 @@ int main(void)
 	{
 		std::filesystem::current_path(Predefine_ResourceDir);
 		test_SptsEncodeMux();
-		//test_AVPacketPlayer();
-		//test_tsduck();
+		// test_AVPacketPlayer();
+		// test_tsduck();
 		return 0;
 	}
 	catch (std::runtime_error &e)
@@ -24,7 +24,7 @@ int main(void)
 	}
 }
 
-//int main()
+// int main()
 //{
 //	int argc = 1;
 //	char *argv[] = {(char*)"appname", nullptr};
@@ -33,13 +33,13 @@ int main(void)
 //	qDebug() << "Hello, Qt console application!";
 //
 //	return app.exec();
-//}
+// }
 
-//#include<iostream>
-//#include<test_boost_asio.h>
-//#include<thread>
+// #include<iostream>
+// #include<test_boost_asio.h>
+// #include<thread>
 //
-//int main()
+// int main()
 //{
 //	try
 //	{
@@ -75,4 +75,4 @@ int main(void)
 //	}
 //
 //	return 0;
-//}
+// }
