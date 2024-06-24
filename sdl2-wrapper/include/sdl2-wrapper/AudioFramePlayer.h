@@ -4,7 +4,6 @@
 #include <ffmpeg-wrapper/container/HysteresisBlockingFrameQueue.h>
 #include <ffmpeg-wrapper/pipe/SwrPipe.h>
 #include <ffmpeg-wrapper/pipe/interface/IFrameConsumer.h>
-#include <ffmpeg-wrapper/signal-source/SinSignalSource.h>
 #include <ffmpeg-wrapper/wrapper/AVFrameWrapper.h>
 #include <ffmpeg-wrapper/wrapper/SwrContextWrapper.h>
 #include <jccpp/TimeInterpolator.h>
