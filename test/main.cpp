@@ -1,12 +1,15 @@
 ﻿#include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <algorithm>
+#include <base/math/Fraction.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 #include <stdexcept>
 #include <test_tsduck.h>
+
+using namespace std;
 
 int main(void)
 {
