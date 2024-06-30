@@ -55,6 +55,6 @@ namespace video
 		 *
 		 * @param frame 送入播放器的帧。送入空指针表示冲洗播放器。
 		 */
-		void SendFrame(AVFrameWrapper *frame) override;
+		void SendData(AVFrameWrapper *frame) override;
 	};
 }

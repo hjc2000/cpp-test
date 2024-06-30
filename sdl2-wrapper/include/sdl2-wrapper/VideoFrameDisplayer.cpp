@@ -9,28 +9,25 @@ VideoFrameDisplayer::VideoFrameDisplayer(
 	int height,
 	AVPixelFormat pix_format,
 	std::string window_title,
-	SDL_WindowFlags flags
-)
+	SDL_WindowFlags flags)
 {
-	_window = std::shared_ptr<SDL_WindowWrapper> { new SDL_WindowWrapper {
+	_window = std::shared_ptr<SDL_WindowWrapper>{new SDL_WindowWrapper{
 		window_title.c_str(),
 		x,
 		y,
 		width,
 		height,
-		flags
-	} };
+		flags}};
 
 	_renderer = _window->CreateRenderer(-1);
 	_texture = _renderer->CreateTexture(
 		AVPixelFormatExtension::AVPixelFormat_to_SDL_PixelFormatEnum(pix_format),
 		SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING,
 		width,
-		height
-	);
+		height);
 }
 
-void VideoFrameDisplayer::SendFrame(AVFrameWrapper *frame)
+void VideoFrameDisplayer::SendData(AVFrameWrapper *frame)
 {
 	if (!frame)
 	{

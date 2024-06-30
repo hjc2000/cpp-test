@@ -86,7 +86,7 @@ void AudioFramePlayer::Pause(bool pause)
 	}
 }
 
-void AudioFramePlayer::SendFrame(AVFrameWrapper *frame)
+void AudioFramePlayer::SendData(AVFrameWrapper *frame)
 {
 	if (_disposed)
 	{
@@ -95,7 +95,7 @@ void AudioFramePlayer::SendFrame(AVFrameWrapper *frame)
 
 	try
 	{
-		_swr_pipe->SendFrame(frame);
+		_swr_pipe->SendData(frame);
 	}
 	catch (std::exception &e)
 	{

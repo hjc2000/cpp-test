@@ -1,4 +1,4 @@
-#include"VideoFramePlayer.h"
+#include "VideoFramePlayer.h"
 
 using namespace video;
 using namespace std;
@@ -8,11 +8,10 @@ video::VideoFramePlayer::VideoFramePlayer(
 	int y,
 	IVideoStreamInfoCollection &infos,
 	std::string window_title,
-	SDL_WindowFlags flags
-)
+	SDL_WindowFlags flags)
 {
 	_video_stream_infos = infos;
-	_displayer = shared_ptr<VideoFrameDisplayer>{ new VideoFrameDisplayer{
+	_displayer = shared_ptr<VideoFrameDisplayer>{new VideoFrameDisplayer{
 		x,
 		y,
 		_video_stream_infos.Width(),
@@ -20,9 +19,9 @@ video::VideoFramePlayer::VideoFramePlayer(
 		_video_stream_infos.PixelFormat(),
 		window_title,
 		flags,
-	} };
+	}};
 
-	_timer._callback = [&](uint32_t interval_in_milliseconds)->uint32_t
+	_timer._callback = [&](uint32_t interval_in_milliseconds) -> uint32_t
 	{
 		return SDL_TimerCallbackHandler(interval_in_milliseconds);
 	};
@@ -36,7 +35,8 @@ VideoFramePlayer::~VideoFramePlayer()
 
 void VideoFramePlayer::Dispose()
 {
-	if (_disposed) return;
+	if (_disposed)
+		return;
 	_disposed = true;
 
 	_frame_queue.Dispose();
@@ -61,7 +61,7 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
 		return 0;
 	}
 
-	_displayer->SendFrame(&frame);
+	_displayer->SendData(&frame);
 
 	frame.SetTimeBase(_video_stream_infos.TimeBase());
 	int64_t video_time = frame.PtsToMilliseconds().count();
@@ -80,10 +80,10 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
 	if (next_interval <= 0)
 	{
 		/*
-		* 如果对 SDL 返回负数，因为 SDL 按无符号处理，所以会导致相当长的定时时间。
-		* 如果对 SDL 返回 0 会导致停止定时器。
-		* 所以返回 1，这是允许的最小值了。
-		*/
+		 * 如果对 SDL 返回负数，因为 SDL 按无符号处理，所以会导致相当长的定时时间。
+		 * 如果对 SDL 返回 0 会导致停止定时器。
+		 * 所以返回 1，这是允许的最小值了。
+		 */
 		next_interval = 1;
 	}
 
@@ -93,8 +93,8 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
 void video::VideoFramePlayer::Pause(bool pause)
 {
 	/* 这里使用的是原子量，且 _timer 的方法是线程安全的，_video_frame_infos 又不会在另一个线程中
-	* 被修改 frame_interval_in_milliseconds 属性，所以不用竞争 _not_private_methods_lock。
-	*/
+	 * 被修改 frame_interval_in_milliseconds 属性，所以不用竞争 _not_private_methods_lock。
+	 */
 	if (pause)
 	{
 		// 暂停播放
@@ -108,7 +108,7 @@ void video::VideoFramePlayer::Pause(bool pause)
 	_timer.Start(interval);
 }
 
-void video::VideoFramePlayer::SendFrame(AVFrameWrapper *frame)
+void video::VideoFramePlayer::SendData(AVFrameWrapper *frame)
 {
 	if (!frame)
 	{

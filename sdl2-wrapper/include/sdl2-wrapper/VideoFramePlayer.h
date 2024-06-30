@@ -1,38 +1,37 @@
 #pragma once
-#include<atomic>
-#include<ffmpeg-wrapper/base_include.h>
-#include<ffmpeg-wrapper/ErrorCode.h>
-#include<ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
-#include<ffmpeg-wrapper/pipe/interface/IFrameConsumer.h>
-#include<ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
-#include<ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include<jccpp/container/HysteresisBlockingQueue.h>
-#include<jccpp/container/SafeQueue.h>
-#include<jccpp/IDisposable.h>
-#include<mutex>
-#include<sdl2-wrapper/IRefTimer.h>
-#include<sdl2-wrapper/Timer.h>
-#include<sdl2-wrapper/VideoFrameDisplayer.h>
-#include<semaphore>
+#include <atomic>
+#include <ffmpeg-wrapper/ErrorCode.h>
+#include <ffmpeg-wrapper/base_include.h>
+#include <ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
+#include <ffmpeg-wrapper/pipe/interface/IFrameConsumer.h>
+#include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
+#include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
+#include <jccpp/IDisposable.h>
+#include <jccpp/container/HysteresisBlockingQueue.h>
+#include <jccpp/container/SafeQueue.h>
+#include <mutex>
+#include <sdl2-wrapper/IRefTimer.h>
+#include <sdl2-wrapper/Timer.h>
+#include <sdl2-wrapper/VideoFrameDisplayer.h>
+#include <semaphore>
 
 namespace video
 {
-	class VideoFramePlayer :
-		public IFrameConsumer,
-		public IDisposable
+	class VideoFramePlayer : public IFrameConsumer,
+							 public IDisposable
 	{
 		std::atomic_bool _disposed = false;
 		Timer _timer;
 		std::shared_ptr<VideoFrameDisplayer> _displayer;
-		VideoStreamInfoCollection _video_stream_infos { };
-		jc::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue { 10 };
+		VideoStreamInfoCollection _video_stream_infos{};
+		jc::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue{10};
 		std::mutex _ref_timer_lock;
 		std::shared_ptr<IRefTimer> _ref_timer;
-		#pragma endregion
+#pragma endregion
 
 		/// <summary>
 		///		Timer 回调处理函数。
-		///		需要在这里向显示器送入帧。 
+		///		需要在这里向显示器送入帧。
 		/// </summary>
 		/// <returns></returns>
 		uint32_t SDL_TimerCallbackHandler(uint32_t interval_in_milliseconds);
@@ -43,8 +42,7 @@ namespace video
 			int y,
 			IVideoStreamInfoCollection &infos,
 			std::string window_title,
-			SDL_WindowFlags flags
-		);
+			SDL_WindowFlags flags);
 
 		~VideoFramePlayer();
 		void Dispose() override;
@@ -61,9 +59,9 @@ namespace video
 		///		播放器内部队列满时本方法会阻塞，直到消费到小于阈值才会取消阻塞。
 		/// </summary>
 		/// <param name="frame">要被送入队列的帧</param>
-		void SendFrame(AVFrameWrapper *frame) override;
+		void SendData(AVFrameWrapper *frame) override;
 
-		#pragma region 参考时钟
+#pragma region 参考时钟
 		std::shared_ptr<IRefTimer> RefTimer();
 
 		/// <summary>

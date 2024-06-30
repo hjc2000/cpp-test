@@ -37,6 +37,6 @@ namespace video
 		///		要显示的帧。送入空指针会直接返回，不会有任何影响。
 		///		注意，一定要送入视频帧，不能送入音频帧。
 		/// </param>
-		void SendFrame(AVFrameWrapper *frame) override;
+		void SendData(AVFrameWrapper *frame) override;
 	};
 }
