@@ -44,7 +44,7 @@ void AudioFramePlayer::AudioCallbackHandler(uint8_t *stream, int len)
 	}
 
 	// 尝试从重采样器中读取帧
-	int ret = _frame_queue->ReadFrame(_swr_out_frame);
+	int ret = _frame_queue->ReadData(_swr_out_frame);
 	if (ret)
 	{
 		// 发生了未知错误，或者发生了 eof，即播放器已经被冲洗了。

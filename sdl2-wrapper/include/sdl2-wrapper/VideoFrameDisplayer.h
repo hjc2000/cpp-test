@@ -1,19 +1,19 @@
 #pragma once
-#include<ffmpeg-wrapper/AVPixelFormatExtension.h>
-#include<ffmpeg-wrapper/info-collection/IVideoStreamInfoCollection.h>
-#include<ffmpeg-wrapper/pipe/interface/IFrameConsumer.h>
-#include<ffmpeg-wrapper/wrapper/AVFrameWrapper.h>
-#include<sdl2-wrapper/SDL_EventGetter.h>
-#include<sdl2-wrapper/SDL_RendererWrapper.h>
-#include<sdl2-wrapper/SDL_TextureWrapper.h>
-#include<sdl2-wrapper/SDL_WindowWrapper.h>
+#include <base/pipe/IConsumer.h>
+#include <ffmpeg-wrapper/AVPixelFormatExtension.h>
+#include <ffmpeg-wrapper/info-collection/IVideoStreamInfoCollection.h>
+#include <ffmpeg-wrapper/wrapper/AVFrameWrapper.h>
+#include <sdl2-wrapper/SDL_EventGetter.h>
+#include <sdl2-wrapper/SDL_RendererWrapper.h>
+#include <sdl2-wrapper/SDL_TextureWrapper.h>
+#include <sdl2-wrapper/SDL_WindowWrapper.h>
 
 namespace video
 {
 	/**
 	 * @brief 视频帧显示器
-	*/
-	class VideoFrameDisplayer :public IFrameConsumer
+	 */
+	class VideoFrameDisplayer : public base::IConsumer<AVFrameWrapper *>
 	{
 		std::shared_ptr<SDL_WindowWrapper> _window;
 		std::shared_ptr<SDL_RendererWrapper> _renderer;
@@ -27,8 +27,7 @@ namespace video
 			int height,
 			AVPixelFormat pix_format,
 			std::string window_title,
-			SDL_WindowFlags flags
-		);
+			SDL_WindowFlags flags);
 
 		/// <summary>
 		///		显示视频帧。

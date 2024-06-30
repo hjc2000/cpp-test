@@ -1,9 +1,9 @@
 #pragma once
+#include <base/pipe/IConsumer.h>
 #include <condition_variable>
 #include <ffmpeg-wrapper/AVChannelLayoutExtension.h>
 #include <ffmpeg-wrapper/container/HysteresisBlockingFrameQueue.h>
 #include <ffmpeg-wrapper/pipe/SwrPipe.h>
-#include <ffmpeg-wrapper/pipe/interface/IFrameConsumer.h>
 #include <ffmpeg-wrapper/wrapper/AVFrameWrapper.h>
 #include <ffmpeg-wrapper/wrapper/SwrContextWrapper.h>
 #include <jccpp/TimeInterpolator.h>
@@ -17,7 +17,7 @@ namespace video
 	class AudioFramePlayer
 		: public IDisposable,
 		  public IRefTimer,
-		  public IFrameConsumer
+		  public base::IConsumer<AVFrameWrapper *>
 	{
 	private:
 		atomic_bool _disposed = false;
