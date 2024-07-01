@@ -62,6 +62,10 @@ namespace video
 		/// <param name="frame">要被送入队列的帧</param>
 		void SendData(AVFrameWrapper *frame) override;
 
+		void Flush() override
+		{
+		}
+
 #pragma region 参考时钟
 		std::shared_ptr<IRefTimer> RefTimer();
 

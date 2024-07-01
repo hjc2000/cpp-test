@@ -37,5 +37,9 @@ namespace video
 		///		注意，一定要送入视频帧，不能送入音频帧。
 		/// </param>
 		void SendData(AVFrameWrapper *frame) override;
+
+		void Flush() override
+		{
+		}
 	};
 }
