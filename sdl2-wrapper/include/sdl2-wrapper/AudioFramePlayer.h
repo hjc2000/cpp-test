@@ -17,7 +17,7 @@ namespace video
 	class AudioFramePlayer
 		: public IDisposable,
 		  public IRefTimer,
-		  public base::IConsumer<AVFrameWrapper *>
+		  public base::IConsumer<AVFrameWrapper>
 	{
 	private:
 		atomic_bool _disposed = false;
@@ -55,10 +55,8 @@ namespace video
 		 *
 		 * @param frame 送入播放器的帧。送入空指针表示冲洗播放器。
 		 */
-		void SendData(AVFrameWrapper *frame) override;
+		void SendData(AVFrameWrapper &frame) override;
 
-		void Flush() override
-		{
-		}
+		void Flush() override;
 	};
 }

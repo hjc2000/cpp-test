@@ -61,7 +61,7 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
 		return 0;
 	}
 
-	_displayer->SendData(&frame);
+	_displayer->SendData(frame);
 
 	frame.SetTimeBase(_video_stream_infos.TimeBase());
 	int64_t video_time = frame.PtsToMilliseconds().count();
@@ -108,16 +108,15 @@ void video::VideoFramePlayer::Pause(bool pause)
 	_timer.Start(interval);
 }
 
-void video::VideoFramePlayer::SendData(AVFrameWrapper *frame)
+void video::VideoFramePlayer::SendData(AVFrameWrapper &frame)
 {
-	if (!frame)
-	{
-		_frame_queue.Flush();
-		return;
-	}
-
-	_frame_queue.Enqueue(*frame);
+	_frame_queue.Enqueue(frame);
 	return;
+}
+
+void video::VideoFramePlayer::Flush()
+{
+	_frame_queue.Flush();
 }
 
 void VideoFramePlayer::SetRefTimer(shared_ptr<IRefTimer> value)

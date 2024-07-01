@@ -27,15 +27,10 @@ VideoFrameDisplayer::VideoFrameDisplayer(
 		height);
 }
 
-void VideoFrameDisplayer::SendData(AVFrameWrapper *frame)
+void VideoFrameDisplayer::SendData(AVFrameWrapper &frame)
 {
-	if (!frame)
-	{
-		return;
-	}
-
 	// 更新纹理
-	if (_texture->UpdateYUVTexture(nullptr, *frame) < 0)
+	if (_texture->UpdateYUVTexture(nullptr, frame) < 0)
 	{
 		std::cout << SDL_GetError() << std::endl;
 		return;
@@ -49,4 +44,8 @@ void VideoFrameDisplayer::SendData(AVFrameWrapper *frame)
 	}
 
 	_renderer->Present();
+}
+
+void video::VideoFrameDisplayer::Flush()
+{
 }

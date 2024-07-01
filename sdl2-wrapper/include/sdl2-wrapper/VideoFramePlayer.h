@@ -18,7 +18,7 @@
 namespace video
 {
 	class VideoFramePlayer
-		: public base::IConsumer<AVFrameWrapper *>,
+		: public base::IConsumer<AVFrameWrapper>,
 		  public IDisposable
 	{
 		std::atomic_bool _disposed = false;
@@ -60,11 +60,9 @@ namespace video
 		///		播放器内部队列满时本方法会阻塞，直到消费到小于阈值才会取消阻塞。
 		/// </summary>
 		/// <param name="frame">要被送入队列的帧</param>
-		void SendData(AVFrameWrapper *frame) override;
+		void SendData(AVFrameWrapper &frame) override;
 
-		void Flush() override
-		{
-		}
+		void Flush() override;
 
 #pragma region 参考时钟
 		std::shared_ptr<IRefTimer> RefTimer();

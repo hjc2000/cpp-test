@@ -86,7 +86,7 @@ void AudioFramePlayer::Pause(bool pause)
 	}
 }
 
-void AudioFramePlayer::SendData(AVFrameWrapper *frame)
+void AudioFramePlayer::SendData(AVFrameWrapper &frame)
 {
 	if (_disposed)
 	{
@@ -101,4 +101,9 @@ void AudioFramePlayer::SendData(AVFrameWrapper *frame)
 	{
 		cout << CODE_POS_STR << e.what() << endl;
 	}
+}
+
+void AudioFramePlayer::Flush()
+{
+	_swr_pipe->Flush();
 }
