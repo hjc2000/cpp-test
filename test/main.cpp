@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <iostream>
 #include <sdl2-wrapper/AVPacketPlayer.h>
+#include <sstream>
 #include <stdexcept>
 #include <test_tsduck.h>
 
@@ -16,14 +17,46 @@ extern "C"
 
 using namespace std;
 
+std::string ToHexString(uint8_t number)
+{
+	std::stringstream string_stream;
+	string_stream << std::hex << static_cast<int>(number);
+	return string_stream.str();
+}
+
+std::string ToHexString(int64_t number)
+{
+	std::stringstream string_stream;
+	string_stream << std::hex << number;
+	return string_stream.str();
+}
+
+std::string ToHexString(uint64_t number)
+{
+	std::stringstream string_stream;
+	string_stream << std::hex << number;
+	return string_stream.str();
+}
+
 int main(void)
 {
 	try
 	{
-		std::filesystem::current_path(Predefine_ResourceDir);
-		test_SptsEncodeMux();
+		// std::filesystem::current_path(Predefine_ResourceDir);
+		// test_SptsEncodeMux();
 		// test_AVPacketPlayer();
 		// test_tsduck();
+
+		uint8_t buffer[8] = {0};
+		ModbusBitConverter_GetBytesFromUInt32(ModbusBitConverterUnit_Whole,
+											  0x12345678, buffer, 0);
+
+		for (int i = 0; i < static_cast<int>(sizeof(buffer)); i++)
+		{
+			cout << ToHexString(buffer[i]) << ", ";
+		}
+
+		cout << endl;
 		return 0;
 	}
 	catch (std::runtime_error &e)
