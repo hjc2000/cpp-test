@@ -22,21 +22,10 @@ int main(void)
 {
 	try
 	{
-		// std::filesystem::current_path(Predefine_ResourceDir);
-		// test_SptsEncodeMux();
+		std::filesystem::current_path(Predefine_ResourceDir);
+		test_SptsEncodeMux();
 		// test_AVPacketPlayer();
 		// test_tsduck();
-
-		uint8_t buffer[8] = {0};
-		ModbusBitConverter_GetBytesFromUInt32(ModbusBitConverterUnit_Record,
-											  0x12345678, buffer, 0);
-
-		for (int i = 0; i < static_cast<int>(sizeof(buffer)); i++)
-		{
-			cout << base::ToHexString(buffer[i]) << ", ";
-		}
-
-		cout << endl;
 		return 0;
 	}
 	catch (std::runtime_error &e)
