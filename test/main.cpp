@@ -2,6 +2,7 @@
 #include <QtCore/QDebug>
 #include <algorithm>
 #include <base/math/Fraction.h>
+#include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
@@ -17,27 +18,6 @@ extern "C"
 
 using namespace std;
 
-std::string ToHexString(uint8_t number)
-{
-	std::stringstream string_stream;
-	string_stream << std::hex << static_cast<int>(number);
-	return string_stream.str();
-}
-
-std::string ToHexString(int64_t number)
-{
-	std::stringstream string_stream;
-	string_stream << std::hex << number;
-	return string_stream.str();
-}
-
-std::string ToHexString(uint64_t number)
-{
-	std::stringstream string_stream;
-	string_stream << std::hex << number;
-	return string_stream.str();
-}
-
 int main(void)
 {
 	try
@@ -48,12 +28,12 @@ int main(void)
 		// test_tsduck();
 
 		uint8_t buffer[8] = {0};
-		ModbusBitConverter_GetBytesFromUInt32(ModbusBitConverterUnit_Whole,
+		ModbusBitConverter_GetBytesFromUInt32(ModbusBitConverterUnit_Record,
 											  0x12345678, buffer, 0);
 
 		for (int i = 0; i < static_cast<int>(sizeof(buffer)); i++)
 		{
-			cout << ToHexString(buffer[i]) << ", ";
+			cout << base::ToHexString(buffer[i]) << ", ";
 		}
 
 		cout << endl;
