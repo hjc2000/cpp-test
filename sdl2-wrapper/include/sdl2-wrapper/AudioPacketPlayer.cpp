@@ -1,29 +1,29 @@
-#include"sdl2-wrapper/AudioPacketPlayer.h"
-#include<ffmpeg-wrapper/factory/DecoderPipeFactory.h>
+#include "sdl2-wrapper/AudioPacketPlayer.h"
+#include <ffmpeg-wrapper/factory/DecoderPipeFactory.h>
 
 using namespace video;
 using namespace std;
 
 AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
 {
-	#pragma region 安装管道
+#pragma region 安装管道
 	// 根据音频流构造音频帧播放器
-	_player = shared_ptr<AudioFramePlayer> { new AudioFramePlayer { stream } };
+	_player = shared_ptr<AudioFramePlayer>{new AudioFramePlayer{stream}};
 
 	// 根据音频流创建解码器
-	_decoder_pipe = unique_ptr<ThreadDecoderPipe> { new ThreadDecoderPipe { video::DecoderPipeFactory::Instance(), stream } };
+	_decoder_pipe = unique_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{video::DecoderPipeFactory::Instance(), stream}};
 	_decoder_pipe->FrameConsumerList().Add(_player);
 
-	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue> { new HysteresisBlockingPacketQueue { } };
+	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
 
 	// 将包从队列送到管道解码器的泵
-	_packet_pump = shared_ptr<PacketPump> { new PacketPump { _packet_queue } };
+	_packet_pump = shared_ptr<PacketPump>{new PacketPump{_packet_queue}};
 	_packet_pump->PacketConsumerList().Add(_decoder_pipe);
-	#pragma endregion
+#pragma endregion
 
 	// 解码线程
 	thread([&]()
-	{
+		   {
 		try
 		{
 			DecodingThreadFunc();
@@ -33,8 +33,8 @@ AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
 			cout << CODE_POS_STR << e.what() << endl;
 		}
 
-		_decoding_thread_has_exited.SetResult();
-	}).detach();
+		_decoding_thread_has_exited.SetResult(); })
+		.detach();
 }
 
 AudioPacketPlayer::~AudioPacketPlayer()
@@ -45,7 +45,8 @@ AudioPacketPlayer::~AudioPacketPlayer()
 
 void AudioPacketPlayer::Dispose()
 {
-	if (_disposed) return;
+	if (_disposed)
+		return;
 	_disposed = true;
 
 	_decoding_thread_can_start.Dispose();
@@ -72,10 +73,10 @@ void AudioPacketPlayer::Pause(bool pause)
 	if (pause)
 	{
 		/* 暂停播放
-		* 暂停帧播放器。
-		* 解码线程在帧播放器的缓冲区达到上限后会阻塞，所以只要暂停帧播放器，让帧播放器
-		* 不要消费，就可以达到暂停播放的目的。
-		*/
+		 * 暂停帧播放器。
+		 * 解码线程在帧播放器的缓冲区达到上限后会阻塞，所以只要暂停帧播放器，让帧播放器
+		 * 不要消费，就可以达到暂停播放的目的。
+		 */
 		_player->Pause(true);
 	}
 	else
@@ -89,5 +90,5 @@ void AudioPacketPlayer::Pause(bool pause)
 
 void AudioPacketPlayer::SendPacket(AVPacketWrapper *packet)
 {
-	_packet_queue->SendPacket(packet);
+	_packet_queue->SendData(*packet);
 }

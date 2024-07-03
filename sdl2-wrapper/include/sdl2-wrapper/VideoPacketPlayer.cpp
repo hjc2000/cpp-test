@@ -1,39 +1,39 @@
-#include"VideoPacketPlayer.h"
-#include<ffmpeg-wrapper/factory/DecoderPipeFactory.h>
+#include "VideoPacketPlayer.h"
+#include <ffmpeg-wrapper/factory/DecoderPipeFactory.h>
 
 using namespace video;
 using namespace std;
 
 VideoPacketPlayer::VideoPacketPlayer(int x, int y, AVStreamWrapper &stream)
 {
-	#pragma region 安装管道
+#pragma region 安装管道
 	/* 管道的安装需要按照从下游到上游的顺序。因为管道的每一节都是有一个列表指向出口处的接收者，
-	* 初始化管道需要将接收者添加到列表中。
-	*/
+	 * 初始化管道需要将接收者添加到列表中。
+	 */
 
 	// 播放器，管道最下游
-	_player = shared_ptr<VideoFramePlayer> { new VideoFramePlayer {
+	_player = shared_ptr<VideoFramePlayer>{new VideoFramePlayer{
 		x,
 		y,
 		stream,
 		"VideoPacketPlayer",
 		SDL_WindowFlags::SDL_WINDOW_SHOWN,
-	} };
+	}};
 
-	_decoder_pipe = shared_ptr<ThreadDecoderPipe> { new ThreadDecoderPipe { video::DecoderPipeFactory::Instance(), stream } };
+	_decoder_pipe = shared_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{video::DecoderPipeFactory::Instance(), stream}};
 	_decoder_pipe->FrameConsumerList().Add(_player);
 
 	// 包队列其实不算管道。它应该类似水池，需要一个泵将包送入管道。
-	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue> { new HysteresisBlockingPacketQueue { } };
+	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
 
 	// 将包从队列送到管道解码器的泵
-	_packet_pump = shared_ptr<PacketPump> { new PacketPump { _packet_queue } };
+	_packet_pump = shared_ptr<PacketPump>{new PacketPump{_packet_queue}};
 	_packet_pump->PacketConsumerList().Add(_decoder_pipe);
-	#pragma endregion
+#pragma endregion
 
 	// 创建后台解码线程。
 	thread([&]()
-	{
+		   {
 		try
 		{
 			DecodingThreadFunc();
@@ -43,8 +43,8 @@ VideoPacketPlayer::VideoPacketPlayer(int x, int y, AVStreamWrapper &stream)
 			cout << CODE_POS_STR << e.what() << endl;
 		}
 
-		_thread_has_exited.SetResult();
-	}).detach();
+		_thread_has_exited.SetResult(); })
+		.detach();
 }
 
 VideoPacketPlayer::~VideoPacketPlayer()
@@ -55,7 +55,8 @@ VideoPacketPlayer::~VideoPacketPlayer()
 
 void VideoPacketPlayer::Dispose()
 {
-	if (_disposed) return;
+	if (_disposed)
+		return;
 	_disposed = true;
 
 	_decoding_thread_can_start.Dispose();
@@ -75,7 +76,7 @@ void VideoPacketPlayer::DecodingThreadFunc()
 
 void VideoPacketPlayer::SendPacket(AVPacketWrapper *packet)
 {
-	_packet_queue->SendPacket(packet);
+	_packet_queue->SendData(*packet);
 }
 
 void VideoPacketPlayer::Pause(bool pause)
