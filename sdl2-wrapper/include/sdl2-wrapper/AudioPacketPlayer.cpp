@@ -22,8 +22,8 @@ AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
 #pragma endregion
 
 	// 解码线程
-	thread([&]()
-		   {
+	std::thread([&]()
+				{
 		try
 		{
 			DecodingThreadFunc();

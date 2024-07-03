@@ -32,8 +32,8 @@ VideoPacketPlayer::VideoPacketPlayer(int x, int y, AVStreamWrapper &stream)
 #pragma endregion
 
 	// 创建后台解码线程。
-	thread([&]()
-		   {
+	std::thread([&]()
+				{
 		try
 		{
 			DecodingThreadFunc();

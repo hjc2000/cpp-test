@@ -1,18 +1,16 @@
-#include<ffmpeg-wrapper/input-format/InputFormat.h>
-#include<ffmpeg-wrapper/pipe/PacketPump.h>
-#include<ffmpeg-wrapper/wrapper/AVIOContextWrapper.h>
-#include<jccpp/stream/FileStream.h>
-#include<sdl2-wrapper/AVPacketPlayer.h>
+#include <ffmpeg-wrapper/input-format/InputFormat.h>
+#include <ffmpeg-wrapper/pipe/PacketPump.h>
+#include <ffmpeg-wrapper/wrapper/AVIOContextWrapper.h>
+#include <jccpp/stream/FileStream.h>
+#include <sdl2-wrapper/AVPacketPlayer.h>
 
 AVPacketPlayer::AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream)
 {
-	_audio_packet_player = shared_ptr<AudioPacketPlayer> {
-		new AudioPacketPlayer { audio_stream }
-	};
+	_audio_packet_player = shared_ptr<AudioPacketPlayer>{
+		new AudioPacketPlayer{audio_stream}};
 
-	_video_packet_player = shared_ptr<VideoPacketPlayer> {
-		new VideoPacketPlayer { x, y, video_stream }
-	};
+	_video_packet_player = shared_ptr<VideoPacketPlayer>{
+		new VideoPacketPlayer{x, y, video_stream}};
 	_video_packet_player->SetRefTimer(_audio_packet_player);
 
 	_video_stream_index = video_stream.Index();
@@ -27,7 +25,8 @@ AVPacketPlayer::~AVPacketPlayer()
 
 void AVPacketPlayer::Dispose()
 {
-	if (_disposed) return;
+	if (_disposed)
+		return;
 	_disposed = true;
 
 	_audio_packet_player->Dispose();
@@ -62,24 +61,24 @@ void AVPacketPlayer::SendPacket(AVPacketWrapper *packet)
 void video::test_AVPacketPlayer()
 {
 	auto fs = jccpp::FileStream::Open("idol.mp4");
-	shared_ptr<AVIOContextWrapper> io_context { new AVIOContextWrapper { false, fs } };
-	shared_ptr<InputFormat> in_fmt_ctx { new InputFormat { io_context } };
+	shared_ptr<AVIOContextWrapper> io_context{new AVIOContextWrapper{false, fs}};
+	shared_ptr<InputFormat> in_fmt_ctx{new InputFormat{io_context}};
 	in_fmt_ctx->DumpFormat();
 
 	AVStreamWrapper best_audio_stream = in_fmt_ctx->FindBestStream(AVMediaType::AVMEDIA_TYPE_AUDIO);
 	AVStreamWrapper best_video_stream = in_fmt_ctx->FindBestStream(AVMediaType::AVMEDIA_TYPE_VIDEO);
 
-	shared_ptr<AVPacketPlayer> player { new AVPacketPlayer { 0, 70, best_video_stream, best_audio_stream } };
+	shared_ptr<AVPacketPlayer> player{new AVPacketPlayer{0, 70, best_video_stream, best_audio_stream}};
 	AVPacketWrapper packet;
 
 	base::CancellationTokenSource cancellation_token_source;
 	auto cancellation_token = cancellation_token_source.Token();
-	TaskCompletionSignal thread_has_exited { false };
+	TaskCompletionSignal thread_has_exited{false};
 
-	PacketPump packet_pump { in_fmt_ctx };
+	PacketPump packet_pump{in_fmt_ctx};
 	packet_pump.PacketConsumerList().Add(player);
-	thread([&]()
-	{
+	std::thread([&]()
+				{
 		// 将包从封装泵送到播放器。
 		try
 		{
@@ -90,8 +89,8 @@ void video::test_AVPacketPlayer()
 			cout << CODE_POS_STR << e.what() << endl;
 		}
 
-		thread_has_exited.SetResult();
-	}).detach();
+		thread_has_exited.SetResult(); })
+		.detach();
 
 	// 开始播放
 	player->Pause(false);

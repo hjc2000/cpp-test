@@ -18,7 +18,7 @@
 namespace video
 {
 	class VideoFramePlayer
-		: public base::IConsumer<AVFrameWrapper>,
+		: public thread::IConsumer<AVFrameWrapper>,
 		  public IDisposable
 	{
 		std::atomic_bool _disposed = false;

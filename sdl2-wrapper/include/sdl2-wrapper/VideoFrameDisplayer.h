@@ -14,7 +14,7 @@ namespace video
 	 * @brief 视频帧显示器
 	 */
 	class VideoFrameDisplayer
-		: public base::IConsumer<AVFrameWrapper>
+		: public thread::IConsumer<AVFrameWrapper>
 	{
 	private:
 		std::shared_ptr<SDL_WindowWrapper> _window;
