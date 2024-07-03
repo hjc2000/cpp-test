@@ -1,5 +1,4 @@
 #pragma once
-#include <base/pipe/IConsumer.h>
 #include <condition_variable>
 #include <ffmpeg-wrapper/AVChannelLayoutExtension.h>
 #include <ffmpeg-wrapper/container/HysteresisBlockingFrameQueue.h>
@@ -11,6 +10,7 @@
 #include <sdl2-wrapper/SDL_DefaultAudioDevice.h>
 #include <sdl2-wrapper/SDL_EventGetter.h>
 #include <sdl2-wrapper/SDL_Initializer.h>
+#include <thread/pipe/IConsumer.h>
 
 namespace video
 {
