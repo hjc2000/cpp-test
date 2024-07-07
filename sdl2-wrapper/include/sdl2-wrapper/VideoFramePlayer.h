@@ -1,5 +1,6 @@
 #pragma once
 #include <atomic>
+#include <base/pipe/IConsumer.h>
 #include <ffmpeg-wrapper/ErrorCode.h>
 #include <ffmpeg-wrapper/base_include.h>
 #include <ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
@@ -13,12 +14,11 @@
 #include <sdl2-wrapper/Timer.h>
 #include <sdl2-wrapper/VideoFrameDisplayer.h>
 #include <semaphore>
-#include <thread/pipe/IConsumer.h>
 
 namespace video
 {
 	class VideoFramePlayer
-		: public thread::IConsumer<AVFrameWrapper>,
+		: public base::IConsumer<AVFrameWrapper>,
 		  public IDisposable
 	{
 		std::atomic_bool _disposed = false;

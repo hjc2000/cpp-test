@@ -1,4 +1,5 @@
 #pragma once
+#include <base/pipe/IConsumer.h>
 #include <condition_variable>
 #include <ffmpeg-wrapper/AVChannelLayoutExtension.h>
 #include <ffmpeg-wrapper/container/HysteresisBlockingFrameQueue.h>
@@ -10,14 +11,13 @@
 #include <sdl2-wrapper/SDL_DefaultAudioDevice.h>
 #include <sdl2-wrapper/SDL_EventGetter.h>
 #include <sdl2-wrapper/SDL_Initializer.h>
-#include <thread/pipe/IConsumer.h>
 
 namespace video
 {
 	class AudioFramePlayer
 		: public IDisposable,
 		  public IRefTimer,
-		  public thread::IConsumer<AVFrameWrapper>
+		  public base::IConsumer<AVFrameWrapper>
 	{
 	private:
 		atomic_bool _disposed = false;
