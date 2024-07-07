@@ -1,5 +1,4 @@
-#include "sdl2-wrapper/AudioPacketPlayer.h"
-#include <ffmpeg-wrapper/factory/DecoderPipeFactory.h>
+#include "AudioPacketPlayer.h"
 
 using namespace video;
 using namespace std;
@@ -11,8 +10,8 @@ AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
 	_player = shared_ptr<AudioFramePlayer>{new AudioFramePlayer{stream}};
 
 	// 根据音频流创建解码器
-	_decoder_pipe = unique_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{video::DecoderPipeFactory::Instance(), stream}};
-	_decoder_pipe->FrameConsumerList().Add(_player);
+	_decoder_pipe = unique_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{stream}};
+	_decoder_pipe->ConsumerList().Add(_player);
 
 	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
 
@@ -88,7 +87,7 @@ void AudioPacketPlayer::Pause(bool pause)
 	}
 }
 
-void AudioPacketPlayer::SendPacket(AVPacketWrapper *packet)
+void AudioPacketPlayer::SendData(AVPacketWrapper &packet)
 {
-	_packet_queue->SendData(*packet);
+	_packet_queue->SendData(packet);
 }

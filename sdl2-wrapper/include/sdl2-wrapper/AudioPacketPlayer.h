@@ -1,25 +1,24 @@
 #pragma once
-#include<atomic>
-#include<base/task/CancellationTokenSource.h>
-#include<ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
-#include<ffmpeg-wrapper/pipe/PacketPump.h>
-#include<ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
-#include<ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
-#include<ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include<jccpp/container/HysteresisBlockingQueue.h>
-#include<jccpp/TaskCompletionSignal.h>
-#include<sdl2-wrapper/AudioFramePlayer.h>
-#include<semaphore>
+#include <atomic>
+#include <base/task/CancellationTokenSource.h>
+#include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
+#include <ffmpeg-wrapper/pipe/PacketPump.h>
+#include <ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
+#include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
+#include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
+#include <jccpp/TaskCompletionSignal.h>
+#include <jccpp/container/HysteresisBlockingQueue.h>
+#include <sdl2-wrapper/AudioFramePlayer.h>
+#include <semaphore>
 
 namespace video
 {
 	/**
 	 * @brief 在回调中向播放器送入音频包，播放器会解码，然后播放。
-	*/
-	class AudioPacketPlayer :
-		public IDisposable,
-		public IRefTimer,
-		public IPacketConsumer
+	 */
+	class AudioPacketPlayer : public IDisposable,
+							  public IRefTimer,
+							  public IPacketConsumer
 	{
 	public:
 		/// <summary>
@@ -43,12 +42,12 @@ namespace video
 		///		已经彻底退出了。
 		///		初始时线程没有启动，所以为已完成。
 		/// </summary>
-		TaskCompletionSignal _decoding_thread_has_exited { true };
+		TaskCompletionSignal _decoding_thread_has_exited{true};
 
 		/// <summary>
 		///		线程启动后会立刻等待此信号。时机成熟后将此信号设置为完成以让线程函数真正开始执行。
 		/// </summary>
-		TaskCompletionSignal _decoding_thread_can_start { false };
+		TaskCompletionSignal _decoding_thread_can_start{false};
 
 		/// <summary>
 		///		用于解码的线程函数。
@@ -71,6 +70,11 @@ namespace video
 		/// <param name="packet">要送入播放器的包。送入空指针表示冲洗播放器。</param>
 		/// <exception cref="InvalidOperationException">冲洗后如果再调用本方法会抛出异常。</exception>
 		/// <exception cref="ObjectDisposedException"></exception>
-		void SendPacket(AVPacketWrapper *packet) override;
+		void SendData(AVPacketWrapper &packet) override;
+
+		void Flush() override
+		{
+			_packet_queue->Flush();
+		}
 	};
 }

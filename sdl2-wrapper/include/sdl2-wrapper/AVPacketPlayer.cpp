@@ -39,22 +39,15 @@ void AVPacketPlayer::Pause(bool pause)
 	_video_packet_player->Pause(pause);
 }
 
-void AVPacketPlayer::SendPacket(AVPacketWrapper *packet)
+void AVPacketPlayer::SendData(AVPacketWrapper &packet)
 {
-	if (!packet)
+	if (packet.StreamIndex() == _video_stream_index)
 	{
-		_video_packet_player->SendPacket(nullptr);
-		_audio_packet_player->SendPacket(nullptr);
-		return;
+		_video_packet_player->SendData(packet);
 	}
-
-	if (packet->StreamIndex() == _video_stream_index)
+	else if (packet.StreamIndex() == _audio_stream_index)
 	{
-		_video_packet_player->SendPacket(packet);
-	}
-	else if (packet->StreamIndex() == _audio_stream_index)
-	{
-		_audio_packet_player->SendPacket(packet);
+		_audio_packet_player->SendData(packet);
 	}
 }
 

@@ -20,8 +20,8 @@ VideoPacketPlayer::VideoPacketPlayer(int x, int y, AVStreamWrapper &stream)
 		SDL_WindowFlags::SDL_WINDOW_SHOWN,
 	}};
 
-	_decoder_pipe = shared_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{video::DecoderPipeFactory::Instance(), stream}};
-	_decoder_pipe->FrameConsumerList().Add(_player);
+	_decoder_pipe = shared_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{stream}};
+	_decoder_pipe->ConsumerList().Add(_player);
 
 	// 包队列其实不算管道。它应该类似水池，需要一个泵将包送入管道。
 	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
@@ -74,9 +74,9 @@ void VideoPacketPlayer::DecodingThreadFunc()
 	_packet_pump->Pump(token);
 }
 
-void VideoPacketPlayer::SendPacket(AVPacketWrapper *packet)
+void VideoPacketPlayer::SendData(AVPacketWrapper &packet)
 {
-	_packet_queue->SendData(*packet);
+	_packet_queue->SendData(packet);
 }
 
 void VideoPacketPlayer::Pause(bool pause)

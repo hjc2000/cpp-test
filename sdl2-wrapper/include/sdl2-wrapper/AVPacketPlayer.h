@@ -1,22 +1,21 @@
 #pragma once
-#include<ffmpeg-wrapper/pipe/interface/IPacketConsumer.h>
-#include<jccpp/IDisposable.h>
-#include<jccpp/container/HysteresisBlockingQueue.h>
-#include<sdl2-wrapper/AudioPacketPlayer.h>
-#include<sdl2-wrapper/VideoPacketPlayer.h>
+#include <ffmpeg-wrapper/pipe/interface/IPacketConsumer.h>
+#include <jccpp/IDisposable.h>
+#include <jccpp/container/HysteresisBlockingQueue.h>
+#include <sdl2-wrapper/AudioPacketPlayer.h>
+#include <sdl2-wrapper/VideoPacketPlayer.h>
 
 namespace video
 {
 	/// <summary>
 	///		同时播放一路流的音频包和一路流的视频包。
 	/// </summary>
-	class AVPacketPlayer :
-		public IDisposable,
-		public IPacketConsumer
+	class AVPacketPlayer : public IDisposable,
+						   public IPacketConsumer
 	{
 	public:
 		/// <summary>
-		///		
+		///
 		/// </summary>
 		/// <param name="x">窗口横坐标</param>
 		/// <param name="y">窗口纵坐标</param>
@@ -35,7 +34,13 @@ namespace video
 
 	public:
 		void Pause(bool pause);
-		void SendPacket(AVPacketWrapper *packet) override;
+		void SendData(AVPacketWrapper &packet) override;
+
+		void Flush() override
+		{
+			_video_packet_player->Flush();
+			_audio_packet_player->Flush();
+		}
 	};
 
 	void test_AVPacketPlayer();
