@@ -1,18 +1,19 @@
 #pragma once
+#include <base/pipe/IConsumer.h>
 #include <base/task/CancellationTokenSource.h>
 #include <ffmpeg-wrapper/ErrorCode.h>
 #include <ffmpeg-wrapper/base_include.h>
 #include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
 #include <ffmpeg-wrapper/pipe/PacketPump.h>
 #include <ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
-#include <ffmpeg-wrapper/pipe/interface/IPacketConsumer.h>
 #include <jccpp/IDisposable.h>
 #include <sdl2-wrapper/VideoFramePlayer.h>
 
 namespace video
 {
-	class VideoPacketPlayer : public IDisposable,
-							  public IPacketConsumer
+	class VideoPacketPlayer
+		: public IDisposable,
+		  public base::IConsumer<AVPacketWrapper>
 	{
 	private:
 		std::atomic_bool _disposed = false;

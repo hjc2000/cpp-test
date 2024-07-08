@@ -1,5 +1,6 @@
 #pragma once
 #include <atomic>
+#include <base/pipe/IConsumer.h>
 #include <base/task/CancellationTokenSource.h>
 #include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
 #include <ffmpeg-wrapper/pipe/PacketPump.h>
@@ -16,9 +17,10 @@ namespace video
 	/**
 	 * @brief 在回调中向播放器送入音频包，播放器会解码，然后播放。
 	 */
-	class AudioPacketPlayer : public IDisposable,
-							  public IRefTimer,
-							  public IPacketConsumer
+	class AudioPacketPlayer
+		: public IDisposable,
+		  public IRefTimer,
+		  public base::IConsumer<AVPacketWrapper>
 	{
 	public:
 		/// <summary>

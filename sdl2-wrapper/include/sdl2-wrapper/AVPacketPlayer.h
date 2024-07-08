@@ -1,5 +1,5 @@
 #pragma once
-#include <ffmpeg-wrapper/pipe/interface/IPacketConsumer.h>
+#include <base/pipe/IConsumer.h>
 #include <jccpp/IDisposable.h>
 #include <jccpp/container/HysteresisBlockingQueue.h>
 #include <sdl2-wrapper/AudioPacketPlayer.h>
@@ -10,8 +10,9 @@ namespace video
 	/// <summary>
 	///		同时播放一路流的音频包和一路流的视频包。
 	/// </summary>
-	class AVPacketPlayer : public IDisposable,
-						   public IPacketConsumer
+	class AVPacketPlayer
+		: public IDisposable,
+		  public base::IConsumer<AVPacketWrapper>
 	{
 	public:
 		/// <summary>
