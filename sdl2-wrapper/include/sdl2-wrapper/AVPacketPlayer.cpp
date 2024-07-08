@@ -69,9 +69,10 @@ void video::test_AVPacketPlayer()
 	TaskCompletionSignal thread_has_exited{false};
 
 	PacketPump packet_pump{in_fmt_ctx};
-	packet_pump.PacketConsumerList().Add(player);
-	std::thread([&]()
-				{
+	packet_pump.ConsumerList().Add(player);
+
+	auto thread_func = [&]()
+	{
 		// 将包从封装泵送到播放器。
 		try
 		{
@@ -82,8 +83,9 @@ void video::test_AVPacketPlayer()
 			cout << CODE_POS_STR << e.what() << endl;
 		}
 
-		thread_has_exited.SetResult(); })
-		.detach();
+		thread_has_exited.SetResult();
+	};
+	std::thread{thread_func}.detach();
 
 	// 开始播放
 	player->Pause(false);
