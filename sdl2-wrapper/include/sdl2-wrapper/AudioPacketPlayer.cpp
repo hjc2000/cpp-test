@@ -16,7 +16,7 @@ AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
 	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
 
 	// 将包从队列送到管道解码器的泵
-	_packet_pump = shared_ptr<PacketPump>{new PacketPump{_packet_queue}};
+	_packet_pump = shared_ptr<base::Pump<AVPacketWrapper>>{new base::Pump<AVPacketWrapper>{_packet_queue}};
 	_packet_pump->ConsumerList().Add(_decoder_pipe);
 #pragma endregion
 
@@ -59,7 +59,7 @@ void AudioPacketPlayer::Dispose()
 void AudioPacketPlayer::DecodingThreadFunc()
 {
 	_decoding_thread_can_start.Wait();
-	_packet_pump->Pump(_cancel_pump_source.Token());
+	_packet_pump->PumpDataToConsumers(_cancel_pump_source.Token());
 }
 
 int64_t AudioPacketPlayer::RefTime()

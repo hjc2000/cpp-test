@@ -1,5 +1,6 @@
 #pragma once
 #include <base/pipe/IConsumer.h>
+#include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
 #include <ffmpeg-wrapper/ErrorCode.h>
 #include <ffmpeg-wrapper/base_include.h>
@@ -19,7 +20,7 @@ namespace video
 		std::atomic_bool _disposed = false;
 		std::shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
 		base::CancellationTokenSource _cancel_pump_source;
-		std::shared_ptr<PacketPump> _packet_pump;
+		std::shared_ptr<base::Pump<AVPacketWrapper>> _packet_pump;
 		std::shared_ptr<IDecoderPipe> _decoder_pipe;
 		std::shared_ptr<VideoFramePlayer> _player;
 

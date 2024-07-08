@@ -68,7 +68,7 @@ void video::test_AVPacketPlayer()
 	auto cancellation_token = cancellation_token_source.Token();
 	TaskCompletionSignal thread_has_exited{false};
 
-	PacketPump packet_pump{in_fmt_ctx};
+	base::Pump<AVPacketWrapper> packet_pump{in_fmt_ctx};
 	packet_pump.ConsumerList().Add(player);
 
 	auto thread_func = [&]()
@@ -76,7 +76,7 @@ void video::test_AVPacketPlayer()
 		// 将包从封装泵送到播放器。
 		try
 		{
-			packet_pump.Pump(cancellation_token);
+			packet_pump.PumpDataToConsumers(cancellation_token);
 		}
 		catch (std::exception &e)
 		{

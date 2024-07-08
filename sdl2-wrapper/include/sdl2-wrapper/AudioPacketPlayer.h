@@ -1,6 +1,7 @@
 #pragma once
 #include <atomic>
 #include <base/pipe/IConsumer.h>
+#include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
 #include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
 #include <ffmpeg-wrapper/pipe/PacketPump.h>
@@ -37,7 +38,7 @@ namespace video
 		shared_ptr<IDecoderPipe> _decoder_pipe;
 		shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
 		base::CancellationTokenSource _cancel_pump_source;
-		shared_ptr<PacketPump> _packet_pump;
+		shared_ptr<base::Pump<AVPacketWrapper>> _packet_pump;
 
 		/// <summary>
 		///		此任务完成，说明解码线程函数 DecodingThreadFunc 已经结束了，且不会再执行了，
