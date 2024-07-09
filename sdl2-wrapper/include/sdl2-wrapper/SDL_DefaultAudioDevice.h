@@ -1,14 +1,14 @@
 #pragma once
-#include<atomic>
-#include<ffmpeg-wrapper/info-collection/IAudioFrameInfoCollection.h>
-#include<jccpp/IDisposable.h>
-#include<jccpp/Json.h>
-#include<jccpp/TaskCompletionSignal.h>
-#include<mutex>
-#include<sdl2-wrapper/SDL_AudioSpecWrapper.h>
-#include<sdl2-wrapper/SDL_Initializer.h>
-#include<semaphore>
-#include<sstream>
+#include <atomic>
+#include <base/IDisposable.h>
+#include <ffmpeg-wrapper/info-collection/IAudioFrameInfoCollection.h>
+#include <jccpp/Json.h>
+#include <jccpp/TaskCompletionSignal.h>
+#include <mutex>
+#include <sdl2-wrapper/SDL_AudioSpecWrapper.h>
+#include <sdl2-wrapper/SDL_Initializer.h>
+#include <semaphore>
+#include <sstream>
 
 namespace video
 {
@@ -18,10 +18,10 @@ namespace video
 	///		- 本类作为 IAudioFrameInfoCollection 派生类，提供的是音频驱动器的信息，
 	///		  而不是构造函数传进来的输入音频流的信息。
 	/// </summary>
-	class SDL_DefaultAudioDevice :
-		public IAudioFrameInfoCollection,
-		public IJsonSerializable,
-		public IDisposable
+	class SDL_DefaultAudioDevice
+		: public IAudioFrameInfoCollection,
+		  public IJsonSerializable,
+		  public base::IDisposable
 	{
 		std::atomic_bool _disposed = false;
 		SDL_AudioSpecWrapper _desired_spec;
@@ -59,7 +59,7 @@ namespace video
 		/// <param name="pause">传入 true 暂停，传入 false 播放</param>
 		void Pause(bool pause);
 
-		#pragma region IAudioStreamInfoCollection
+#pragma region IAudioStreamInfoCollection
 		AVRational TimeBase() const override;
 		void SetTimeBase(AVRational value) override;
 		AVSampleFormat SampleFormat() const override;
@@ -70,7 +70,7 @@ namespace video
 		void SetChannelLayout(AVChannelLayout value) override;
 		int SampleCount() const override;
 		void SetSampleCount(int value) override;
-		#pragma endregion
+#pragma endregion
 
 		Json ToJson() override;
 	};

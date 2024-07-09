@@ -19,7 +19,7 @@ namespace video
 	 * @brief 在回调中向播放器送入音频包，播放器会解码，然后播放。
 	 */
 	class AudioPacketPlayer
-		: public IDisposable,
+		: public base::IDisposable,
 		  public IRefTimer,
 		  public base::IConsumer<AVPacketWrapper>
 	{

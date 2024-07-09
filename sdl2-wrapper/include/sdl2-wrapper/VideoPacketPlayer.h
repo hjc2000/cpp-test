@@ -1,4 +1,5 @@
 #pragma once
+#include <base/IDisposable.h>
 #include <base/pipe/IConsumer.h>
 #include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
@@ -7,13 +8,12 @@
 #include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
 #include <ffmpeg-wrapper/pipe/PacketPump.h>
 #include <ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
-#include <jccpp/IDisposable.h>
 #include <sdl2-wrapper/VideoFramePlayer.h>
 
 namespace video
 {
 	class VideoPacketPlayer
-		: public IDisposable,
+		: public base::IDisposable,
 		  public base::IConsumer<AVPacketWrapper>
 	{
 	private:

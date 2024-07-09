@@ -1,12 +1,12 @@
 #pragma once
 #include <atomic>
+#include <base/IDisposable.h>
 #include <base/pipe/IConsumer.h>
 #include <ffmpeg-wrapper/ErrorCode.h>
 #include <ffmpeg-wrapper/base_include.h>
 #include <ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
 #include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include <jccpp/IDisposable.h>
 #include <jccpp/container/HysteresisBlockingQueue.h>
 #include <jccpp/container/SafeQueue.h>
 #include <mutex>
@@ -19,7 +19,7 @@ namespace video
 {
 	class VideoFramePlayer
 		: public base::IConsumer<AVFrameWrapper>,
-		  public IDisposable
+		  public base::IDisposable
 	{
 		std::atomic_bool _disposed = false;
 		Timer _timer;
