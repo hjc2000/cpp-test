@@ -1,8 +1,8 @@
 #pragma once
 #include <atomic>
 #include <base/IDisposable.h>
+#include <base/string/Json.h>
 #include <ffmpeg-wrapper/info-collection/IAudioFrameInfoCollection.h>
-#include <jccpp/Json.h>
 #include <jccpp/TaskCompletionSignal.h>
 #include <mutex>
 #include <sdl2-wrapper/SDL_AudioSpecWrapper.h>
@@ -20,7 +20,7 @@ namespace video
 	/// </summary>
 	class SDL_DefaultAudioDevice
 		: public IAudioFrameInfoCollection,
-		  public IJsonSerializable,
+		  public base::IJsonSerializable,
 		  public base::IDisposable
 	{
 		std::atomic_bool _disposed = false;
@@ -72,6 +72,6 @@ namespace video
 		void SetSampleCount(int value) override;
 #pragma endregion
 
-		Json ToJson() override;
+		base::Json ToJson() override;
 	};
 }

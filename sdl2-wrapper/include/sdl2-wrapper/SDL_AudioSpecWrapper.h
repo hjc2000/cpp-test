@@ -1,22 +1,22 @@
 #pragma once
-#include<SDL.h>
-#include<ffmpeg-wrapper/info-collection/IAudioFrameInfoCollection.h>
-#include<jccpp/Json.h>
-#include<base/Wrapper.h>
-#include<sstream>
-#include<string>
+#include <SDL.h>
+#include <base/Wrapper.h>
+#include <base/string/Json.h>
+#include <ffmpeg-wrapper/info-collection/IAudioFrameInfoCollection.h>
+#include <sstream>
+#include <string>
 
+using std::endl;
 using std::string;
 using std::stringstream;
-using std::endl;
 using namespace video;
 
 namespace video
 {
-	class SDL_AudioSpecWrapper :
-		public base::Wrapper<SDL_AudioSpec>,
-		public IAudioFrameInfoCollection,
-		public IJsonSerializable
+	class SDL_AudioSpecWrapper
+		: public base::Wrapper<SDL_AudioSpec>,
+		  public IAudioFrameInfoCollection,
+		  public base::IJsonSerializable
 	{
 		SDL_AudioSpec _spec{};
 		SDL_AudioSpec *_wrapped_obj = &_spec;
@@ -30,16 +30,16 @@ namespace video
 
 		SDL_AudioSpec *&WrappedObj() override
 		{
-			throw std::runtime_error{ "不支持的操作" };
+			throw std::runtime_error{"不支持的操作"};
 		}
 		SDL_AudioSpec *WrappedObj() const override
 		{
 			return _wrapped_obj;
 		}
 
-		Json ToJson() override;
+		base::Json ToJson() override;
 
-		#pragma region 通过 IAudioFrameInfoCollection 继承
+#pragma region 通过 IAudioFrameInfoCollection 继承
 		AVRational TimeBase() const override;
 		void SetTimeBase(AVRational value) override;
 
@@ -69,6 +69,6 @@ namespace video
 
 		int SampleCount() const override;
 		void SetSampleCount(int value) override;
-		#pragma endregion
+#pragma endregion
 	};
 }
