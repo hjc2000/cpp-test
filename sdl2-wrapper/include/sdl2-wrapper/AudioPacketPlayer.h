@@ -1,5 +1,6 @@
 #pragma once
 #include <atomic>
+#include <base/container/HysteresisBlockingQueue.h>
 #include <base/pipe/IConsumer.h>
 #include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
@@ -9,7 +10,6 @@
 #include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
 #include <jccpp/TaskCompletionSignal.h>
-#include <jccpp/container/HysteresisBlockingQueue.h>
 #include <sdl2-wrapper/AudioFramePlayer.h>
 #include <semaphore>
 

@@ -1,14 +1,14 @@
 #pragma once
 #include <atomic>
 #include <base/IDisposable.h>
+#include <base/container/HysteresisBlockingQueue.h>
+#include <base/container/SafeQueue.h>
 #include <base/pipe/IConsumer.h>
 #include <ffmpeg-wrapper/ErrorCode.h>
 #include <ffmpeg-wrapper/base_include.h>
 #include <ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
 #include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include <jccpp/container/HysteresisBlockingQueue.h>
-#include <jccpp/container/SafeQueue.h>
 #include <mutex>
 #include <sdl2-wrapper/IRefTimer.h>
 #include <sdl2-wrapper/Timer.h>
@@ -25,7 +25,7 @@ namespace video
 		Timer _timer;
 		std::shared_ptr<VideoFrameDisplayer> _displayer;
 		VideoStreamInfoCollection _video_stream_infos{};
-		jc::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue{10};
+		base::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue{10};
 		std::mutex _ref_timer_lock;
 		std::shared_ptr<IRefTimer> _ref_timer;
 #pragma endregion

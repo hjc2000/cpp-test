@@ -1,7 +1,7 @@
 #pragma once
 #include <base/IDisposable.h>
+#include <base/container/HysteresisBlockingQueue.h>
 #include <base/pipe/IConsumer.h>
-#include <jccpp/container/HysteresisBlockingQueue.h>
 #include <sdl2-wrapper/AudioPacketPlayer.h>
 #include <sdl2-wrapper/VideoPacketPlayer.h>
 
