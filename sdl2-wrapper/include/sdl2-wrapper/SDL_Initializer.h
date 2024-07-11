@@ -1,16 +1,16 @@
 #pragma once
-#include<cstdint>
-#include<exception>
-#include<functional>
-#include<iostream>
-#include<base/Wrapper.h>
-#include<jccpp/define.h>
-#include<mutex>
-#include<string>
+#include <base/Wrapper.h>
+#include <base/string/define.h>
+#include <cstdint>
+#include <exception>
+#include <functional>
+#include <iostream>
+#include <mutex>
+#include <string>
 
 extern "C"
 {
-	#include<SDL.h>
+#include <SDL.h>
 }
 
 using std::cout;
