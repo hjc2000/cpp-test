@@ -5,13 +5,9 @@
 
 AVPacketPlayer::AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream)
 {
-	_audio_packet_player = shared_ptr<AudioPacketPlayer>{
-		new AudioPacketPlayer{audio_stream}};
-
-	_video_packet_player = shared_ptr<VideoPacketPlayer>{
-		new VideoPacketPlayer{x, y, video_stream}};
+	_audio_packet_player = shared_ptr<AudioPacketPlayer>{new AudioPacketPlayer{audio_stream}};
+	_video_packet_player = shared_ptr<VideoPacketPlayer>{new VideoPacketPlayer{x, y, video_stream}};
 	_video_packet_player->SetRefTimer(_audio_packet_player);
-
 	_video_stream_index = video_stream.Index();
 	_audio_stream_index = audio_stream.Index();
 }
