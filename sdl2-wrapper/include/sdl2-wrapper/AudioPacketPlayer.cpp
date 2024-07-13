@@ -13,7 +13,7 @@ AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
 	_decoder_pipe = unique_ptr<ThreadDecoderPipe>{new ThreadDecoderPipe{stream}};
 	_decoder_pipe->ConsumerList().Add(_player);
 
-	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
+	_packet_queue = shared_ptr<base::PipeBlockingQueue<AVPacketWrapper>>{new base::PipeBlockingQueue<AVPacketWrapper>{}};
 
 	// 将包从队列送到管道解码器的泵
 	_packet_pump = shared_ptr<base::Pump<AVPacketWrapper>>{new base::Pump<AVPacketWrapper>{_packet_queue}};

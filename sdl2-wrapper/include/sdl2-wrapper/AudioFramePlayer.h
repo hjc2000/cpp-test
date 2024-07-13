@@ -1,8 +1,8 @@
 #pragma once
 #include <base/pipe/IConsumer.h>
+#include <base/pipe/PipeBlockingQueue.h>
 #include <condition_variable>
 #include <ffmpeg-wrapper/AVChannelLayoutExtension.h>
-#include <ffmpeg-wrapper/container/HysteresisBlockingFrameQueue.h>
 #include <ffmpeg-wrapper/pipe/SwrPipe.h>
 #include <ffmpeg-wrapper/wrapper/AVFrameWrapper.h>
 #include <ffmpeg-wrapper/wrapper/SwrContextWrapper.h>
@@ -25,7 +25,7 @@ namespace video
 		AVFrameWrapper _swr_out_frame;
 		shared_ptr<SDL_DefaultAudioDevice> _device;
 		AVRational _time_base;
-		shared_ptr<HysteresisBlockingFrameQueue> _frame_queue{new HysteresisBlockingFrameQueue};
+		shared_ptr<base::PipeBlockingQueue<AVFrameWrapper>> _frame_queue{new base::PipeBlockingQueue<AVFrameWrapper>};
 		shared_ptr<SwrPipe> _swr_pipe;
 		jccpp::TimeInterpolator _time_interpolator;
 

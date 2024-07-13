@@ -1,11 +1,11 @@
 #pragma once
 #include <base/IDisposable.h>
 #include <base/pipe/IConsumer.h>
+#include <base/pipe/PipeBlockingQueue.h>
 #include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
 #include <ffmpeg-wrapper/ErrorCode.h>
 #include <ffmpeg-wrapper/base_include.h>
-#include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
 #include <ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
 #include <sdl2-wrapper/VideoFramePlayer.h>
 
@@ -17,7 +17,7 @@ namespace video
 	{
 	private:
 		std::atomic_bool _disposed = false;
-		std::shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
+		std::shared_ptr<base::PipeBlockingQueue<AVPacketWrapper>> _packet_queue;
 		base::CancellationTokenSource _cancel_pump_source;
 		std::shared_ptr<base::Pump<AVPacketWrapper>> _packet_pump;
 		std::shared_ptr<IDecoderPipe> _decoder_pipe;

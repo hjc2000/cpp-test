@@ -23,7 +23,7 @@ VideoPacketPlayer::VideoPacketPlayer(int x, int y, AVStreamWrapper &stream)
 	_decoder_pipe->ConsumerList().Add(_player);
 
 	// 包队列其实不算管道。它应该类似水池，需要一个泵将包送入管道。
-	_packet_queue = shared_ptr<HysteresisBlockingPacketQueue>{new HysteresisBlockingPacketQueue{}};
+	_packet_queue = shared_ptr<base::PipeBlockingQueue<AVPacketWrapper>>{new base::PipeBlockingQueue<AVPacketWrapper>{}};
 
 	// 将包从队列送到管道解码器的泵
 	_packet_pump = shared_ptr<base::Pump<AVPacketWrapper>>{new base::Pump<AVPacketWrapper>{_packet_queue}};

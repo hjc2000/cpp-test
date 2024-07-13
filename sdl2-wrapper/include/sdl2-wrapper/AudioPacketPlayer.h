@@ -2,9 +2,9 @@
 #include <atomic>
 #include <base/container/HysteresisBlockingQueue.h>
 #include <base/pipe/IConsumer.h>
+#include <base/pipe/PipeBlockingQueue.h>
 #include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
-#include <ffmpeg-wrapper/container/HysteresisBlockingPacketQueue.h>
 #include <ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
 #include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
@@ -35,7 +35,7 @@ namespace video
 		atomic_bool _disposed = false;
 		shared_ptr<AudioFramePlayer> _player;
 		shared_ptr<IDecoderPipe> _decoder_pipe;
-		shared_ptr<HysteresisBlockingPacketQueue> _packet_queue;
+		shared_ptr<base::PipeBlockingQueue<AVPacketWrapper>> _packet_queue;
 		base::CancellationTokenSource _cancel_pump_source;
 		shared_ptr<base::Pump<AVPacketWrapper>> _packet_pump;
 
