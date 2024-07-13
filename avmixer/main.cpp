@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 		std::shared_ptr<FileOutputFormat> output_format{new FileOutputFormat{output_file_path}};
 		AVMixer mix{input_video_format, input_audio_format, output_format};
 		base::CancellationTokenSource cancel_pump_source;
-		mix.Pump(cancel_pump_source.Token());
+		mix.PumpDataToConsumers(cancel_pump_source.Token());
 
 		auto end = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

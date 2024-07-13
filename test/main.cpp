@@ -22,9 +22,8 @@ int main(void)
 {
 	try
 	{
-		// std::filesystem::current_path(Predefine_ResourceDir);
-		// test_SptsEncodeMux();
-		cout << CODE_POS_STR << endl;
+		std::filesystem::current_path(Predefine_ResourceDir);
+		test_SptsEncodeMux();
 		// test_AVPacketPlayer();
 		// test_tsduck();
 		return 0;
