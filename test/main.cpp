@@ -1,4 +1,4 @@
-﻿#include <QtCore/QCoreApplication>
+#include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <algorithm>
 #include <base/math/Fraction.h>
