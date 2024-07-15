@@ -5,10 +5,10 @@
 #include <base/pipe/PipeBlockingQueue.h>
 #include <base/pipe/Pump.h>
 #include <base/task/CancellationTokenSource.h>
+#include <base/task/TaskCompletionSignal.h>
 #include <ffmpeg-wrapper/pipe/ThreadDecoderPipe.h>
 #include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include <jccpp/TaskCompletionSignal.h>
 #include <sdl2-wrapper/AudioFramePlayer.h>
 #include <semaphore>
 
@@ -44,12 +44,12 @@ namespace video
 		///		已经彻底退出了。
 		///		初始时线程没有启动，所以为已完成。
 		/// </summary>
-		TaskCompletionSignal _decoding_thread_has_exited{true};
+		base::TaskCompletionSignal _decoding_thread_has_exited{true};
 
 		/// <summary>
 		///		线程启动后会立刻等待此信号。时机成熟后将此信号设置为完成以让线程函数真正开始执行。
 		/// </summary>
-		TaskCompletionSignal _decoding_thread_can_start{false};
+		base::TaskCompletionSignal _decoding_thread_can_start{false};
 
 		/// <summary>
 		///		用于解码的线程函数。

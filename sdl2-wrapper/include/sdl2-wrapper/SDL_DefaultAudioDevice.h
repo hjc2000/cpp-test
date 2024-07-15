@@ -2,8 +2,8 @@
 #include <atomic>
 #include <base/IDisposable.h>
 #include <base/string/Json.h>
+#include <base/task/TaskCompletionSignal.h>
 #include <ffmpeg-wrapper/info-collection/IAudioFrameInfoCollection.h>
-#include <jccpp/TaskCompletionSignal.h>
 #include <mutex>
 #include <sdl2-wrapper/SDL_AudioSpecWrapper.h>
 #include <sdl2-wrapper/SDL_Initializer.h>

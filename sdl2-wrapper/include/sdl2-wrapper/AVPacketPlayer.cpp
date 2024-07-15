@@ -1,6 +1,6 @@
+#include <base/stream/FileStream.h>
 #include <ffmpeg-wrapper/input-format/InputFormat.h>
 #include <ffmpeg-wrapper/wrapper/AVIOContextWrapper.h>
-#include <jccpp/stream/FileStream.h>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 
 AVPacketPlayer::AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream)
@@ -48,7 +48,7 @@ void AVPacketPlayer::SendData(AVPacketWrapper &packet)
 
 void video::test_AVPacketPlayer()
 {
-	auto fs = jccpp::FileStream::Open("idol.mp4");
+	auto fs = base::FileStream::Open("idol.mp4");
 	shared_ptr<AVIOContextWrapper> io_context{new AVIOContextWrapper{false, fs}};
 	shared_ptr<InputFormat> in_fmt_ctx{new InputFormat{io_context}};
 	in_fmt_ctx->DumpFormat();
@@ -61,7 +61,7 @@ void video::test_AVPacketPlayer()
 
 	base::CancellationTokenSource cancellation_token_source;
 	auto cancellation_token = cancellation_token_source.Token();
-	TaskCompletionSignal thread_has_exited{false};
+	base::TaskCompletionSignal thread_has_exited{false};
 
 	base::Pump<AVPacketWrapper> packet_pump{in_fmt_ctx};
 	packet_pump.ConsumerList().Add(player);

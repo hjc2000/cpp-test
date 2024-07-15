@@ -1,4 +1,5 @@
 #pragma once
+#include <base/TimeInterpolator.h>
 #include <base/pipe/IConsumer.h>
 #include <base/pipe/PipeBlockingQueue.h>
 #include <condition_variable>
@@ -6,7 +7,6 @@
 #include <ffmpeg-wrapper/pipe/SwrPipe.h>
 #include <ffmpeg-wrapper/wrapper/AVFrameWrapper.h>
 #include <ffmpeg-wrapper/wrapper/SwrContextWrapper.h>
-#include <jccpp/TimeInterpolator.h>
 #include <sdl2-wrapper/IRefTimer.h>
 #include <sdl2-wrapper/SDL_DefaultAudioDevice.h>
 #include <sdl2-wrapper/SDL_EventGetter.h>
@@ -27,7 +27,7 @@ namespace video
 		AVRational _time_base;
 		shared_ptr<base::PipeBlockingQueue<AVFrameWrapper>> _frame_queue{new base::PipeBlockingQueue<AVFrameWrapper>};
 		shared_ptr<SwrPipe> _swr_pipe;
-		jccpp::TimeInterpolator _time_interpolator;
+		base::TimeInterpolator _time_interpolator;
 
 		void AudioCallbackHandler(uint8_t *stream, int len);
 

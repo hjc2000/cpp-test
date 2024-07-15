@@ -1,9 +1,9 @@
 #pragma once
-#include<atomic>
-#include<iostream>
-#include<jccpp/TaskCompletionSignal.h>
-#include<sdl2-wrapper/SDL_EventGetter.h>
-#include<sdl2-wrapper/SDL_Initializer.h>
+#include <atomic>
+#include <base/task/TaskCompletionSignal.h>
+#include <iostream>
+#include <sdl2-wrapper/SDL_EventGetter.h>
+#include <sdl2-wrapper/SDL_Initializer.h>
 
 namespace video
 {
@@ -13,7 +13,8 @@ namespace video
 	/// </summary>
 	class Timer
 	{
-		TaskCompletionSignal _callback_has_stopped{ true };
+	private:
+		base::TaskCompletionSignal _callback_has_stopped{true};
 		std::atomic_bool _callback_should_stop = false;
 		std::mutex _not_private_methods_lock;
 
