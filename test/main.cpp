@@ -11,11 +11,6 @@
 #include <stdexcept>
 #include <test_tsduck.h>
 
-extern "C"
-{
-#include <c-bsp-interface/modbus/ModbusBitConverter.h>
-}
-
 using namespace std;
 
 int main(void)
