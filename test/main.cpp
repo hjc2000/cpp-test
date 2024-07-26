@@ -1,6 +1,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <algorithm>
+#include <base/Initializer.h>
 #include <base/math/Fraction.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
@@ -11,15 +12,28 @@
 #include <stdexcept>
 #include <test_tsduck.h>
 
+base::Initializer initializer1{
+	[]()
+	{
+		std::cout << "6" << std::endl;
+	}};
+
+base::Initializer initializer2{
+	[]()
+	{
+		std::cout << "7" << std::endl;
+	}};
+
 using namespace std;
 
 int main(void)
 {
 	try
 	{
-		std::filesystem::current_path(Predefine_ResourceDir);
+		base::Initializer::Initialize();
+		// std::filesystem::current_path(Predefine_ResourceDir);
 		// test_SptsEncodeMux();
-		test_AVPacketPlayer();
+		// test_AVPacketPlayer();
 		// test_tsduck();
 		return 0;
 	}
