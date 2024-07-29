@@ -2,7 +2,9 @@
 #include <QtCore/QDebug>
 #include <algorithm>
 #include <base/Initializer.h>
+#include <base/container/IEnumerable.h>
 #include <base/container/List.h>
+#include <base/container/StdContainerEnumerable.h>
 #include <base/math/Fraction.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
@@ -19,7 +21,7 @@ int main(void)
 {
 	try
 	{
-		base::TestIntEnumerable();
+		base::TestStdContainerEnumerable();
 		// base::List<int> list = {1, 2, 3};
 		// for (int i : list)
 		// {
