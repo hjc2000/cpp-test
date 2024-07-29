@@ -19,16 +19,17 @@ int main(void)
 {
 	try
 	{
-		base::List<int> list = {1, 2, 3};
-		for (int i : list)
-		{
-			cout << i << endl;
-		}
+		base::TestIntEnumerable();
+		// base::List<int> list = {1, 2, 3};
+		// for (int i : list)
+		// {
+		// 	cout << i << endl;
+		// }
 
-		for (int const i : list)
-		{
-			cout << i << endl;
-		}
+		// for (int const i : list)
+		// {
+		// 	cout << i << endl;
+		// }
 
 		// std::filesystem::current_path(Predefine_ResourceDir);
 		// test_SptsEncodeMux();
