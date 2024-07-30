@@ -23,12 +23,12 @@ int main(void)
 	{
 		// base::TestStdContainerEnumerable();
 		base::List<int> list = {1, 2, 3};
-		for (int &i : list)
+		for (auto &i : list)
 		{
 			cout << i << endl;
 		}
 
-		for (int const &i : static_cast<base::List<int> const &>(list))
+		for (auto &i : static_cast<base::List<int> const &>(list))
 		{
 			cout << i << endl;
 		}
