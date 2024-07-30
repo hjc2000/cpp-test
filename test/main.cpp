@@ -21,17 +21,17 @@ int main(void)
 {
 	try
 	{
-		base::TestStdContainerEnumerable();
-		// base::List<int> list = {1, 2, 3};
-		// for (int i : list)
-		// {
-		// 	cout << i << endl;
-		// }
+		// base::TestStdContainerEnumerable();
+		base::List<int> list = {1, 2, 3};
+		for (int &i : list)
+		{
+			cout << i << endl;
+		}
 
-		// for (int const i : list)
-		// {
-		// 	cout << i << endl;
-		// }
+		for (int const &i : static_cast<base::List<int> const &>(list))
+		{
+			cout << i << endl;
+		}
 
 		// std::filesystem::current_path(Predefine_ResourceDir);
 		// test_SptsEncodeMux();
