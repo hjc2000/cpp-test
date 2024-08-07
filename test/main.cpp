@@ -21,20 +21,8 @@ int main(void)
 {
 	try
 	{
-		// base::TestStdContainerEnumerable();
-		base::List<int> list = {1, 2, 3};
-		for (auto &i : list)
-		{
-			cout << i << endl;
-		}
-
-		for (auto &i : static_cast<base::List<int> const &>(list))
-		{
-			cout << i << endl;
-		}
-
-		// std::filesystem::current_path(Predefine_ResourceDir);
-		// test_SptsEncodeMux();
+		std::filesystem::current_path(Predefine_ResourceDir);
+		test_SptsEncodeMux();
 		// test_AVPacketPlayer();
 		// test_tsduck();
 		return 0;
