@@ -18,6 +18,7 @@ namespace video
         public IAudioFrameInfoCollection,
         public base::IJsonSerializable
     {
+    private:
         SDL_AudioSpec _spec{};
         SDL_AudioSpec *_wrapped_obj = &_spec;
 

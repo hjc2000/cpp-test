@@ -12,12 +12,10 @@
 
 namespace video
 {
-    /// <summary>
-    ///		SDL 默认的音频设备。
-    ///		- 本类线程安全。
-    ///		- 本类作为 IAudioFrameInfoCollection 派生类，提供的是音频驱动器的信息，
-    ///		  而不是构造函数传进来的输入音频流的信息。
-    /// </summary>
+    /// @brief SDL 默认的音频设备。
+    /// @note 本类线程安全。
+    /// @note 本类作为 IAudioFrameInfoCollection 派生类，提供的是音频驱动器的信息，
+    /// 而不是构造函数传进来的输入音频流的信息。
     class SDL_DefaultAudioDevice :
         public IAudioFrameInfoCollection,
         public base::IJsonSerializable,
@@ -32,9 +30,7 @@ namespace video
         static void static_audio_callback(void *userdata, uint8_t *stream, int len);
 
     public:
-        /// <summary>
-        ///		构造函数。会调用 SDL 打开音频设备。打开失败会抛出异常。
-        /// </summary>
+        /// @brief 构造函数。会调用 SDL 打开音频设备。打开失败会抛出异常。
         SDL_DefaultAudioDevice();
         ~SDL_DefaultAudioDevice();
 
@@ -42,13 +38,11 @@ namespace video
         /// 里面调用本方法。
         void Dispose() override;
 
-        /// <summary>
-        ///		音频回调委托。
-        ///		本委托函数一旦返回，就认为成功向 stream 中写入音频数据了。
-        ///		所以，一定要保证写入成功。
-        /// </summary>
-        /// <param name="stream">SDL 的音频缓冲区，需要将音频数据复制到这里。</param>
-        /// <param name="len">音频缓冲区的大小。写入音频数据不可以超过此大小。</param>
+        /// @brief 音频回调委托。
+        /// 本委托函数一旦返回，就认为成功向 stream 中写入音频数据了。
+        /// 所以，一定要保证写入成功。
+        /// @param stream SDL 的音频缓冲区，需要将音频数据复制到这里。
+        /// @param len 音频缓冲区的大小。写入音频数据不可以超过此大小。
         function<void(uint8_t *stream, int len)> _audio_callback;
 
         /// @brief 暂停或播放。
