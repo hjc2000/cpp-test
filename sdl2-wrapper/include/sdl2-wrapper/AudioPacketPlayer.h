@@ -21,10 +21,8 @@ namespace video
         public base::IConsumer<AVPacketWrapper>
     {
     public:
-        /// <summary>
-        ///		通过音频流初始化播放器。包括创建内部解码器等操作。
-        /// </summary>
-        /// <param name="stream"></param>
+        /// @brief 通过音频流初始化播放器。包括创建内部解码器等操作。
+        /// @param stream
         AudioPacketPlayer(AVStreamWrapper &stream);
         ~AudioPacketPlayer();
         void Dispose() override;
