@@ -1,15 +1,15 @@
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
 #include <algorithm>
-#include <base/Initializer.h>
 #include <base/container/IEnumerable.h>
 #include <base/container/List.h>
 #include <base/container/StdContainerEnumerable.h>
+#include <base/Initializer.h>
 #include <base/math/Fraction.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 #include <sstream>
 #include <stdexcept>
@@ -19,19 +19,19 @@ using namespace std;
 
 int main(void)
 {
-	try
-	{
-		std::filesystem::current_path(Predefine_ResourceDir);
-		test_SptsEncodeMux();
-		// test_AVPacketPlayer();
-		// test_tsduck();
-		return 0;
-	}
-	catch (std::runtime_error &e)
-	{
-		std::cout << e.what() << std::endl;
-		throw;
-	}
+    try
+    {
+        std::filesystem::current_path(Predefine_ResourceDir);
+        test_SptsEncodeMux();
+        // test_AVPacketPlayer();
+        // test_tsduck();
+        return 0;
+    }
+    catch (std::runtime_error const &e)
+    {
+        std::cout << e.what() << std::endl;
+        throw;
+    }
 }
 
 // int main()
