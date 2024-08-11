@@ -36,29 +36,20 @@ namespace video
         void AudioCallbackHandler(uint8_t *stream, int len);
 
     public:
-        /**
-         * @brief 要求 infos 中的 time_base 属性必须是有效的，本对象要使用此属性。
-         *
-         * @param infos
-         */
+        /// @brief 要求 infos 中的 time_base 属性必须是有效的，本对象要使用此属性。
+        /// @param infos
         AudioFramePlayer(IAudioStreamInfoCollection &infos);
         ~AudioFramePlayer();
         void Dispose() override;
 
         int64_t RefTime() override;
 
-        /**
-         * @brief 控制暂停与播放。
-         *
-         * @param pause 传入 true 表示暂停，传入 false 开始播放
-         */
+        /// @brief 控制暂停与播放。
+        /// @param pause 传入 true 表示暂停，传入 false 开始播放
         void Pause(bool pause);
 
-        /**
-         * @brief 向播放器送入帧，也可以冲洗播放器。
-         *
-         * @param frame 送入播放器的帧。送入空指针表示冲洗播放器。
-         */
+        /// @brief 向播放器送入帧，也可以冲洗播放器。
+        /// @param frame 送入播放器的帧。送入空指针表示冲洗播放器。
         void SendData(AVFrameWrapper &frame) override;
 
         void Flush() override;
