@@ -13,7 +13,7 @@ using namespace video;
 
 namespace video
 {
-    class SDL_AudioSpecWrapper :
+    class SDL_AudioSpecWrapper final :
         public base::Wrapper<SDL_AudioSpec>,
         public IAudioFrameInfoCollection,
         public base::IJsonSerializable

@@ -5,7 +5,7 @@
 namespace video
 {
     /// @brief 包装原生的 SDL_Event
-    class SDL_EventResult
+    class SDL_EventResult final
     {
     public:
         /// @brief 获取事件的操作是否成功。如果失败了，_event 字段无效。
@@ -20,7 +20,6 @@ namespace video
     public:
         SDL_EventGetter();
 
-    public:
         /// @brief 查询一次，看是否有事件发生。
         /// @return
         SDL_EventResult PollEvent();

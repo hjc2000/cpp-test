@@ -16,7 +16,7 @@ namespace video
     /// @note 本类线程安全。
     /// @note 本类作为 IAudioFrameInfoCollection 派生类，提供的是音频驱动器的信息，
     /// 而不是构造函数传进来的输入音频流的信息。
-    class SDL_DefaultAudioDevice :
+    class SDL_DefaultAudioDevice final :
         public IAudioFrameInfoCollection,
         public base::IJsonSerializable,
         public base::IDisposable
