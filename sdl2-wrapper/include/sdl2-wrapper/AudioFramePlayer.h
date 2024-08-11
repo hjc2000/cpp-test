@@ -14,7 +14,10 @@
 
 namespace video
 {
-    class AudioFramePlayer : public base::IDisposable, public IRefTimer, public base::IConsumer<AVFrameWrapper>
+    class AudioFramePlayer :
+        public base::IDisposable,
+        public IRefTimer,
+        public base::IConsumer<AVFrameWrapper>
     {
     private:
         atomic_bool _disposed = false;

@@ -1,6 +1,9 @@
 Language: Cpp
 BasedOnStyle: Microsoft
 
+# 列数限制
+ColumnLimit: 0
+
 # 缩进 case 标签
 IndentCaseLabels: false
 # 缩进 case 块
