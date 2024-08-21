@@ -42,6 +42,62 @@ void SelectOneModeToExecute()
     }
 
     // 健身模式
+    switch (Option::Instance().BodyBuildingMode())
+    {
+    case Option_BodyBuildingMode::Standard:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::IntelligentMode:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::CentripetalMode:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::CentrifugalMode:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::SpringMode:
+        {
+            break;
+        }
+    default:
+    case Option_BodyBuildingMode::Standby:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::ConstantSpeedMode1:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::ConstantSpeedMode2:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::ConstantSpeedMode3:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::ConstantSpeedMode4:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::ConstantSpeedMode5:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::BurnOutMode:
+        {
+            break;
+        }
+    case Option_BodyBuildingMode::AssistanceMode:
+        {
+            break;
+        }
+    }
 }
 
 void RecodeStatus()
