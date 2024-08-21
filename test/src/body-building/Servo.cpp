@@ -13,7 +13,7 @@ int Servo::Version()
     return 20;
 }
 
-void Servo::RefreshFeedbackPosition()
+void Servo::Refresh_FeedbackPosition()
 {
     _last_feedback_position = _feedback_position;
     _feedback_position = 0; // 这里先赋值为 0，实际上是要从外界获取信息的
@@ -46,6 +46,10 @@ void Servo::SetSpeed(double value)
 uint32_t Servo::TorqueLimit()
 {
     return 0;
+}
+
+void Servo::SetTorqueLimit(uint32_t value)
+{
 }
 
 int Servo::OverloadForecast()

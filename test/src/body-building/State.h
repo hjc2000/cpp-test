@@ -3,11 +3,19 @@
 class State
 {
 private:
+    State() = default;
+
     double _released_length_of_line = 0;
     double _last_released_length_of_line = 0;
     bool _is_turning_forward = false;
 
 public:
+    static State &Instance()
+    {
+        static State o;
+        return o;
+    }
+
     void Refresh_ReleasedLengthOfLine();
     double ReleasedLengthOfLine();
     double LastReleasedLengthOfLine();

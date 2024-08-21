@@ -16,6 +16,8 @@ enum class Option_AdditionalMode
 class Option
 {
 private:
+    Option() = default;
+
     Option_BodyBuildingMode _body_building_mode;
     Option_BodyBuildingMode _last_body_building_mode;
 
@@ -26,6 +28,12 @@ private:
     double _last_tension_kg = 0;
 
 public:
+    static Option &Instance()
+    {
+        static Option o;
+        return o;
+    }
+
     void Refresh_BodyBuildingMode();
     Option_BodyBuildingMode BodyBuildingMode();
     Option_BodyBuildingMode LastBodyBuildingMode();

@@ -25,7 +25,7 @@ public:
     int Version();
 
     /// @brief 刷新伺服的反馈位置信息。
-    void RefreshFeedbackPosition();
+    void Refresh_FeedbackPosition();
 
     /// @brief 伺服当前的反馈位置。有正负。
     /// @return
