@@ -1,4 +1,5 @@
 #include "main_handle.h"
+#include <CalibrateZeroPointMode.h>
 #include <Cmd.h>
 #include <Option.h>
 #include <Servo.h>
@@ -20,6 +21,19 @@ void Initialize()
     ServoFan::Instance().TurnOff();
 }
 
+void SelectOneModeToExecute()
+{
+    if (!CalibrateZeroPointMode::Instance().IsCompleted())
+    {
+        CalibrateZeroPointMode::Instance().Execute();
+        return;
+    }
+}
+
+void RecodeStatus()
+{
+}
+
 void main_handle()
 {
     Initialize();
@@ -31,7 +45,9 @@ void main_handle()
             // ResetTimer()
 
             Refresh();
+            SelectOneModeToExecute();
             SleepControler::Instance().Execute();
+            RecodeStatus();
             Cmd::Instance().SendToServo();
         }
     }
