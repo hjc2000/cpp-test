@@ -68,6 +68,16 @@ double Option::MaxTension_kg()
     return 0.0;
 }
 
+int Option::MinTorque()
+{
+    return 0;
+}
+
+int Option::MaxTorque()
+{
+    return 0;
+}
+
 double Option::WindingSpeed()
 {
     return 0.0;
@@ -91,4 +101,24 @@ int64_t Option::ZeroPositionProtectionThreshold()
 int Option::UpdateFrequencyOfMaxTorque_Hz()
 {
     return 0;
+}
+
+double Option::OverspeedDampingCoefficientThreshold()
+{
+    return 0.0;
+}
+
+double Option::DampingCoefficientWhenOverspeeding()
+{
+    return 0.0;
+}
+
+std::chrono::seconds Option::TurnOnFanDelay()
+{
+    return std::chrono::seconds();
+}
+
+std::chrono::seconds Option::TurnOffFanDelay()
+{
+    return std::chrono::seconds();
 }

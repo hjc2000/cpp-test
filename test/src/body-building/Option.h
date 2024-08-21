@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <stdint.h>
 
 /// @brief 健身模式
@@ -44,6 +45,14 @@ public:
     /// @return
     double MaxTension_kg();
 
+    /// @brief 允许的最小转矩
+    /// @return
+    int MinTorque();
+
+    /// @brief 允许的最大转矩
+    /// @return
+    int MaxTorque();
+
     /// @brief 收线速度。
     /// @return
     double WindingSpeed();
@@ -64,4 +73,15 @@ public:
     /// @brief 最大转矩的更新频率。
     /// @return
     int UpdateFrequencyOfMaxTorque_Hz();
+
+    /// @brief 阻尼阈值速度。超过后会遇到阻尼，速度越大阻力越大。
+    /// @return
+    double OverspeedDampingCoefficientThreshold();
+
+    /// @brief 超过阈值速度后的阻尼系数。
+    /// @return
+    double DampingCoefficientWhenOverspeeding();
+
+    std::chrono::seconds TurnOnFanDelay();
+    std::chrono::seconds TurnOffFanDelay();
 };
