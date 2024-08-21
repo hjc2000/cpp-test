@@ -42,3 +42,30 @@ bool Servo::CounterClockwiseIsForward()
 void Servo::SetSpeed(double value)
 {
 }
+
+uint32_t Servo::TorqueLimit()
+{
+    return 0;
+}
+
+int Servo::OverloadForecast()
+{
+    return 0;
+}
+
+int32_t Servo::CommandTorque()
+{
+    return 0;
+}
+
+void Servo::Use_P_Control()
+{
+}
+
+void Servo::Use_PI_Control()
+{
+}
+
+void Servo::SetCurrentPositonAsZeroPoint()
+{
+}
