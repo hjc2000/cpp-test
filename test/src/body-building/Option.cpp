@@ -122,3 +122,38 @@ std::chrono::seconds Option::TurnOffFanDelay()
 {
     return std::chrono::seconds();
 }
+
+int Option::IntelligentModeTensionCompensation()
+{
+    return 0;
+}
+
+double Option::WindingSpeedLimitDuringBigWindingResistance()
+{
+    return 0.0;
+}
+
+bool Option::AutoDisableServoAfterReturningToZero()
+{
+    return false;
+}
+
+int Option::ReturnToZeroTorque()
+{
+    return 0;
+}
+
+double Option::ReturnToZeroSpeed()
+{
+    return 0.0;
+}
+
+int Option::ReduceTorque()
+{
+    return 0;
+}
+
+int Option::BigTorque()
+{
+    return 0;
+}

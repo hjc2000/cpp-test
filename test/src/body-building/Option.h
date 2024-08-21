@@ -84,4 +84,30 @@ public:
 
     std::chrono::seconds TurnOnFanDelay();
     std::chrono::seconds TurnOffFanDelay();
+
+    int IntelligentModeTensionCompensation();
+
+    /// @brief 大回绳阻力下的回绳速度限制
+    /// @return
+    double WindingSpeedLimitDuringBigWindingResistance();
+
+    /// @brief 回到零点后自动禁用伺服。
+    /// @return
+    bool AutoDisableServoAfterReturningToZero();
+
+    /// @brief 零点校准模式下的转矩。
+    /// @return
+    int ReturnToZeroTorque();
+
+    /// @brief 零点校准模式下的转速。
+    /// @return
+    double ReturnToZeroSpeed();
+
+    /// @brief 正转时应该减小的转矩值。正转时应该将转矩减去本函数的返回值，反转时不用操作。
+    /// @return
+    int ReduceTorque();
+
+    /// @brief 什么样的转矩算作大转矩。
+    /// @return
+    int BigTorque();
 };
