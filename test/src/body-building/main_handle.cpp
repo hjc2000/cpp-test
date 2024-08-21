@@ -16,6 +16,8 @@ void Refresh()
 
 void Initialize()
 {
+    Servo::Instance().Use_PI_Control();
+    ServoFan::Instance().TurnOff();
 }
 
 void main_handle()
