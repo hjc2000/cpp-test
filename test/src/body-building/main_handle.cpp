@@ -16,6 +16,12 @@ void main_handle()
 {
     while (true)
     {
-        Refresh();
+        if (true) // 假设已经检查定时时间到了
+        {
+            // 重置定时器
+            // ResetTimer()
+
+            Refresh();
+        }
     }
 }

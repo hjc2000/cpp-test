@@ -43,12 +43,12 @@ void Servo::SetSpeed(double value)
 {
 }
 
-uint32_t Servo::TorqueLimit()
+int Servo::TorqueLimit()
 {
     return 0;
 }
 
-void Servo::SetTorqueLimit(uint32_t value)
+void Servo::SetTorqueLimit(int value)
 {
 }
 

@@ -50,11 +50,11 @@ public:
     /// @brief 正反转矩限制值。
     /// @note 是百分比。范围 [0%, 300%]
     /// @return 返回 0 表示 0%，返回 1 表示 1%。
-    uint32_t TorqueLimit();
+    int TorqueLimit();
 
     /// @brief 设置正反转矩限制值。
     /// @param value 是百分比。范围 [0%, 300%]
-    void SetTorqueLimit(uint32_t value);
+    void SetTorqueLimit(int value);
 
     /// @brief 过载预报值。
     /// @return
