@@ -18,8 +18,15 @@ public:
         return o;
     }
 
+    /// @brief 更改拉力插值器的结束值。
+    /// @param value
     void ChangeEndValue(int value);
 
+    /// @brief 向前迈进一步并返回迈进后的值。
+    /// @return
     int StepForward();
+
+    /// @brief 获取当前输出值。
+    /// @return
     int CurrentOutput();
 };
