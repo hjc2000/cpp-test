@@ -4,6 +4,7 @@
 #include <base/container/StdContainerEnumerable.h>
 #include <base/Initializer.h>
 #include <base/math/Fraction.h>
+#include <base/math/InertialElement.h>
 #include <base/math/LinearInterpolator.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
@@ -46,10 +47,10 @@ int main(void)
         // Base *p = new Derive{};
         // delete p;
 
-        base::LinearInterpolator linear_interpolator{0, 1, 0.05};
-        while (!linear_interpolator.IsCompleted())
+        base::InertialElement element{0.025, 0.001};
+        for (int i = 0; i < 500; i++)
         {
-            std::cout << ++linear_interpolator << std::endl;
+            std::cout << element.Input(15) << std::endl;
         }
 
         // std::filesystem::current_path(Predefine_ResourceDir);
