@@ -25,22 +25,24 @@ int64_t FanControler::TurnOffDelayTick()
     return TurnOffFanDelay().count() * 500;
 }
 
-void FanControler::Execute()
+void FanControler::ControlByTick()
 {
     _hysteresis_element.ChangeThreshold(TurnOnDelayTick(),
                                         TurnOnDelayTick() - TurnOffDelayTick());
 
     if (Servo::Instance().FeedbackPosition() >= Option::Instance().ZeroPositionProtectionThreshold())
     {
-        if (_hysteresis_element.CurrentInput() < TurnOnDelayTick())
+        if (_hysteresis_element.CurrentInput() < _hysteresis_element.RisingThreshold())
         {
+            // 输入刚好等于迟滞环节阈值时也会触发上升或下降
             _hysteresis_element.Input(_hysteresis_element.CurrentInput() + 1);
         }
     }
     else
     {
-        if (_hysteresis_element.CurrentInput() > TurnOffDelayTick())
+        if (_hysteresis_element.CurrentInput() > _hysteresis_element.FallenThreshold())
         {
+            // 输入刚好等于迟滞环节阈值时也会触发上升或下降
             _hysteresis_element.Input(_hysteresis_element.CurrentInput() - 1);
         }
     }
@@ -53,4 +55,35 @@ void FanControler::Execute()
     {
         ServoFan::Instance().TurnOff();
     }
+}
+
+void FanControler::Execute()
+{
+    /*
+     --- 风扇控制
+    function FanControl()
+        if (Option_CurrentWorkMode() == 5) then
+            --待机模式
+            Servo_TurnOffFan()
+        elseif (SRV_PARA(3, 81) == 1) then
+            if (SRV_MON(21) < 35) then
+                Servo_TurnOffFan()
+            else
+                --温控风扇
+                SRV_PARA(2, 76, 4, 0)
+            end
+        else
+            --风扇控制
+            FanControlBasedOnTick()
+        end
+    end
+    */
+
+    if (Option::Instance().BodyBuildingMode() == Option_BodyBuildingMode::Standby)
+    {
+        ServoFan::Instance().TurnOff();
+        return;
+    }
+
+    ControlByTick();
 }

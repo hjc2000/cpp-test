@@ -2,6 +2,7 @@
 #include <base/math/HysteresisElement.h>
 #include <chrono>
 
+/// @brief 风扇控制器。
 class FanControler
 {
 private:
@@ -16,6 +17,9 @@ private:
         static_cast<double>(TurnOnDelayTick()),
         static_cast<double>(TurnOnDelayTick() - TurnOffDelayTick()),
     };
+
+    /// @brief 基于计时的控制方式。
+    void ControlByTick();
 
 public:
     static FanControler &Instance()

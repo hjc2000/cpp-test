@@ -3,10 +3,6 @@
 #include <base/container/List.h>
 #include <base/container/StdContainerEnumerable.h>
 #include <base/Initializer.h>
-#include <base/math/Fraction.h>
-#include <base/math/HysteresisElement.h>
-#include <base/math/InertialElement.h>
-#include <base/math/LinearInterpolator.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
@@ -20,55 +16,12 @@
 
 using namespace std;
 
-// class Base
-// {
-// public:
-//     virtual ~Base() = default;
-// };
-
-// class Derive :
-//     public Base
-// {
-// public:
-//     std::shared_ptr<int> sp{
-//         new int{0},
-//         [](int *p)
-//         {
-//             delete p;
-//             std::cout << "666" << endl;
-//         },
-//     };
-// };
-
 int main(void)
-
 {
     try
     {
-        // Base *p = new Derive{};
-        // delete p;
-
-        base::HysteresisElement e{10, 0};
-        for (int i = 0; i < 20; i++)
-        {
-            std::cout << e.Input(i) << std::endl;
-            if (e.OutputChange() == base::HysteresisElement_OutputChange::Rise)
-            {
-                std::cout << "上升，x = " << i << std::endl;
-            }
-        }
-
-        for (int i = 20; i > -10; i--)
-        {
-            std::cout << e.Input(i) << std::endl;
-            if (e.OutputChange() == base::HysteresisElement_OutputChange::Fall)
-            {
-                std::cout << "下降，x = " << i << std::endl;
-            }
-        }
-
-        // std::filesystem::current_path(Predefine_ResourceDir);
-        // test_SptsEncodeMux();
+        std::filesystem::current_path(Predefine_ResourceDir);
+        test_SptsEncodeMux();
         // test_AVPacketPlayer();
         // test_tsduck();
         return 0;

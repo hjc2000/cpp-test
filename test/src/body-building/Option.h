@@ -5,7 +5,11 @@
 /// @brief 健身模式
 enum class Option_BodyBuildingMode
 {
-    Standard
+    /// @brief 待机模式
+    Standby,
+
+    /// @brief 标准模式
+    Standard,
 };
 
 enum class Option_AdditionalMode

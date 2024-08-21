@@ -11,7 +11,12 @@ void SleepControler::Execute()
         Servo::Instance().FeedbackPosition() < Option::Instance().ZeroPositionProtectionThreshold() &&
         Servo::Instance().TorqueLimit() < Option::Instance().MinTorque())
     {
-        _auto_sleep_delay_tick++;
+        if (_auto_sleep_delay_tick <= 1000)
+        {
+            // 防止溢出
+            _auto_sleep_delay_tick++;
+        }
+
         if (_auto_sleep_delay_tick > 1000)
         {
             Servo::Instance().Disable();
