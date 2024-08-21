@@ -4,6 +4,7 @@
 #include <base/container/StdContainerEnumerable.h>
 #include <base/Initializer.h>
 #include <base/math/Fraction.h>
+#include <base/math/LinearInterpolator.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
@@ -17,33 +18,39 @@
 
 using namespace std;
 
-class Base
-{
-public:
-    virtual ~Base() = default;
-};
+// class Base
+// {
+// public:
+//     virtual ~Base() = default;
+// };
 
-class Derive :
-    public Base
-{
-public:
-    std::shared_ptr<int> sp{
-        new int{0},
-        [](int *p)
-        {
-            delete p;
-            std::cout << "666" << endl;
-        },
-    };
-};
+// class Derive :
+//     public Base
+// {
+// public:
+//     std::shared_ptr<int> sp{
+//         new int{0},
+//         [](int *p)
+//         {
+//             delete p;
+//             std::cout << "666" << endl;
+//         },
+//     };
+// };
 
 int main(void)
 
 {
     try
     {
-        Base *p = new Derive{};
-        delete p;
+        // Base *p = new Derive{};
+        // delete p;
+
+        base::LinearInterpolator linear_interpolator{0, 1, 0.05};
+        while (!linear_interpolator.IsCompleted())
+        {
+            std::cout << ++linear_interpolator << std::endl;
+        }
 
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
