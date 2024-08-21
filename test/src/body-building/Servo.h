@@ -5,10 +5,18 @@
 class Servo
 {
 private:
+    Servo() = default;
+
     double _last_feedback_position = 0;
     double _feedback_position = 0;
 
 public:
+    static Servo &Instance()
+    {
+        static Servo o;
+        return o;
+    }
+
     void Disable();
     void Enable();
 
