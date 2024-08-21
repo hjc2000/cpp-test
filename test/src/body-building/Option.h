@@ -90,9 +90,6 @@ public:
     /// @return
     double DampingCoefficientWhenOverspeeding();
 
-    std::chrono::seconds TurnOnFanDelay();
-    std::chrono::seconds TurnOffFanDelay();
-
     int IntelligentModeTensionCompensation();
 
     /// @brief 大回绳阻力下的回绳速度限制

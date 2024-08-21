@@ -77,7 +77,16 @@ public:
 
 class ServoFan
 {
+private:
+    ServoFan() = default;
+
 public:
+    static ServoFan &Instance()
+    {
+        static ServoFan o;
+        return o;
+    }
+
     void TurnOn()
     {
     }

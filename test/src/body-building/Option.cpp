@@ -113,16 +113,6 @@ double Option::DampingCoefficientWhenOverspeeding()
     return 0.0;
 }
 
-std::chrono::seconds Option::TurnOnFanDelay()
-{
-    return std::chrono::seconds();
-}
-
-std::chrono::seconds Option::TurnOffFanDelay()
-{
-    return std::chrono::seconds();
-}
-
 int Option::IntelligentModeTensionCompensation()
 {
     return 0;
