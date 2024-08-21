@@ -1,4 +1,5 @@
 #include "main_handle.h"
+#include <Cmd.h>
 #include <Option.h>
 #include <Servo.h>
 #include <State.h>
@@ -22,6 +23,7 @@ void main_handle()
             // ResetTimer()
 
             Refresh();
+            Cmd::Instance().SendToServo();
         }
     }
 }
