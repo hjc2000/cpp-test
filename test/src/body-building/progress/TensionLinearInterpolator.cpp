@@ -17,8 +17,8 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
         {
             _linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
                 new base::LinearInterpolator{
-                    _current_output,
-                    value,
+                    static_cast<double>(_current_output),
+                    static_cast<double>(value),
                     1000,
                 },
             };
@@ -27,8 +27,8 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
         {
             _linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
                 new base::LinearInterpolator{
-                    _current_output,
-                    value,
+                    static_cast<double>(_current_output),
+                    static_cast<double>(value),
                     1500,
                 },
             };
@@ -37,8 +37,8 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
         {
             _linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
                 new base::LinearInterpolator{
-                    _current_output,
-                    value,
+                    static_cast<double>(_current_output),
+                    static_cast<double>(value),
                     2500,
                 },
             };
@@ -51,8 +51,8 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
         {
             _linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
                 new base::LinearInterpolator{
-                    _current_output,
-                    value,
+                    static_cast<double>(_current_output),
+                    static_cast<double>(value),
                     500,
                 },
             };
@@ -61,8 +61,8 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
         {
             _linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
                 new base::LinearInterpolator{
-                    _current_output,
-                    value,
+                    static_cast<double>(_current_output),
+                    static_cast<double>(value),
                     1000,
                 },
             };
