@@ -1,4 +1,5 @@
 #include "main_handle.h"
+#include <AdditionMode.h>
 #include <CalibrateZeroPointMode.h>
 #include <Cmd.h>
 #include <Option.h>
@@ -28,6 +29,19 @@ void SelectOneModeToExecute()
         CalibrateZeroPointMode::Instance().Execute();
         return;
     }
+
+    if (Option::Instance().AdditionalModeCodeChanged())
+    {
+        AdditionMode::Instance().SetMode(static_cast<AdditionMode_ModeEnum>(Option::Instance().AdditionalMode()));
+    }
+
+    if (static_cast<int>(AdditionMode::Instance().Mode()) > 0)
+    {
+        AdditionMode::Instance().Execute();
+        return;
+    }
+
+    // 健身模式
 }
 
 void RecodeStatus()
@@ -42,7 +56,7 @@ void main_handle()
     {
         if (Option::Instance().AutoDisableServoAfterReturningToZero())
         {
-            // TODO: AdditionMode_SetModeCode(1)
+            AdditionMode::Instance().SetMode(AdditionMode_ModeEnum::GraduallyDisableServo);
         }
     };
 

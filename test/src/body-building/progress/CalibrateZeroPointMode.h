@@ -29,7 +29,7 @@ public:
     int Progress();
 
     /// @brief 重置零点校准模式完成状态。这会导致下轮主循环进入零点校准模式。
-    void ResetCompleteStatus();
+    void ResetCompletionStatus();
 
     /// @brief 零点校准完成时触发的回调。
     std::function<void()> _on_completed = nullptr;
