@@ -14,8 +14,13 @@ void Refresh()
     State::Instance().Refresh_ReleasedLengthOfLine();
 }
 
+void Initialize()
+{
+}
+
 void main_handle()
 {
+    Initialize();
     while (true)
     {
         if (true) // 假设已经检查定时时间到了

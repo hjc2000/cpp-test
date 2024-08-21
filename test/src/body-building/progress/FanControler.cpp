@@ -59,6 +59,7 @@ void FanControler::ControlByTick()
 
 void FanControler::Execute()
 {
+    // TODO: 看一下这些参数是什么
     /*
      --- 风扇控制
     function FanControl()

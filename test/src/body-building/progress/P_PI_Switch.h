@@ -3,4 +3,5 @@
 class P_PI_Switch
 {
 public:
+    void Execute();
 };
