@@ -28,8 +28,8 @@ public:
     /// @return 返回 0 表示没有使用过零点校准模式。返回 1 表示正在校准。返回 2 表示校准完成。
     int Progress();
 
-    /// @brief 重置零点校准模式。这会导致下轮主循环进入零点校准模式。
-    void Reset();
+    /// @brief 重置零点校准模式完成状态。这会导致下轮主循环进入零点校准模式。
+    void ResetCompleteStatus();
 
     /// @brief 零点校准完成时触发的回调。
     std::function<void()> _on_completed = nullptr;

@@ -51,7 +51,7 @@ int CalibrateZeroPointMode::Progress()
     return _progress;
 }
 
-void CalibrateZeroPointMode::Reset()
+void CalibrateZeroPointMode::ResetCompleteStatus()
 {
     _is_completed = false;
     _progress = 1;

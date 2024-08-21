@@ -37,6 +37,15 @@ void RecodeStatus()
 void main_handle()
 {
     Initialize();
+
+    CalibrateZeroPointMode::Instance()._on_completed = [&]()
+    {
+        if (Option::Instance().AutoDisableServoAfterReturningToZero())
+        {
+            // TODO: AdditionMode_SetModeCode(1)
+        }
+    };
+
     while (true)
     {
         if (true) // 假设已经检查定时时间到了
