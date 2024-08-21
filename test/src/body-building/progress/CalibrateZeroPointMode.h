@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 /// @brief 零点校准模式
 class CalibrateZeroPointMode
@@ -7,6 +8,8 @@ private:
     CalibrateZeroPointMode() = default;
 
     bool _is_completed = false;
+    int _progress = 0;
+    int _zero_speed_holding_tick = 0;
 
 public:
     static CalibrateZeroPointMode &Instance()
@@ -17,5 +20,17 @@ public:
 
     void Execute();
 
+    /// @brief 零点校准完成。
+    /// @return
     bool IsCompleted() const;
+
+    /// @brief 校准零点的进度。
+    /// @return 返回 0 表示没有使用过零点校准模式。返回 1 表示正在校准。返回 2 表示校准完成。
+    int Progress();
+
+    /// @brief 重置零点校准模式。这会导致下轮主循环进入零点校准模式。
+    void Reset();
+
+    /// @brief 零点校准完成时触发的回调。
+    std::function<void()> _on_completed = nullptr;
 };
