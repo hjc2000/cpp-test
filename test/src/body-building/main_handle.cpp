@@ -2,7 +2,7 @@
 #include <Cmd.h>
 #include <Option.h>
 #include <Servo.h>
-#include <SleepControlor.h>
+#include <SleepControler.h>
 #include <State.h>
 
 void Refresh()
@@ -24,7 +24,7 @@ void main_handle()
             // ResetTimer()
 
             Refresh();
-            SleepControlor::Instance().Execute();
+            SleepControler::Instance().Execute();
             Cmd::Instance().SendToServo();
         }
     }

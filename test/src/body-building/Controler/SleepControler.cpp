@@ -1,9 +1,9 @@
-#include "SleepControlor.h"
+#include "SleepControler.h"
 #include <cmath>
 #include <Option.h>
 #include <Servo.h>
 
-void SleepControlor::Execute()
+void SleepControler::Execute()
 {
     double filter_out_speed = _speed_filter.Input(std::abs(Servo::Instance().FeedbackSpeed()));
 
