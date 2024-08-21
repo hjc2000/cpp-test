@@ -17,12 +17,36 @@
 
 using namespace std;
 
+class Base
+{
+public:
+    virtual ~Base() = default;
+};
+
+class Derive :
+    public Base
+{
+public:
+    std::shared_ptr<int> sp{
+        new int{0},
+        [](int *p)
+        {
+            delete p;
+            std::cout << "666" << endl;
+        },
+    };
+};
+
 int main(void)
+
 {
     try
     {
-        std::filesystem::current_path(Predefine_ResourceDir);
-        test_SptsEncodeMux();
+        Base *p = new Derive{};
+        delete p;
+
+        // std::filesystem::current_path(Predefine_ResourceDir);
+        // test_SptsEncodeMux();
         // test_AVPacketPlayer();
         // test_tsduck();
         return 0;
