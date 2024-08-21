@@ -4,6 +4,7 @@
 #include <base/container/StdContainerEnumerable.h>
 #include <base/Initializer.h>
 #include <base/math/Fraction.h>
+#include <base/math/HysteresisElement.h>
 #include <base/math/InertialElement.h>
 #include <base/math/LinearInterpolator.h>
 #include <base/string/ToHexString.h>
@@ -47,10 +48,23 @@ int main(void)
         // Base *p = new Derive{};
         // delete p;
 
-        base::InertialElement element{0.025, 0.001};
-        for (int i = 0; i < 500; i++)
+        base::HysteresisElement e{10, 0};
+        for (int i = 0; i < 20; i++)
         {
-            std::cout << element.Input(15) << std::endl;
+            std::cout << e.Input(i) << std::endl;
+            if (e.OutputChange() == base::HysteresisElement_OutputChange::Rise)
+            {
+                std::cout << "上升，x = " << i << std::endl;
+            }
+        }
+
+        for (int i = 20; i > -10; i--)
+        {
+            std::cout << e.Input(i) << std::endl;
+            if (e.OutputChange() == base::HysteresisElement_OutputChange::Fall)
+            {
+                std::cout << "下降，x = " << i << std::endl;
+            }
         }
 
         // std::filesystem::current_path(Predefine_ResourceDir);
