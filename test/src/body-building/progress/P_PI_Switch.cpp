@@ -25,14 +25,14 @@ void P_PI_Switch::Execute()
     case Option_BodyBuildingMode::ConstantSpeedMode4:
     case Option_BodyBuildingMode::ConstantSpeedMode5:
         {
-            // TODO:看一下 DD11 是什么
-            /*
-                if (Servo_FeedbackSpeed_rpm() < DD(11)) then
-                    Servo_Use_PI_Control()
-                else
-                    Servo_Use_P_Control()
-                end
-            */
+            if (Servo::Instance().FeedbackSpeed() < Option::Instance().IntegralSeparationThreshold())
+            {
+                Servo::Instance().Use_PI_Control();
+            }
+            else
+            {
+                Servo::Instance().Use_P_Control();
+            }
 
             break;
         }

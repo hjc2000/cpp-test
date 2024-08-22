@@ -143,4 +143,11 @@ public:
     /// @brief 什么样的转矩算作大转矩。
     /// @return
     int BigTorque();
+
+    /// @brief 积分分离阈值
+    /// @return
+    double IntegralSeparationThreshold()
+    {
+        return 0;
+    }
 };
