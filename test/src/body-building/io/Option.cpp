@@ -93,7 +93,7 @@ bool Option::UseGravitationPackage()
     return false;
 }
 
-int64_t Option::ZeroPositionProtectionThreshold()
+int Option::ZeroPositionProtectionThreshold()
 {
     return 0;
 }

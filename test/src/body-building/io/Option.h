@@ -104,7 +104,7 @@ public:
 
     /// @brief 零点保护位置阈值。当伺服反馈位置的绝对值小于此值时需要保护措施。
     /// @return
-    int64_t ZeroPositionProtectionThreshold();
+    int ZeroPositionProtectionThreshold();
 
     /// @brief 最大转矩的更新频率。
     /// @return
