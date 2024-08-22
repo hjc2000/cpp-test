@@ -3,10 +3,13 @@
 #include <CalibrateZeroPointMode.h>
 #include <Cmd.h>
 #include <DirectionDetector.h>
+#include <IntelligentMode.h>
 #include <Option.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <SleepControler.h>
+#include <StallProtectionMode.h>
+#include <StandardMode.h>
 #include <State.h>
 
 /// @brief 更新外界输入信息和基于它们计算出来的信息。
@@ -48,15 +51,24 @@ void SelectOneModeToExecute()
         return;
     }
 
+    // 失速保护模式
+    if (StallProtectionMode::Instance().StallFlag())
+    {
+        StallProtectionMode::Instance().Execute();
+        return;
+    }
+
     // 健身模式
     switch (Option::Instance().BodyBuildingMode())
     {
     case Option_BodyBuildingMode::Standard:
         {
+            StandardMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::IntelligentMode:
         {
+            IntelligentMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::CentripetalMode:
