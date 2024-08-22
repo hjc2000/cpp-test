@@ -95,6 +95,8 @@ void SelectOneModeToExecute()
     default:
     case Option_BodyBuildingMode::Standby:
         {
+            Cmd::Instance().SetSpeed(0);
+            Cmd::Instance().SetTorque(0);
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode1:
