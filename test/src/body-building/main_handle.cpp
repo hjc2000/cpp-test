@@ -1,21 +1,13 @@
 #include "main_handle.h"
 #include <AdditionMode.h>
-#include <AssistanceMode.h>
-#include <BurnOutMode.h>
 #include <CalibrateZeroPointMode.h>
-#include <CentrifugalMode.h>
-#include <CentripetalMode.h>
 #include <Cmd.h>
-#include <ConstantSpeedMode.h>
 #include <DirectionDetector.h>
-#include <IntelligentMode.h>
+#include <ModeSelector.h>
 #include <Option.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <SleepControler.h>
-#include <SpringMode.h>
-#include <StallProtectionMode.h>
-#include <StandardMode.h>
 #include <State.h>
 
 /// @brief 更新外界输入信息和基于它们计算出来的信息。
@@ -27,119 +19,12 @@ void Refresh()
     Option::Instance().Refresh_BodyBuildingMode();
     Option::Instance().Refresh_Tension_kg();
     State::Instance().Refresh_ReleasedLengthOfLine();
-
-    DirectionDetector::Instance().Execute();
-    PullTimesDetector::Instance().Execute();
 }
 
 void Initialize()
 {
     Servo::Instance().Use_PI_Control();
     ServoFan::Instance().TurnOff();
-}
-
-void SelectOneModeToExecute()
-{
-    if (!CalibrateZeroPointMode::Instance().IsCompleted())
-    {
-        CalibrateZeroPointMode::Instance().Execute();
-        return;
-    }
-
-    if (Option::Instance().AdditionalModeCodeChanged())
-    {
-        AdditionMode::Instance().SetMode(static_cast<AdditionMode_ModeEnum>(Option::Instance().AdditionalMode()));
-    }
-
-    if (static_cast<int>(AdditionMode::Instance().Mode()) > 0)
-    {
-        AdditionMode::Instance().Execute();
-        return;
-    }
-
-    // 失速保护模式
-    if (StallProtectionMode::Instance().StallFlag())
-    {
-        StallProtectionMode::Instance().Execute();
-        return;
-    }
-
-    // 健身模式
-    switch (Option::Instance().BodyBuildingMode())
-    {
-    case Option_BodyBuildingMode::Standard:
-        {
-            StandardMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::IntelligentMode:
-        {
-            IntelligentMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::CentripetalMode:
-        {
-            CentripetalMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::CentrifugalMode:
-        {
-            CentrifugalMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::SpringMode:
-        {
-            SpringMode::Instance().Execute();
-            break;
-        }
-    default:
-    case Option_BodyBuildingMode::Standby:
-        {
-            Cmd::Instance().SetSpeed(0);
-            Cmd::Instance().SetTorque(0);
-            break;
-        }
-    case Option_BodyBuildingMode::ConstantSpeedMode1:
-        {
-            ConstantSpeedMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::ConstantSpeedMode2:
-        {
-            ConstantSpeedMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::ConstantSpeedMode3:
-        {
-            ConstantSpeedMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::ConstantSpeedMode4:
-        {
-            ConstantSpeedMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::ConstantSpeedMode5:
-        {
-            ConstantSpeedMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::BurnOutMode:
-        {
-            BurnOutMode::Instance().Execute();
-            break;
-        }
-    case Option_BodyBuildingMode::AssistanceMode:
-        {
-            AssistanceMode::Instance().Execute();
-            break;
-        }
-    }
-}
-
-/// @brief 模式执行完之后继续对转速、转矩加工，进行一些限制或补偿。
-void Limit()
-{
 }
 
 void RecodeStatus()
@@ -166,8 +51,11 @@ void main_handle()
             // ResetTimer()
 
             Refresh();
-            SelectOneModeToExecute();
-            Limit();
+
+            DirectionDetector::Instance().Execute();
+            PullTimesDetector::Instance().Execute();
+
+            ModeSelector::Instance().Execute();
             SleepControler::Instance().Execute();
             RecodeStatus();
             Cmd::Instance().SendToServo();
