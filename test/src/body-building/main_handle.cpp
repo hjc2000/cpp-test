@@ -1,6 +1,7 @@
 #include "main_handle.h"
 #include <AdditionMode.h>
 #include <CalibrateZeroPointMode.h>
+#include <CentrifugalMode.h>
 #include <CentripetalMode.h>
 #include <Cmd.h>
 #include <DirectionDetector.h>
@@ -9,6 +10,7 @@
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <SleepControler.h>
+#include <SpringMode.h>
 #include <StallProtectionMode.h>
 #include <StandardMode.h>
 #include <State.h>
@@ -79,10 +81,12 @@ void SelectOneModeToExecute()
         }
     case Option_BodyBuildingMode::CentrifugalMode:
         {
+            CentrifugalMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::SpringMode:
         {
+            SpringMode::Instance().Execute();
             break;
         }
     default:

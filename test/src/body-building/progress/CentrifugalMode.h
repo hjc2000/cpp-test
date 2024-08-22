@@ -1,6 +1,6 @@
 #pragma once
 
-/// @brief 向心模式
+/// @brief 离心模式
 class CentrifugalMode
 {
 private:
