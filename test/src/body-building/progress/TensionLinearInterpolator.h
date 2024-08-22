@@ -9,7 +9,7 @@ private:
     TensionLinearInterpolator() = default;
 
     std::shared_ptr<base::LinearInterpolator> _linear_interpolator = nullptr;
-    int _current_output = 0;
+    double _current_output = 0;
 
 public:
     static TensionLinearInterpolator &Instance()
@@ -20,13 +20,13 @@ public:
 
     /// @brief 更改拉力插值器的结束值。
     /// @param value
-    void ChangeEndValue(int value);
+    void ChangeEndValue(double value);
 
     /// @brief 向前迈进一步并返回迈进后的值。
     /// @return
-    int StepForward();
+    double StepForward();
 
     /// @brief 获取当前输出值。
     /// @return
-    int CurrentOutput();
+    double CurrentOutput();
 };

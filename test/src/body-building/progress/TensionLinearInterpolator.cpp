@@ -1,7 +1,7 @@
 #include "TensionLinearInterpolator.h"
 #include <Option.h>
 
-void TensionLinearInterpolator::ChangeEndValue(int value)
+void TensionLinearInterpolator::ChangeEndValue(double value)
 {
     if (_linear_interpolator != nullptr)
     {
@@ -70,7 +70,7 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
     }
 }
 
-int TensionLinearInterpolator::StepForward()
+double TensionLinearInterpolator::StepForward()
 {
     if (_linear_interpolator != nullptr)
     {
@@ -80,7 +80,7 @@ int TensionLinearInterpolator::StepForward()
     return CurrentOutput();
 }
 
-int TensionLinearInterpolator::CurrentOutput()
+double TensionLinearInterpolator::CurrentOutput()
 {
     if (_linear_interpolator != nullptr)
     {
