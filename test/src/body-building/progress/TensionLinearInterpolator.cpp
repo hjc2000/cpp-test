@@ -19,7 +19,7 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
                 new base::LinearInterpolator{
                     static_cast<double>(_current_output),
                     static_cast<double>(value),
-                    1000,
+                    base::LinearInterpolator_StepCount{1000},
                 },
             };
         }
@@ -29,7 +29,7 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
                 new base::LinearInterpolator{
                     static_cast<double>(_current_output),
                     static_cast<double>(value),
-                    1500,
+                    base::LinearInterpolator_StepCount{1500},
                 },
             };
         }
@@ -39,7 +39,7 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
                 new base::LinearInterpolator{
                     static_cast<double>(_current_output),
                     static_cast<double>(value),
-                    2500,
+                    base::LinearInterpolator_StepCount{2500},
                 },
             };
         }
@@ -53,7 +53,7 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
                 new base::LinearInterpolator{
                     static_cast<double>(_current_output),
                     static_cast<double>(value),
-                    500,
+                    base::LinearInterpolator_StepCount{500},
                 },
             };
         }
@@ -63,7 +63,7 @@ void TensionLinearInterpolator::ChangeEndValue(int value)
                 new base::LinearInterpolator{
                     static_cast<double>(_current_output),
                     static_cast<double>(value),
-                    1000,
+                    base::LinearInterpolator_StepCount{1000},
                 },
             };
         }
