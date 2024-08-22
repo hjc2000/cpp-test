@@ -9,6 +9,8 @@
 #include <SleepControler.h>
 #include <State.h>
 
+/// @brief 更新外界输入信息和基于它们计算出来的信息。
+/// @note 顺序很重要。信息之间有依赖关系。
 void Refresh()
 {
     Servo::Instance().Refresh_FeedbackPosition();

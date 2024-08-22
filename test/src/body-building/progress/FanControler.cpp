@@ -34,7 +34,9 @@ void FanControler::ControlByTick()
     {
         if (_hysteresis_element.CurrentInput() < _hysteresis_element.RisingThreshold())
         {
-            // 输入刚好等于迟滞环节阈值时也会触发上升或下降
+            /* 这里通过判断对输入进行限幅
+             * 输入刚好等于迟滞环节阈值时也会触发上升或下降
+             */
             _hysteresis_element.Input(_hysteresis_element.CurrentInput() + 1);
         }
     }
@@ -42,7 +44,9 @@ void FanControler::ControlByTick()
     {
         if (_hysteresis_element.CurrentInput() > _hysteresis_element.FallenThreshold())
         {
-            // 输入刚好等于迟滞环节阈值时也会触发上升或下降
+            /* 这里通过判断对输入进行限幅
+             * 输入刚好等于迟滞环节阈值时也会触发上升或下降
+             */
             _hysteresis_element.Input(_hysteresis_element.CurrentInput() - 1);
         }
     }
