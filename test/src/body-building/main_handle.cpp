@@ -1,6 +1,7 @@
 #include "main_handle.h"
 #include <AdditionMode.h>
 #include <CalibrateZeroPointMode.h>
+#include <CentripetalMode.h>
 #include <Cmd.h>
 #include <DirectionDetector.h>
 #include <IntelligentMode.h>
@@ -73,6 +74,7 @@ void SelectOneModeToExecute()
         }
     case Option_BodyBuildingMode::CentripetalMode:
         {
+            CentripetalMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::CentrifugalMode:
