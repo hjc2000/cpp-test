@@ -1,9 +1,12 @@
 #include "main_handle.h"
 #include <AdditionMode.h>
+#include <AssistanceMode.h>
+#include <BurnOutMode.h>
 #include <CalibrateZeroPointMode.h>
 #include <CentrifugalMode.h>
 #include <CentripetalMode.h>
 #include <Cmd.h>
+#include <ConstantSpeedMode.h>
 #include <DirectionDetector.h>
 #include <IntelligentMode.h>
 #include <Option.h>
@@ -96,30 +99,37 @@ void SelectOneModeToExecute()
         }
     case Option_BodyBuildingMode::ConstantSpeedMode1:
         {
+            ConstantSpeedMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode2:
         {
+            ConstantSpeedMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode3:
         {
+            ConstantSpeedMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode4:
         {
+            ConstantSpeedMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode5:
         {
+            ConstantSpeedMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::BurnOutMode:
         {
+            BurnOutMode::Instance().Execute();
             break;
         }
     case Option_BodyBuildingMode::AssistanceMode:
         {
+            AssistanceMode::Instance().Execute();
             break;
         }
     }
