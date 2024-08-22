@@ -5,6 +5,8 @@
 #include <Servo.h>
 #include <TensionLinearInterpolator.h>
 
+#pragma region 选项
+
 double ConstantSpeedMode::TorqueGrowRatio()
 {
     switch (Option::Instance().BodyBuildingMode())
@@ -144,6 +146,8 @@ int ConstantSpeedMode::FilterGain()
         }
     }
 }
+
+#pragma endregion
 
 std::shared_ptr<base::InertialElement> ConstantSpeedMode::CreateFilter()
 {

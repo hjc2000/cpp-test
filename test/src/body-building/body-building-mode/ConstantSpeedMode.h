@@ -7,6 +7,7 @@ class ConstantSpeedMode
 private:
     ConstantSpeedMode() = default;
 
+#pragma region 选项
     /// @brief 限制转速时让转矩增长的比例。越大转矩随着速度变大增长越快。
     /// @return
     double TorqueGrowRatio();
@@ -26,6 +27,7 @@ private:
     /// @brief ChX 滤波器的前向通道增益
     /// @return
     int FilterGain();
+#pragma endregion
 
     std::shared_ptr<base::InertialElement> CreateFilter();
 
