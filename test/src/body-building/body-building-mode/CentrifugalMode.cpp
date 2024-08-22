@@ -28,5 +28,6 @@ void CentrifugalMode::Execute()
         torque = torque / Ratio();
     }
 
+    torque = _filter->Input(torque);
     Cmd::Instance().SetTorque(torque);
 }
