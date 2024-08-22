@@ -1,4 +1,5 @@
 #pragma once
+#include <ChXFilter.h>
 #include <lua_api.h>
 
 class ConstantSpeedMode
@@ -25,6 +26,10 @@ private:
     /// @brief ChX 滤波器的前向通道增益
     /// @return
     int FilterGain();
+
+    std::shared_ptr<base::InertialElement> CreateFilter();
+
+    std::shared_ptr<base::InertialElement> _filter = CreateFilter();
 
 public:
     static ConstantSpeedMode &Instance()
