@@ -119,6 +119,11 @@ void SelectOneModeToExecute()
     }
 }
 
+/// @brief 模式执行完之后继续对转速、转矩加工，进行一些限制或补偿。
+void Limit()
+{
+}
+
 void RecodeStatus()
 {
 }
@@ -144,6 +149,7 @@ void main_handle()
 
             Refresh();
             SelectOneModeToExecute();
+            Limit();
             SleepControler::Instance().Execute();
             RecodeStatus();
             Cmd::Instance().SendToServo();
