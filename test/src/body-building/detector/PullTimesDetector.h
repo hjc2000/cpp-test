@@ -6,7 +6,11 @@ class PullTimesDetector
 private:
     PullTimesDetector() = default;
 
-    base::HysteresisElement _hysteresis_element{100, 20};
+    base::HysteresisElement _hysteresis_element{
+        base::HysteresisElement_RisingThreshold{100},
+        base::HysteresisElement_FallenThreshold{20},
+    };
+
     int _winding_times = 0;
     int _unwinding_times = 0;
 

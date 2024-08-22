@@ -14,8 +14,8 @@ private:
     int64_t TurnOffDelayTick();
 
     base::HysteresisElement _hysteresis_element{
-        static_cast<double>(TurnOnDelayTick()),
-        static_cast<double>(TurnOnDelayTick() - TurnOffDelayTick()),
+        base::HysteresisElement_RisingThreshold{static_cast<double>(TurnOnDelayTick())},
+        base::HysteresisElement_FallenThreshold{static_cast<double>(TurnOnDelayTick() - TurnOffDelayTick())},
     };
 
     /// @brief 基于计时的控制方式。

@@ -8,7 +8,11 @@ class SleepControler
 private:
     SleepControler() = default;
 
-    base::InertialElement _speed_filter{0.025, 0.002};
+    base::InertialElement _speed_filter{
+        base::InertialElement_TimeConstant{0.025},
+        base::InertialElement_SampleInterval{0.002},
+    };
+
     int64_t _auto_sleep_delay_tick = 0;
 
 public:
