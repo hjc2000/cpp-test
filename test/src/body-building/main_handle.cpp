@@ -2,7 +2,9 @@
 #include <AdditionMode.h>
 #include <CalibrateZeroPointMode.h>
 #include <Cmd.h>
+#include <DirectionDetector.h>
 #include <Option.h>
+#include <PullTimesDetector.h>
 #include <Servo.h>
 #include <SleepControler.h>
 #include <State.h>
@@ -14,6 +16,9 @@ void Refresh()
     Option::Instance().Refresh_BodyBuildingMode();
     Option::Instance().Refresh_Tension_kg();
     State::Instance().Refresh_ReleasedLengthOfLine();
+
+    DirectionDetector::Instance().Execute();
+    PullTimesDetector::Instance().Execute();
 }
 
 void Initialize()

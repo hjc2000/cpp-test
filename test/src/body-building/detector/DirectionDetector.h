@@ -21,6 +21,7 @@ enum class DirectionDetector_Direction
     Unwinding,
 };
 
+/// @brief 方向检测器
 class DirectionDetector
 {
 private:
