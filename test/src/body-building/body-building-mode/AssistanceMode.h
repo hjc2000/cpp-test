@@ -18,6 +18,10 @@ private:
     int _zlDist1 = 0;
     int _zlDist2 = 0;
     bool _needChk = false;
+    int _zlSubCnt = 0;
+    double _zlTrqBase = 0;
+    double _zlSubTrq = 0;
+    double _zlSubTrqCnt = 0;
 
     void OnFromUnwindingToWinding();
     void OnFromWindingToUnwinding();

@@ -7,17 +7,19 @@ void DirectionDetector::Execute()
     if (current_released_length_of_line - _last_released_length_of_line > 20)
     {
         // 当前正在放线
+        _last_direction = _current_direction;
         _current_direction = DirectionDetector_Direction::Unwinding;
         _released_length_of_line_when_direction_change = _last_released_length_of_line;
+        _last_released_length_of_line = current_released_length_of_line;
     }
     else if (current_released_length_of_line - _last_released_length_of_line < -20)
     {
         // 当前正在收线
+        _last_direction = _current_direction;
         _current_direction = DirectionDetector_Direction::Winding;
         _released_length_of_line_when_direction_change = _last_released_length_of_line;
+        _last_released_length_of_line = current_released_length_of_line;
     }
-
-    _last_released_length_of_line = current_released_length_of_line;
 }
 
 DirectionDetector_DirectionChange DirectionDetector::DirectionChange() const

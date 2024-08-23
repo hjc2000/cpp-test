@@ -53,7 +53,7 @@ public:
 
     DirectionDetector_DirectionChange DirectionChange() const;
 
-    /// @brief 发生方向切换时的放线长度。
+    /// @brief 最近一次发生方向切换的瞬间的放线长度。
     /// @return
     int ReleasedLengthOfLineWhenDirectionChanged() const
     {

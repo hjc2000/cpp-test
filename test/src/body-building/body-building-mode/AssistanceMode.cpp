@@ -9,6 +9,7 @@
 #include <PullLengthDetecter.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
+#include <State.h>
 #include <TensionLinearInterpolator.h>
 
 void AssistanceMode::OnFromUnwindingToWinding()
@@ -38,105 +39,61 @@ void AssistanceMode::OnFromUnwindingToWinding()
 
 void AssistanceMode::OnFromWindingToUnwinding()
 {
-    // _origin_distance = DirectionDetector_ReleasedLengthOfLineOnDirectionChange()
+    _needChk = true;
+    if (Servo::Instance().FeedbackPosition() < Option::Instance().ZeroPositionProtectionThreshold())
+    {
+        if (_needChk && !State::Instance().IsTurningForward())
+        {
+            _needChk = 0;
+        }
 
-    // if (_has_effective_winding) then
-    // 	-- 经历了有效的收线
-    // 	_has_effective_winding = false
+        if (PullTimesDetector::Instance().WindingTimes() > 3)
+        {
+            if (_tension <= 1)
+            {
+                _needChk = false;
+                _tension = 1;
+                _zlTrigger = false;
+            }
 
-    // 	zlPullCnt2 = zlPullCnt2 + 1
-    // 	print("助力次数：", zlPullCnt2, "--------------------------------")
-    // 	needChk = 1
+            if (PullTimesDetector::Instance().UnwindingTimes() > _zlTimBase)
+            {
+                if (PullLengthDetecter::Instance().LastPullLength() < _zlTimBase && _needChk == 1)
+                {
+                    _zlTrigger = true;
+                }
+                else
+                {
+                    _needChk = false;
+                    _zlTrigger = false;
+                }
+            }
+        }
 
-    // 	--零点位置停止助力
-    // 	if (Servo_FeedbackPosition() < zeroPos) then
-    // 		if (needChk == 1 and (not State_IsForward())) then
-    // 			needChk = 0
-    // 			print("进入零点位置，无需助力")
-    // 		end
-    // 	end
+        if (_zlTrigger)
+        {
+            _zlSubCnt++;
+        }
+        else
+        {
+            _zlSubCnt = 0;
+        }
 
-    // 	if (zlPullCnt2 > 3) then
-    // 		-- 力气达到最小值则停止助力
-    // 		if (torqueZl <= 1) then
-    // 			needChk = 0
-    // 			torqueZl = 1
-    // 			zlTrigger = 0
-    // 			if (zlTriggerLst == 1) then
-    // 				print("已经到达最低阻力，助力停止")
-    // 				zlTriggerLst = 0
-    // 			end
-    // 		end
+        if (_zlSubCnt == 1)
+        {
+            if (_zlSub)
+            {
+                _zlTrqBase = _zlTrqBase - _zlSubTrq;
+            }
+            else
+            {
+                _zlSub = true;
+                _zlTrqBase = _tension;
+            }
 
-    // 		--时间距离判断
-    // 		zLDist = State_CurrentReleasedLengthOfLine() - _origin_distance
-    // 		if (zlTimCnt > zlTimBase) then
-    // 			if (zLDist < zlDistBase and needChk == 1) then
-    // 				zlTrigger = 1
-    // 				if (zlTriggerLst == 0) then
-    // 					print("当前长度：", zLDist, "当前时间：", zlTimCnt)
-    // 					print("触发助力")
-    // 					zlTriggerLst = 1
-    // 				end
-    // 			else
-    // 				needChk = 0
-    // 				zlTrigger = 0
-    // 				if (zlTriggerLst == 1) then
-    // 					print("长度达标，助力停止")
-    // 					zlTriggerLst = 0
-    // 				end
-    // 			end
-    // 		end
-
-    // 		zlTriggerLst = zlTrigger
-    // 	end
-
-    // 	if (zlTrigger == 1) then
-    // 		zlSubCnt = zlSubCnt + 1
-    // 	else
-    // 		zlSubCnt = 0
-    // 	end
-
-    // 	if (zlSubCnt == 1) then
-    // 		--首次助力
-    // 		if (zlSub == 1) then --上次助力未完成，直接切换至最新力气
-    // 			--计算减力基准值
-    // 			zlTrqBase = zlTrqBase - zlSubTrq
-    // 		else
-    // 			zlSub = 1
-    // 			--计算减力基准值
-    // 			zlTrqBase = torqueZl
-    // 		end
-    // 		zlSubTrqCnt = 0
-    // 		print("首次助力，当前公斤数：", (zlTrqBase * 5 + 15) / 10)
-    // 		zlSubTrq = CalSubKg(torqueZl)
-    // 		torqueZlOut = zlTrqBase - zlSubTrq
-    // 		print("zlSubTrq:", zlSubTrq)
-    // 	end
-
-    // 	if (zlSub == 1) then
-    // 		zlSubTrqCnt = zlSubTrqCnt + 1
-    // 		torqueZl = zlTrqBase - zlSubTrq * (zlSubTrqCnt / 1500)
-    // 		if (zlSubTrqCnt >= 1500) then
-    // 			zlSub = 0
-    // 			zlSubTrqCnt = 0
-    // 			if (zlTrigger == 1) then
-    // 				zlSub = 1
-    // 				zlTrqBase = torqueZl
-    // 				print("二次助力，当前公斤数：", (zlTrqBase * 5 + 15) / 10)
-    // 				zlSubTrq = CalSubKg(torqueZl)
-    // 				torqueZlOut = zlTrqBase - zlSubTrq
-    // 				--print("zlSubTrq:",zlSubTrq)
-    // 			end
-    // 		end
-    // 	end
-
-    // 	if (torqueZlOut < 1) then
-    // 		torqueZlOut = 1
-    // 	end
-
-    // 	Tension_kg_LinearInterpolator_ChangeTensionEndValue(torqueZl)
-    // end
+            _zlSubTrqCnt = 0;
+        }
+    }
 }
 
 double AssistanceMode::CalSubKg(double base_kg)
