@@ -35,7 +35,74 @@ void BurnOutMode::OnFromUnwindingToWinding()
     }
     else
     {
+        double ratio = PullLengthDetecter::Instance().PullLength() / _last_pull_length;
+        if (_changing)
+        {
+            ratio = 1;
+        }
+
+        double pt = 0;
+        if (ratio < 0.7)
+        {
+            pt = _tension * PullLengthDetecter::Instance().PullLength() / _burn_out_tick * ratio;
+        }
+        else
+        {
+            pt = _tension * PullLengthDetecter::Instance().PullLength() / _burn_out_tick;
+        }
+
+        double pe_ratio = (pt - _burn_out_power) / _burn_out_power;
+        double set_kg = _tension * 5 + 15;
+        int chg_kg = (set_kg - 1) / 100;
+
+        if (_changing)
+        {
+            _burn_out_power = pt;
+            _changing = false;
+        }
+        else
+        {
+            if (pe_ratio > 0.2 && pe_ratio < 0.5)
+            {
+                _tension = set_kg + chg_kg * 10 + 10;
+                _changing = true;
+            }
+            else if (pe_ratio > 0.5)
+            {
+
+                _tension = set_kg + chg_kg * 10 + 20;
+                _changing = true;
+            }
+            else if (pe_ratio < -0.2 && pe_ratio > -0.5)
+            {
+                _tension = set_kg - chg_kg * 10 - 10;
+                _changing = true;
+            }
+            else if (pe_ratio < -0.5)
+            {
+                _tension = set_kg - chg_kg * 10 - 20;
+                _changing = true;
+            }
+            else
+            {
+                _tension = set_kg;
+            }
+
+            if (_tension < 20)
+            {
+                _tension = 20;
+            }
+            else if (_tension > Option::Instance().MaxTension_kg())
+            {
+                _tension = Option::Instance().MaxTension_kg();
+            }
+
+            _tension = (_tension - 15) / 5;
+        }
     }
+
+    TensionLinearInterpolator::Instance().ChangeEndValue(_tension);
+    _burn_out_tick = 0;
 }
 
 void BurnOutMode::Execute()
@@ -45,6 +112,7 @@ void BurnOutMode::Execute()
     if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
     {
         TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
+        _tension = Option::Instance().Tension_kg();
     }
 
     if (Servo::Instance().FeedbackSpeed() > 10)
@@ -57,4 +125,9 @@ void BurnOutMode::Execute()
         // 从放线变成收线
         OnFromUnwindingToWinding();
     }
+
+    DD(8, (_tension * 5 + 15));
+    double tension = TensionLinearInterpolator::Instance().StepForward();
+    double torque = tension * Option::Instance().TorqueRatio();
+    Cmd::Instance().SetTorque(torque);
 }
