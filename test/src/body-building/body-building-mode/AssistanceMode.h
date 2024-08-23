@@ -11,7 +11,7 @@ private:
     double _tension = 0;
 
     void OnFromUnwindingToWinding();
-    void OnFromWindingToWinding();
+    void OnFromWindingToUnwinding();
     double CalSubKg(double base_kg);
 
 public:
