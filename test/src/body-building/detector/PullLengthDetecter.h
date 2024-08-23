@@ -6,8 +6,8 @@ class PullLengthDetecter
 private:
     PullLengthDetecter() = default;
 
-    int _min_length = 0;
-    int _max_length = 0;
+    int _starting_point = 0;
+    int _end_point = 0;
     bool _has_effective_unwinding = false;
     bool _has_effective_winding = false;
 
@@ -24,7 +24,7 @@ public:
     /// @return
     int PullLength()
     {
-        int length = _max_length - _min_length;
+        int length = _end_point - _starting_point;
         if (length < 0)
         {
             length = 0;
