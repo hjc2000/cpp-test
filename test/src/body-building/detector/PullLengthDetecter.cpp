@@ -22,7 +22,7 @@ void PullLengthDetecter::Execute()
         _has_effective_unwinding = false;
 
         // 方向切换瞬间的绳长就是本轮拉绳的最大长度
-        _end_point = DirectionDetector::Instance().ReleasedLengthOfLineWhenDirectionChanged();
+        _pull_length = DirectionDetector::Instance().ReleasedLengthOfLineWhenDirectionChanged() - _starting_point;
     }
     else if (_has_effective_winding &&
              DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromWindingToUnwinding)
@@ -30,6 +30,7 @@ void PullLengthDetecter::Execute()
         // 经历了有效收线，现在方向变成放线了
         _has_effective_winding = false;
         _starting_point = DirectionDetector::Instance().ReleasedLengthOfLineWhenDirectionChanged();
-        _end_point = _starting_point;
+        _last_pull_length = _pull_length;
+        _pull_length = 0;
     }
 }

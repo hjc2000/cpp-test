@@ -7,7 +7,8 @@ private:
     PullLengthDetecter() = default;
 
     int _starting_point = 0;
-    int _end_point = 0;
+    int _pull_length = 0;
+    int _last_pull_length = 0;
     bool _has_effective_unwinding = false;
     bool _has_effective_winding = false;
 
@@ -24,12 +25,13 @@ public:
     /// @return
     int PullLength()
     {
-        int length = _end_point - _starting_point;
-        if (length < 0)
-        {
-            length = 0;
-        }
+        return _pull_length;
+    }
 
-        return length;
+    /// @brief 上一轮绳子被拉出的长度
+    /// @return
+    int LastPullLength()
+    {
+        return _last_pull_length;
     }
 };
