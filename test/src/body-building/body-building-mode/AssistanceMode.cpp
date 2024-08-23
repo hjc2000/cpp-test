@@ -13,32 +13,27 @@
 
 void AssistanceMode::OnFromUnwindingToWinding()
 {
-    // 	zlPullCnt = zlPullCnt + 1
-    // 	--print("助力次数：", zlPullCnt,"--------------------------------")
-    // 	if (zlPullCnt < 2) then
-    // 		zlSub = 0
-    // 		zlTrigger = 0
-    // 		torqueZl = Option_Current_Tension_kg()
-    // 		torqueZlOut = torqueZl
-    // 	elseif (zlPullCnt == 2) then
-    // 		zlDist1 = pull_distance
-    // 		zlTim1 = _burn_out_ticks
-    // 		print("拉出长度：", pull_distance, "拉出时间:", _burn_out_ticks)
-    // 	elseif (zlPullCnt == 3) then
-    // 		zlDist2 = pull_distance
-    // 		zlTim2 = _burn_out_ticks
-    // 		zlDistBase = (zlDist1 + zlDist2) / 2 * 0.9
-    // 		zlTimBase = (zlTim1 + zlTim2) / 2 + 500
-    // 		print("拉出长度：", pull_distance, "拉出时间:", _burn_out_ticks)
-    // 		print("长度基准：", zlDistBase, "时间基准", zlTimBase)
-    // 	end
-    // end
+    if (PullTimesDetector::Instance().UnwindingTimes() < 2)
+    {
+        _zlSub = false;
+        _zlTrigger = false;
+        _tension = Option::Instance().Tension_kg();
+    }
+    else if (PullTimesDetector::Instance().UnwindingTimes() == 2)
+    {
+        _zlDist1 = PullLengthDetecter::Instance().PullLength();
+        _zlTim1 = _unwinding_tick;
+    }
+    else if (PullTimesDetector::Instance().UnwindingTimes() == 3)
+    {
+        _zlDist2 = PullLengthDetecter::Instance().PullLength();
+        _zlTim2 = _unwinding_tick;
+        _zlDistBase = (_zlDist1 + _zlDist2) / 2 * 0.9;
+        _zlTimBase = (_zlTim1 + _zlTim2) / 2 + 500;
+    }
 
-    // zlTrigger = 0
-    // needChk = 0
-    // if (zlTriggerLst == 1) then
-    // 	print("开始回绳助力停止")
-    // end
+    _zlTrigger = false;
+    _needChk = false;
 }
 
 void AssistanceMode::OnFromWindingToUnwinding()
@@ -160,10 +155,13 @@ void AssistanceMode::Execute()
 {
     Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
 
-    if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
+    if (Option::Instance().BodyBuildingModeChanged())
     {
         TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
         PullTimesDetector::Instance().Reset();
+        _zlSub = false;
+        _tension = Option::Instance().Tension_kg();
+        _zlTrigger = false;
     }
 
     if (Servo::Instance().FeedbackSpeed() > 10)

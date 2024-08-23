@@ -108,7 +108,7 @@ void BurnOutMode::Execute()
 {
     Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
 
-    if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
+    if (Option::Instance().BodyBuildingModeChanged())
     {
         TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
         PullTimesDetector::Instance().Reset();
