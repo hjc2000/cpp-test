@@ -16,20 +16,20 @@ void PullLengthDetecter::Execute()
     }
 
     if (_has_effective_unwinding &&
-        DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromUnwindingToWinding)
+        DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
         // 经历了有效出绳，且现在方向从出绳变成收绳了
         _has_effective_unwinding = false;
 
         // 方向切换瞬间的绳长就是本轮拉绳的最大长度
-        _pull_length = DirectionDetector::Instance().ReleasedLengthOfLineWhenDirectionChanged() - _starting_point;
+        _pull_length = DirectionDetector::Instance().TurningPoint() - _starting_point;
     }
     else if (_has_effective_winding &&
-             DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromWindingToUnwinding)
+             DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
     {
         // 经历了有效收线，现在方向变成放线了
         _has_effective_winding = false;
-        _starting_point = DirectionDetector::Instance().ReleasedLengthOfLineWhenDirectionChanged();
+        _starting_point = DirectionDetector::Instance().TurningPoint();
         _last_pull_length = _pull_length;
         _pull_length = 0;
     }

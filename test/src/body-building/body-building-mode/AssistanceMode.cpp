@@ -137,7 +137,7 @@ void AssistanceMode::Execute()
         _has_effective_winding = true;
     }
 
-    if (DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromUnwindingToWinding)
+    if (DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
         // 从放线变成收线
         if (_has_effective_unwinding)
@@ -146,7 +146,7 @@ void AssistanceMode::Execute()
             OnFromUnwindingToWinding();
         }
     }
-    else if (DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromWindingToUnwinding)
+    else if (DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
     {
         // 从收线变成放线
         if (_has_effective_winding)

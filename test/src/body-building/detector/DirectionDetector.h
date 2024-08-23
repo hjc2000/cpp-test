@@ -1,25 +1,5 @@
 #pragma once
-
-enum class DirectionDetector_DirectionChange
-{
-    /// @brief 没有变化
-    None,
-
-    /// @brief 从收线到放线
-    FromWindingToUnwinding,
-
-    /// @brief 从放线到收线
-    FromUnwindingToWinding,
-};
-
-enum class DirectionDetector_Direction
-{
-    /// @brief 收线
-    Winding,
-
-    /// @brief 放线
-    Unwinding,
-};
+#include <base/math/DirectionDetecter.h>
 
 /// @brief 方向检测器
 class DirectionDetector
@@ -27,10 +7,12 @@ class DirectionDetector
 private:
     DirectionDetector() = default;
 
-    DirectionDetector_Direction _current_direction = DirectionDetector_Direction::Winding;
-    DirectionDetector_Direction _last_direction = DirectionDetector_Direction::Winding;
-    int _last_released_length_of_line = 0;
-    int _released_length_of_line_when_direction_change = 0;
+    base::DirectionDetecter _detecter{
+        base::DirectionDetecter_RisingThreshold{20},
+        base::DirectionDetecter_FallenThreshold{-20},
+        base::DirectionDetecter_Direction::Falling,
+        0,
+    };
 
 public:
     static DirectionDetector &Instance()
@@ -41,22 +23,13 @@ public:
 
     void Execute();
 
-    DirectionDetector_Direction CurrentDirection() const
+    int64_t TurningPoint() const
     {
-        return _current_direction;
+        return _detecter.TurningPoint();
     }
 
-    DirectionDetector_Direction LastDirection() const
+    base::DirectionDetecter_DirectionChange DirectionChange() const
     {
-        return _last_direction;
-    }
-
-    DirectionDetector_DirectionChange DirectionChange() const;
-
-    /// @brief 最近一次发生方向切换的瞬间的放线长度。
-    /// @return
-    int ReleasedLengthOfLineWhenDirectionChanged() const
-    {
-        return _released_length_of_line_when_direction_change;
+        return _detecter.DirectionChange();
     }
 };
