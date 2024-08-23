@@ -47,14 +47,12 @@ void IntelligentMode::Execute()
     double torque = _filter->CurrentOutput();
     if (torque < 10)
     {
-        Cmd::Instance().SetTorque(10);
+        torque = 10;
     }
     else if (torque > Option::Instance().MaxTorque())
     {
-        Cmd::Instance().SetTorque(Option::Instance().MaxTorque());
+        torque = Option::Instance().MaxTorque();
     }
-    else
-    {
-        Cmd::Instance().SetTorque(torque);
-    }
+
+    Cmd::Instance().SetTorque(torque);
 }
