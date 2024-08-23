@@ -24,14 +24,14 @@ void BurnOutMode::OnFromUnwindingToWinding()
     else if (PullTimesDetector::Instance().UnwindingTimes() == 2)
     {
         _tension = Option::Instance().Tension_kg();
-        _t2 = _tension * PullLengthDetecter::Instance().PullLength() / _burn_out_tick;
+        _t2 = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick;
         _last_pull_length = PullLengthDetecter::Instance().PullLength();
     }
     else if (PullTimesDetector::Instance().UnwindingTimes() == 3)
     {
         _last_pull_length = (_last_pull_length + PullLengthDetecter::Instance().PullLength()) / 2;
-        _t3 = _tension * PullLengthDetecter::Instance().PullLength() / _burn_out_tick;
-        _burn_out_power = (_t2 + _t3) / 2;
+        _t3 = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick;
+        _power = (_t2 + _t3) / 2;
     }
     else
     {
@@ -44,20 +44,20 @@ void BurnOutMode::OnFromUnwindingToWinding()
         double pt = 0;
         if (ratio < 0.7)
         {
-            pt = _tension * PullLengthDetecter::Instance().PullLength() / _burn_out_tick * ratio;
+            pt = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick * ratio;
         }
         else
         {
-            pt = _tension * PullLengthDetecter::Instance().PullLength() / _burn_out_tick;
+            pt = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick;
         }
 
-        double pe_ratio = (pt - _burn_out_power) / _burn_out_power;
+        double pe_ratio = (pt - _power) / _power;
         double set_kg = _tension * 5 + 15;
         int chg_kg = (set_kg - 1) / 100;
 
         if (_changing)
         {
-            _burn_out_power = pt;
+            _power = pt;
             _changing = false;
         }
         else
@@ -102,7 +102,7 @@ void BurnOutMode::OnFromUnwindingToWinding()
     }
 
     TensionLinearInterpolator::Instance().ChangeEndValue(_tension);
-    _burn_out_tick = 0;
+    _unwinding_tick = 0;
 }
 
 void BurnOutMode::Execute()
@@ -112,12 +112,13 @@ void BurnOutMode::Execute()
     if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
     {
         TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
+        PullTimesDetector::Instance().Reset();
         _tension = Option::Instance().Tension_kg();
     }
 
     if (Servo::Instance().FeedbackSpeed() > 10)
     {
-        _burn_out_tick++;
+        _unwinding_tick++;
     }
 
     if (DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromUnwindingToWinding)
