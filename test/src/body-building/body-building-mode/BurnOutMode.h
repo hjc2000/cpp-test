@@ -12,6 +12,7 @@ private:
     double _tension = 0;
     int _last_pull_length = 0;
     double _power = 0;
+    bool _has_effective_unwinding = false;
 
     void OnFromUnwindingToWinding();
 

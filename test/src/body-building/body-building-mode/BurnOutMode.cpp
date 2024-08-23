@@ -120,10 +120,20 @@ void BurnOutMode::Execute()
         _unwinding_tick++;
     }
 
+    if (PullTimesDetector::Instance().UnwindingTimesChanged())
+    {
+        // 经过了有效放线s
+        _has_effective_unwinding = true;
+    }
+
     if (DirectionDetector::Instance().DirectionChange() == DirectionDetector_DirectionChange::FromUnwindingToWinding)
     {
         // 从放线变成收线
-        OnFromUnwindingToWinding();
+        if (_has_effective_unwinding)
+        {
+            _has_effective_unwinding = false;
+            OnFromUnwindingToWinding();
+        }
     }
 
     DD(8, (_tension * 5 + 15));
