@@ -5,6 +5,7 @@
 #include <DirectionDetector.h>
 #include <ModeSelector.h>
 #include <Option.h>
+#include <PullLengthDetecter.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <SleepControler.h>
@@ -54,6 +55,7 @@ void main_handle()
 
             DirectionDetector::Instance().Execute();
             PullTimesDetector::Instance().Execute();
+            PullLengthDetecter::Instance().Execute();
 
             ModeSelector::Instance().Execute();
             SleepControler::Instance().Execute();

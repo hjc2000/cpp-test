@@ -35,4 +35,11 @@ public:
     {
         return _unwinding_times;
     }
+
+    /// @brief 重置拉绳次数检测器。会重置出绳次数和收绳次数。
+    void Reset()
+    {
+        _winding_times = 0;
+        _unwinding_times = 0;
+    }
 };
