@@ -156,7 +156,7 @@ std::shared_ptr<base::InertialElement> ConstantSpeedMode::CreateFilter()
 
 void ConstantSpeedMode::Execute()
 {
-    if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
+    if (Option::Instance().BodyBuildingModeChanged())
     {
         _filter = CreateFilter();
     }
@@ -170,7 +170,7 @@ void ConstantSpeedMode::Execute()
             torque = SpeedLimit();
         }
 
-        torque = std::pow(torque, 4) * std::pow(SpeedLimit(), 4);
+        torque = std::pow(torque, 4) / std::pow(SpeedLimit(), 4) * 180;
         if (torque < 5)
         {
             torque = 5;
