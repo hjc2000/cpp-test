@@ -69,7 +69,6 @@ void BurnOutMode::OnFromUnwindingToWinding()
             }
             else if (pe_ratio > 0.5)
             {
-
                 _tension = set_kg + chg_kg * 10 + 20;
                 _changing = true;
             }
