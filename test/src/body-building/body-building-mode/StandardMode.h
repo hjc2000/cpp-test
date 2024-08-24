@@ -25,22 +25,7 @@ private:
 
 public:
     StandardMode(std::shared_ptr<Cmd> cmd,
-                 std::shared_ptr<IStandardMode_RequiredInformationGetter> infos)
-    {
-        _cmd = cmd;
-        _infos = infos;
-
-        _current_tension_kg = _infos->Tension_kg();
-        _last_tension_kg = _infos->Tension_kg();
-
-        _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
-            new base::LinearInterpolator{
-                base::LinearInterpolator_StartVlaue{0},
-                base::LinearInterpolator_EndVlaue{_infos->Tension_kg()},
-                base::LinearInterpolator_StepLength{0.03},
-            },
-        };
-    }
+                 std::shared_ptr<IStandardMode_RequiredInformationGetter> infos);
 
     void Execute();
 };
