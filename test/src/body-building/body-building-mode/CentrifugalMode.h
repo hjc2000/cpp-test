@@ -7,7 +7,8 @@
 #include <Option.h>
 
 /// @brief 离心模式
-class CentrifugalMode : public base::IExecutable
+class CentrifugalMode :
+    public base::IExecutable
 {
 private:
     /// @brief 大于 1 的值。
@@ -34,5 +35,10 @@ private:
     };
 
 public:
+    CentrifugalMode(std::shared_ptr<Cmd> cmd)
+    {
+        _cmd = cmd;
+    }
+
     void Execute();
 };

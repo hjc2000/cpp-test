@@ -28,22 +28,22 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::IntelligentMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new IntelligentMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new IntelligentMode{_cmd}};
             break;
         }
     case Option_BodyBuildingMode::CentripetalMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentripetalMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentripetalMode{_cmd}};
             break;
         }
     case Option_BodyBuildingMode::CentrifugalMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentrifugalMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentrifugalMode{_cmd}};
             break;
         }
     case Option_BodyBuildingMode::SpringMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new SpringMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new SpringMode{_cmd}};
             break;
         }
     default:
@@ -56,37 +56,37 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::ConstantSpeedMode1:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{0}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{0, _cmd}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode2:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{1}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{1, _cmd}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode3:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{2}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{2, _cmd}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode4:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{3}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{3, _cmd}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode5:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{4}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{4, _cmd}};
             break;
         }
     case Option_BodyBuildingMode::BurnOutMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new BurnOutMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new BurnOutMode{_cmd}};
             break;
         }
     case Option_BodyBuildingMode::AssistanceMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new AssistanceMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new AssistanceMode{_cmd}};
             break;
         }
     }

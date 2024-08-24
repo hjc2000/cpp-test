@@ -8,7 +8,8 @@
 #include <memory>
 #include <Option.h>
 
-class IntelligentMode : public base::IExecutable
+class IntelligentMode :
+    public base::IExecutable
 {
 private:
     double k()
@@ -40,5 +41,10 @@ private:
     };
 
 public:
+    IntelligentMode(std::shared_ptr<Cmd> cmd)
+    {
+        _cmd = cmd;
+    }
+
     void Execute();
 };

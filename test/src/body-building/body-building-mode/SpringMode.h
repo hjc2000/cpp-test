@@ -7,7 +7,8 @@
 #include <Option.h>
 
 /// @brief 弹簧模式
-class SpringMode : public base::IExecutable
+class SpringMode :
+    public base::IExecutable
 {
 private:
     /// @brief 放线 1m 对应的伺服反馈位置。
@@ -40,5 +41,10 @@ private:
     std::shared_ptr<Cmd> _cmd;
 
 public:
+    SpringMode(std::shared_ptr<Cmd> cmd)
+    {
+        _cmd = cmd;
+    }
+
     void Execute();
 };

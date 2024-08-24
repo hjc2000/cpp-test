@@ -45,9 +45,10 @@ private:
     };
 
 public:
-    ConstantSpeedMode(int sub_mod)
+    ConstantSpeedMode(int sub_mod, std::shared_ptr<Cmd> cmd)
     {
         _sub_mode = sub_mod;
+        _cmd = cmd;
     }
 
     void Execute();

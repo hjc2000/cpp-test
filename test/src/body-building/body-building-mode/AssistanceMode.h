@@ -34,5 +34,10 @@ private:
     double CalSubKg(double base_kg);
 
 public:
+    AssistanceMode(std::shared_ptr<Cmd> cmd)
+    {
+        _cmd = cmd;
+    }
+
     void Execute() override;
 };

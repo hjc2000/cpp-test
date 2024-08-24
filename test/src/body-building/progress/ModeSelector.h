@@ -3,7 +3,8 @@
 #include <Cmd.h>
 #include <memory>
 
-class ModeSelector : public base::IExecutable
+class ModeSelector :
+    public base::IExecutable
 {
 private:
     std::shared_ptr<base::IExecutable> _body_building_executable;
@@ -13,10 +14,9 @@ private:
     void CreateBodyBuildingModeExecutable();
 
 public:
-    static ModeSelector &Instance()
+    ModeSelector(std::shared_ptr<Cmd> cmd)
     {
-        static ModeSelector o;
-        return o;
+        _cmd = cmd;
     }
 
     void Execute();

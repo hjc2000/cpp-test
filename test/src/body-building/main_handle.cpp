@@ -45,6 +45,7 @@ void main_handle()
     };
 
     std::shared_ptr<Cmd> cmd{new Cmd{}};
+    ModeSelector mod_selector{cmd};
 
     while (true)
     {
@@ -58,7 +59,7 @@ void main_handle()
             PullTimesDetector::Instance().Execute();
             PullLengthDetecter::Instance().Execute();
 
-            ModeSelector::Instance().Execute();
+            mod_selector.Execute();
             SleepControler::Instance().Execute();
             RecodeStatus();
             cmd->SendToServo();

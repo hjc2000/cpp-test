@@ -8,7 +8,8 @@
 #include <Option.h>
 
 /// @brief 向心模式
-class CentripetalMode : public base::IExecutable
+class CentripetalMode :
+    public base::IExecutable
 {
 private:
     /// @brief 大于 1 的值。
@@ -35,5 +36,10 @@ private:
     };
 
 public:
+    CentripetalMode(std::shared_ptr<Cmd> cmd)
+    {
+        _cmd = cmd;
+    }
+
     void Execute();
 };

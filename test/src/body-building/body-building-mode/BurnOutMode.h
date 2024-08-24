@@ -36,5 +36,10 @@ private:
     void OnFromUnwindingToWinding();
 
 public:
+    BurnOutMode(std::shared_ptr<Cmd> cmd)
+    {
+        _cmd = cmd;
+    }
+
     void Execute();
 };
