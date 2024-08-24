@@ -1,6 +1,4 @@
 #include "StandardMode.h"
-#include <Cmd.h>
-#include <Option.h>
 #include <Servo.h>
 
 void StandardMode::Execute()
@@ -19,6 +17,6 @@ void StandardMode::Execute()
         tension = 4;
     }
 
-    int torque = tension * Option::Instance().TorqueRatio();
+    int torque = tension * _infos->TorqueRatio();
     _cmd->SetTorque(torque);
 }

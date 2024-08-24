@@ -2,7 +2,7 @@
 #include <base/IExecutable.h>
 #include <base/math/LinearInterpolator.h>
 #include <Cmd.h>
-#include <Option.h>
+#include <memory>
 
 /// @brief 信息获取器。其中的信息应该是实时更新的。
 class IStandardMode_RequiredInformationGetter
@@ -10,6 +10,7 @@ class IStandardMode_RequiredInformationGetter
 public:
     virtual double Tension_kg() = 0;
     virtual double WindingSpeed_rpm() = 0;
+    virtual double TorqueRatio() = 0;
 };
 
 class StandardMode :

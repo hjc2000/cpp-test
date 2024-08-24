@@ -36,6 +36,11 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
                 {
                     return Option::Instance().WindingSpeed();
                 }
+
+                double TorqueRatio() override
+                {
+                    return Option::Instance().TorqueRatio();
+                }
             };
 
             _body_building_executable = std::shared_ptr<base::IExecutable>{
