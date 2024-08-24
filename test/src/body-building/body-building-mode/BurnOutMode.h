@@ -2,6 +2,8 @@
 #include <base/IExecutable.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/math/LinearInterpolator.h>
+#include <Cmd.h>
+#include <memory>
 #include <Option.h>
 
 class BurnOutMode :
@@ -16,6 +18,7 @@ private:
     int _last_pull_length = 0;
     double _power = 0;
     bool _has_effective_unwinding = false;
+    std::shared_ptr<Cmd> _cmd;
 
     base::DirectionDetecter _direction_detecter{
         base::DirectionDetecter_RisingThreshold{20},

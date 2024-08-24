@@ -13,8 +13,8 @@ void CalibrateZeroPointMode::Execute()
     }
 
     _progress = 1;
-    Cmd::Instance().SetSpeed(Option::Instance().ReturnToZeroSpeed());
-    Cmd::Instance().SetTorque(Option::Instance().ReturnToZeroTorque());
+    _cmd->SetSpeed(Option::Instance().ReturnToZeroSpeed());
+    _cmd->SetTorque(Option::Instance().ReturnToZeroTorque());
 
     if (std::abs(Servo::Instance().FeedbackSpeed()) < 20)
     {
@@ -22,9 +22,9 @@ void CalibrateZeroPointMode::Execute()
         if (_zero_speed_holding_tick > 1000)
         {
             _zero_speed_holding_tick = 0;
-            Cmd::Instance().SetSpeed(0);
-            Cmd::Instance().SetTorque(0);
-            Cmd::Instance().SendToServo();
+            _cmd->SetSpeed(0);
+            _cmd->SetTorque(0);
+            _cmd->SendToServo();
             _is_completed = true;
             _progress = 2;
             Servo::Instance().SetCurrentPositonAsZeroPoint();

@@ -106,7 +106,7 @@ void BurnOutMode::OnFromUnwindingToWinding()
 void BurnOutMode::Execute()
 {
     _direction_detecter.Input(State::Instance().ReleasedLengthOfLine());
-    Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
+    _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged())
     {
@@ -139,5 +139,5 @@ void BurnOutMode::Execute()
     DD(8, (_tension * 5 + 15));
     double tension = ++_tension_linear_interpolator;
     double torque = tension * Option::Instance().TorqueRatio();
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

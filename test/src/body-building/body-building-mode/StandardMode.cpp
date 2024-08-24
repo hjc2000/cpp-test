@@ -5,7 +5,7 @@
 
 void StandardMode::Execute()
 {
-    Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
+    _cmd->SetSpeed(Option::Instance().WindingSpeed());
     if (Option::Instance().Tension_kg_Changed())
     {
         _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
@@ -18,5 +18,5 @@ void StandardMode::Execute()
     }
 
     int torque = tension * Option::Instance().TorqueRatio();
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

@@ -2,6 +2,7 @@
 #include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
 #include <base/math/LinearInterpolator.h>
+#include <Cmd.h>
 #include <memory>
 #include <Option.h>
 
@@ -35,6 +36,8 @@ private:
         base::LinearInterpolator_EndVlaue{Option::Instance().Tension_kg()},
         base::LinearInterpolator_StepLength{0.03},
     };
+
+    std::shared_ptr<Cmd> _cmd;
 
 public:
     void Execute();

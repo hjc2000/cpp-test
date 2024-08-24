@@ -4,18 +4,10 @@
 class Cmd
 {
 private:
-    Cmd() = default;
-
     int _torque = 0;
     double _speed = 0;
 
 public:
-    static Cmd &Instance()
-    {
-        static Cmd o;
-        return o;
-    }
-
     /// @brief 转矩。本属性最终会用来设置伺服的转矩限制值。
     /// @return
     int Torque() const;

@@ -35,12 +35,12 @@ void IntelligentMode::Execute()
         }
 
         _filter->Input(torque);
-        Cmd::Instance().SetSpeed(0);
+        _cmd->SetSpeed(0);
     }
     else
     {
         _filter->SetCurrentOutput(SRV_PARA(1, 34));
-        Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
+        _cmd->SetSpeed(Option::Instance().WindingSpeed());
     }
 
     double torque = _filter->CurrentOutput();
@@ -53,5 +53,5 @@ void IntelligentMode::Execute()
         torque = Option::Instance().MaxTorque();
     }
 
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

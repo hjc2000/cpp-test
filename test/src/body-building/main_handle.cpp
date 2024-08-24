@@ -44,6 +44,8 @@ void main_handle()
         }
     };
 
+    std::shared_ptr<Cmd> cmd{new Cmd{}};
+
     while (true)
     {
         if (true) // 假设已经检查定时时间到了
@@ -59,7 +61,7 @@ void main_handle()
             ModeSelector::Instance().Execute();
             SleepControler::Instance().Execute();
             RecodeStatus();
-            Cmd::Instance().SendToServo();
+            cmd->SendToServo();
         }
     }
 }

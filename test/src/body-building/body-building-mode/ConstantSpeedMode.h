@@ -2,7 +2,9 @@
 #include <base/IExecutable.h>
 #include <base/math/LinearInterpolator.h>
 #include <ChXFilter.h>
+#include <Cmd.h>
 #include <lua_api.h>
+#include <memory>
 #include <Option.h>
 
 class ConstantSpeedMode : public base::IExecutable
@@ -34,6 +36,7 @@ private:
 
     std::shared_ptr<base::InertialElement> _filter = CreateFilter();
     int _sub_mode = 0;
+    std::shared_ptr<Cmd> _cmd;
 
     base::LinearInterpolator _tension_linear_interpolator{
         base::LinearInterpolator_StartVlaue{0},

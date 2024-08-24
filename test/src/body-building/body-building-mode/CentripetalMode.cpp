@@ -5,7 +5,7 @@
 
 void CentripetalMode::Execute()
 {
-    Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
+    _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
     {
@@ -28,5 +28,5 @@ void CentripetalMode::Execute()
     }
 
     torque = _filter->Input(torque);
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

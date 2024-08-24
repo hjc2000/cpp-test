@@ -32,7 +32,7 @@ double AssistanceMode::CalSubKg(double base_kg)
 void AssistanceMode::Execute()
 {
     _direction_detecter.Input(State::Instance().ReleasedLengthOfLine());
-    Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
+    _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged())
     {
@@ -77,5 +77,5 @@ void AssistanceMode::Execute()
 
     DD(14, _tension * 5 + 15);
     double torque = _tension * Option::Instance().TorqueRatio();
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

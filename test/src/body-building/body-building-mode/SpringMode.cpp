@@ -5,7 +5,7 @@
 
 void SpringMode::Execute()
 {
-    Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
+    _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
     {
@@ -38,5 +38,5 @@ void SpringMode::Execute()
         torque = 5;
     }
 
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

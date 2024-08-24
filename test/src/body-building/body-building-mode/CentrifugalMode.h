@@ -2,6 +2,7 @@
 #include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
 #include <base/math/LinearInterpolator.h>
+#include <Cmd.h>
 #include <memory>
 #include <Option.h>
 
@@ -16,6 +17,8 @@ private:
     {
         return 2;
     }
+
+    std::shared_ptr<Cmd> _cmd;
 
     std::shared_ptr<base::InertialElement> _filter{
         new base::InertialElement{

@@ -179,12 +179,12 @@ void ConstantSpeedMode::Execute()
             torque = 180;
         }
 
-        Cmd::Instance().SetSpeed(0);
+        _cmd->SetSpeed(0);
     }
     else
     {
         torque = Torque();
-        Cmd::Instance().SetSpeed(WindingSpeed());
+        _cmd->SetSpeed(WindingSpeed());
     }
 
     torque = _filter->Input(torque);
@@ -197,5 +197,5 @@ void ConstantSpeedMode::Execute()
         torque = 150;
     }
 
-    Cmd::Instance().SetTorque(torque);
+    _cmd->SetTorque(torque);
 }

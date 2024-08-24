@@ -2,6 +2,8 @@
 #include <base/IExecutable.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/math/LinearInterpolator.h>
+#include <Cmd.h>
+#include <memory>
 #include <Option.h>
 
 class AssistanceMode :
@@ -12,6 +14,7 @@ private:
     double _tension = 0;
     bool _has_effective_unwinding = false;
     bool _has_effective_winding = false;
+    std::shared_ptr<Cmd> _cmd;
 
     base::DirectionDetecter _direction_detecter{
         base::DirectionDetecter_RisingThreshold{20},

@@ -23,7 +23,7 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
     {
     case Option_BodyBuildingMode::Standard:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new StandardMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new StandardMode{_cmd}};
             break;
         }
     case Option_BodyBuildingMode::IntelligentMode:
@@ -50,8 +50,8 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
     case Option_BodyBuildingMode::Standby:
         {
             _body_building_executable = nullptr;
-            Cmd::Instance().SetSpeed(0);
-            Cmd::Instance().SetTorque(0);
+            _cmd->SetSpeed(0);
+            _cmd->SetTorque(0);
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode1:

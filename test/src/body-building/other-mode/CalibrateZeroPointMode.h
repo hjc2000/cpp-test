@@ -1,15 +1,16 @@
 #pragma once
+#include <Cmd.h>
 #include <functional>
+#include <memory>
 
 /// @brief 零点校准模式
 class CalibrateZeroPointMode
 {
 private:
-    CalibrateZeroPointMode() = default;
-
     bool _is_completed = false;
     int _progress = 0;
     int _zero_speed_holding_tick = 0;
+    std::shared_ptr<Cmd> _cmd;
 
 public:
     static CalibrateZeroPointMode &Instance()
