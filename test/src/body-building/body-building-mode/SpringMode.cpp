@@ -1,7 +1,5 @@
 #include "SpringMode.h"
-#include <Cmd.h>
 #include <format>
-#include <thread>
 
 SpringMode::SpringMode(std::shared_ptr<Cmd> cmd,
                        std::shared_ptr<ISpringMode_InfomationGetter> infos)
@@ -134,6 +132,5 @@ void Test_SpringMode()
     {
         mode.Execute();
         std::cout << (*cmd) << std::endl;
-        // std::this_thread::sleep_for(std::chrono::milliseconds{10});
     }
 }

@@ -1,6 +1,4 @@
 #include "StandardMode.h"
-#include <Servo.h>
-#include <thread>
 
 StandardMode::StandardMode(std::shared_ptr<Cmd> cmd,
                            std::shared_ptr<IStandardMode_InformationGetter> infos)
@@ -72,6 +70,5 @@ void Test_StandardMode()
     {
         mode.Execute();
         std::cout << (*cmd) << std::endl;
-        // std::this_thread::sleep_for(std::chrono::milliseconds{10});
     }
 }

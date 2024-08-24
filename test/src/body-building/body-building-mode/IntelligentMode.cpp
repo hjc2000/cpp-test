@@ -6,16 +6,6 @@
 
 void IntelligentMode::Execute()
 {
-    if (Option::Instance().BodyBuildingModeChanged())
-    {
-        _filter = std::shared_ptr<base::InertialElement>{
-            new base::InertialElement{
-                _little_time_constant,
-                base::InertialElement_SampleInterval{0.002},
-            },
-        };
-    }
-
     if (Servo::Instance().FeedbackSpeed() > 10)
     {
         double feedback_speed = Servo::Instance().FeedbackSpeed();

@@ -23,7 +23,6 @@ private:
     }
 
     std::shared_ptr<Cmd> _cmd;
-
     base::InertialElement_TimeConstant const _little_time_constant{CalculateTimeConstant(5, 10000)};
     base::InertialElement_TimeConstant const _big_time_constant{CalculateTimeConstant(500, 10000)};
 
