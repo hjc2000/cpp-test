@@ -18,13 +18,14 @@ void StandardMode::Execute()
         tension = 4;
     }
 
-    int torque = tension * _infos->TorqueRatio();
+    double torque = tension * _infos->TorqueRatio();
     _cmd->SetTorque(torque);
 }
 
 void Test_StandardMode()
 {
-    class Getter : public IStandardMode_RequiredInformationGetter
+    class Getter :
+        public IStandardMode_RequiredInformationGetter
     {
     public:
         virtual double Tension_kg() override

@@ -2,12 +2,12 @@
 #include <math.h>
 #include <Servo.h>
 
-int Cmd::Torque() const
+double Cmd::Torque() const
 {
     return _torque;
 }
 
-void Cmd::SetTorque(int value)
+void Cmd::SetTorque(double value)
 {
     _torque = std::abs(value);
 }
