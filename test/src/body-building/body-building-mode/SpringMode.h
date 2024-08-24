@@ -6,6 +6,19 @@
 #include <memory>
 #include <Option.h>
 
+class ISpringMode_InfomationGetter
+{
+public:
+    virtual double Tension_kg() = 0;
+    virtual double TorqueRatio() = 0;
+    virtual int OneMeterPosition() = 0;
+    virtual int FeedbackPosition() = 0;
+
+    /// @brief 弹簧劲度系数。
+    /// @return
+    virtual double SpringRatio() = 0;
+};
+
 /// @brief 弹簧模式
 class SpringMode :
     public base::IExecutable
@@ -25,6 +38,10 @@ private:
         return 1.5;
     }
 
+    std::shared_ptr<Cmd> _cmd;
+    std::shared_ptr<ISpringMode_InfomationGetter> _infos;
+    std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
+
     std::shared_ptr<base::InertialElement> _filter{
         new base::InertialElement{
             base::InertialElement_TimeConstant{0.025},
@@ -32,19 +49,21 @@ private:
         },
     };
 
-    base::LinearInterpolator _tension_linear_interpolator{
-        base::LinearInterpolator_StartVlaue{0},
-        base::LinearInterpolator_EndVlaue{Option::Instance().Tension_kg()},
-        base::LinearInterpolator_StepLength{0.03},
-    };
-
-    std::shared_ptr<Cmd> _cmd;
-
 public:
-    SpringMode(std::shared_ptr<Cmd> cmd)
+    SpringMode(std::shared_ptr<Cmd> cmd,
+               std::shared_ptr<ISpringMode_InfomationGetter> infos)
     {
         _cmd = cmd;
+        _infos = infos;
+
+        _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
+            new base::LinearInterpolator{
+                base::LinearInterpolator_StartVlaue{0},
+                base::LinearInterpolator_EndVlaue{_infos->Tension_kg()},
+                base::LinearInterpolator_StepLength{0.03},
+            },
+        };
     }
 
-    void Execute();
+    void Execute() override;
 };

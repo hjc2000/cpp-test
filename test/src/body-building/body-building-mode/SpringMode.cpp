@@ -7,9 +7,9 @@ void SpringMode::Execute()
 {
     _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
-    if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
+    if (Option::Instance().Tension_kg_Changed())
     {
-        _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
+        _tension_linear_interpolator->SetEndValue(_infos->Tension_kg());
 
         _filter = std::shared_ptr<base::InertialElement>{
             new base::InertialElement{
@@ -19,7 +19,7 @@ void SpringMode::Execute()
         };
     }
 
-    double tension = ++_tension_linear_interpolator;
+    double tension = ++(*_tension_linear_interpolator);
     double torque = tension * Option::Instance().TorqueRatio();
 
     if (Servo::Instance().FeedbackPosition() < OneMeterPosition())

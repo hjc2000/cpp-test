@@ -24,7 +24,7 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
     case Option_BodyBuildingMode::Standard:
         {
             class InfoGetter :
-                public IStandardMode_RequiredInformationGetter
+                public IStandardMode_InformationGetter
             {
             public:
                 double Tension_kg() override
@@ -69,7 +69,44 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::SpringMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new SpringMode{_cmd}};
+            class Getter : public ISpringMode_InfomationGetter
+            {
+            public:
+                double Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double TorqueRatio() override
+                {
+                    return Option::Instance().TorqueRatio();
+                }
+
+                int OneMeterPosition() override
+                {
+                    return 1000;
+                }
+
+                int FeedbackPosition() override
+                {
+                    return 100;
+                }
+
+                /// @brief 弹簧劲度系数。
+                /// @return
+                virtual double SpringRatio() override
+                {
+                    return 1.5;
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new SpringMode{
+                    _cmd,
+                    std::shared_ptr<Getter>{new Getter},
+                },
+            };
+
             break;
         }
     default:

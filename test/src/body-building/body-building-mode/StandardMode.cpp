@@ -3,7 +3,7 @@
 #include <thread>
 
 StandardMode::StandardMode(std::shared_ptr<Cmd> cmd,
-                           std::shared_ptr<IStandardMode_RequiredInformationGetter> infos)
+                           std::shared_ptr<IStandardMode_InformationGetter> infos)
 {
     _cmd = cmd;
     _infos = infos;
@@ -43,7 +43,7 @@ void StandardMode::Execute()
 void Test_StandardMode()
 {
     class Getter :
-        public IStandardMode_RequiredInformationGetter
+        public IStandardMode_InformationGetter
     {
     public:
         virtual double Tension_kg() override
