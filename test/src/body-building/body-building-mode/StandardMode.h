@@ -44,3 +44,5 @@ public:
 
     void Execute();
 };
+
+void Test_StandardMode();

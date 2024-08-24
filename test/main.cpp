@@ -16,13 +16,16 @@
 #include <stdexcept>
 #include <test_tsduck.h>
 
+// 测试健身
+#include <StandardMode.h>
+
 using namespace std;
 
 int main(void)
 {
     try
     {
-        base::Test_ChXFilter();
+        Test_StandardMode();
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
         // test_AVPacketPlayer();

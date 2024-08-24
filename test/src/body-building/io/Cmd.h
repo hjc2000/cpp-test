@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 /// @brief 最终会发送给伺服的指令。
 class Cmd
@@ -27,3 +28,5 @@ public:
     /// @brief 将命令送给伺服。
     void SendToServo();
 };
+
+std::ostream &operator<<(std::ostream &os, Cmd const &cmd);

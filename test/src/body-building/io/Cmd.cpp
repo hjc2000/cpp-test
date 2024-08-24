@@ -27,3 +27,11 @@ void Cmd::SendToServo()
     Servo::Instance().SetTorqueLimit(Torque());
     Servo::Instance().SetSpeed(Speed());
 }
+
+std::ostream &operator<<(std::ostream &os, Cmd const &cmd)
+{
+    os << "速度：" << cmd.Speed() << "  "
+       << "转矩：" << cmd.Torque() << "  ";
+
+    return os;
+}
