@@ -14,86 +14,10 @@
 
 void AssistanceMode::OnFromUnwindingToWinding()
 {
-    if (PullTimesDetector::Instance().UnwindingTimes() < 2)
-    {
-        _zlSub = false;
-        _zlTrigger = false;
-        _tension = Option::Instance().Tension_kg();
-    }
-    else if (PullTimesDetector::Instance().UnwindingTimes() == 2)
-    {
-        _zlDist1 = PullLengthDetecter::Instance().PullLength();
-        _zlTim1 = _unwinding_tick;
-    }
-    else if (PullTimesDetector::Instance().UnwindingTimes() == 3)
-    {
-        _zlDist2 = PullLengthDetecter::Instance().PullLength();
-        _zlTim2 = _unwinding_tick;
-        _zlDistBase = (_zlDist1 + _zlDist2) / 2 * 0.9;
-        _zlTimBase = (_zlTim1 + _zlTim2) / 2 + 500;
-    }
-
-    _zlTrigger = false;
-    _needChk = false;
 }
 
 void AssistanceMode::OnFromWindingToUnwinding()
 {
-    _needChk = true;
-    if (Servo::Instance().FeedbackPosition() < Option::Instance().ZeroPositionProtectionThreshold())
-    {
-        if (_needChk && !State::Instance().IsTurningForward())
-        {
-            _needChk = 0;
-        }
-
-        if (PullTimesDetector::Instance().WindingTimes() > 3)
-        {
-            if (_tension <= 1)
-            {
-                _needChk = false;
-                _tension = 1;
-                _zlTrigger = false;
-            }
-
-            if (PullTimesDetector::Instance().UnwindingTimes() > _zlTimBase)
-            {
-                if (PullLengthDetecter::Instance().LastPullLength() < _zlTimBase && _needChk == 1)
-                {
-                    _zlTrigger = true;
-                }
-                else
-                {
-                    _needChk = false;
-                    _zlTrigger = false;
-                }
-            }
-        }
-
-        if (_zlTrigger)
-        {
-            _zlSubCnt++;
-        }
-        else
-        {
-            _zlSubCnt = 0;
-        }
-
-        if (_zlSubCnt == 1)
-        {
-            if (_zlSub)
-            {
-                _zlTrqBase = _zlTrqBase - _zlSubTrq;
-            }
-            else
-            {
-                _zlSub = true;
-                _zlTrqBase = _tension;
-            }
-
-            _zlSubTrqCnt = 0;
-        }
-    }
 }
 
 double AssistanceMode::CalSubKg(double base_kg)
@@ -114,11 +38,8 @@ void AssistanceMode::Execute()
 
     if (Option::Instance().BodyBuildingModeChanged())
     {
-        TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
         PullTimesDetector::Instance().Reset();
-        _zlSub = false;
         _tension = Option::Instance().Tension_kg();
-        _zlTrigger = false;
     }
 
     if (Servo::Instance().FeedbackSpeed() > 10)
@@ -137,7 +58,7 @@ void AssistanceMode::Execute()
         _has_effective_winding = true;
     }
 
-    if (DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+    if (DI_DirectionDetecter().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
         // 从放线变成收线
         if (_has_effective_unwinding)
@@ -146,7 +67,7 @@ void AssistanceMode::Execute()
             OnFromUnwindingToWinding();
         }
     }
-    else if (DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
+    else if (DI_DirectionDetecter().DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
     {
         // 从收线变成放线
         if (_has_effective_winding)
@@ -157,7 +78,6 @@ void AssistanceMode::Execute()
     }
 
     DD(14, _tension * 5 + 15);
-    double tension = TensionLinearInterpolator::Instance().StepForward();
-    double torque = tension * Option::Instance().TorqueRatio();
+    double torque = _tension * Option::Instance().TorqueRatio();
     Cmd::Instance().SetTorque(torque);
 }

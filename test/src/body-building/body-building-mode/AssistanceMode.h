@@ -6,22 +6,9 @@ private:
     AssistanceMode() = default;
 
     int _unwinding_tick = 0;
-    int _zlTim1 = 0;
-    int _zlTim2 = 0;
-    int _zlTimBase = 0;
-    int _zlDistBase = 0;
+    double _tension = 0;
     bool _has_effective_unwinding = false;
     bool _has_effective_winding = false;
-    double _tension = 0;
-    bool _zlSub = false;
-    bool _zlTrigger = false;
-    int _zlDist1 = 0;
-    int _zlDist2 = 0;
-    bool _needChk = false;
-    int _zlSubCnt = 0;
-    double _zlTrqBase = 0;
-    double _zlSubTrq = 0;
-    double _zlSubTrqCnt = 0;
 
     void OnFromUnwindingToWinding();
     void OnFromWindingToUnwinding();

@@ -54,7 +54,7 @@ void main_handle()
 
             Refresh();
 
-            DirectionDetector::Instance().Execute();
+            DI_DirectionDetecter().Input(State::Instance().ReleasedLengthOfLine());
             PullTimesDetector::Instance().Execute();
             PullLengthDetecter::Instance().Execute();
 

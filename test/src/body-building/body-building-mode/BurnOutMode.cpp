@@ -126,7 +126,7 @@ void BurnOutMode::Execute()
         _has_effective_unwinding = true;
     }
 
-    if (DirectionDetector::Instance().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+    if (DI_DirectionDetecter().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
         // 从放线变成收线
         if (_has_effective_unwinding)

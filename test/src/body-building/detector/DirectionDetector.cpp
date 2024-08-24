@@ -1,7 +1,14 @@
 #include "DirectionDetector.h"
 #include <State.h>
 
-void DirectionDetector::Execute()
+base::DirectionDetecter &DI_DirectionDetecter()
 {
-    _detecter.Input(State::Instance().ReleasedLengthOfLine());
+    static base::DirectionDetecter detecter{
+        base::DirectionDetecter_RisingThreshold{20},
+        base::DirectionDetecter_FallenThreshold{-20},
+        base::DirectionDetecter_Direction::Falling,
+        0,
+    };
+
+    return detecter;
 }
