@@ -1,6 +1,8 @@
 #pragma once
 #include <base/IExecutable.h>
 #include <base/math/DirectionDetecter.h>
+#include <base/math/LinearInterpolator.h>
+#include <Option.h>
 
 class BurnOutMode :
     public base::IExecutable
@@ -20,6 +22,12 @@ private:
         base::DirectionDetecter_FallenThreshold{-20},
         base::DirectionDetecter_Direction::Falling,
         0,
+    };
+
+    base::LinearInterpolator _tension_linear_interpolator{
+        base::LinearInterpolator_StartVlaue{0},
+        base::LinearInterpolator_EndVlaue{Option::Instance().Tension_kg()},
+        base::LinearInterpolator_StepLength{0.03},
     };
 
     void OnFromUnwindingToWinding();

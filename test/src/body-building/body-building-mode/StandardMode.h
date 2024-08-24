@@ -8,9 +8,9 @@ class StandardMode :
 {
 private:
     base::LinearInterpolator _tension_linear_interpolator{
-        0,
-        Option::Instance().Tension_kg(),
-        base::LinearInterpolator_StepLength{1.5},
+        base::LinearInterpolator_StartVlaue{0},
+        base::LinearInterpolator_EndVlaue{Option::Instance().Tension_kg()},
+        base::LinearInterpolator_StepLength{0.03},
     };
 
 public:

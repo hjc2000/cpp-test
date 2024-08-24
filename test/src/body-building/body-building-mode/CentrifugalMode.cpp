@@ -2,7 +2,6 @@
 #include <Cmd.h>
 #include <Option.h>
 #include <Servo.h>
-#include <TensionLinearInterpolator.h>
 
 void CentrifugalMode::Execute()
 {
@@ -10,7 +9,7 @@ void CentrifugalMode::Execute()
 
     if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
     {
-        TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
+        _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
 
         _filter = std::shared_ptr<base::InertialElement>{
             new base::InertialElement{
@@ -20,7 +19,7 @@ void CentrifugalMode::Execute()
         };
     }
 
-    double tension = TensionLinearInterpolator::Instance().StepForward();
+    double tension = ++_tension_linear_interpolator;
     double torque = tension * Option::Instance().TorqueRatio();
 
     if (Servo::Instance().FeedbackSpeed() > -50)

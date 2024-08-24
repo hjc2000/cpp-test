@@ -4,12 +4,10 @@
 #include <Cmd.h>
 #include <lua_api.h>
 #include <memory>
-#include <Option.h>
 #include <PullLengthDetecter.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <State.h>
-#include <TensionLinearInterpolator.h>
 
 void AssistanceMode::OnFromUnwindingToWinding()
 {

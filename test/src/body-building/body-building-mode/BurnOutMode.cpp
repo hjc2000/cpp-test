@@ -9,7 +9,6 @@
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <State.h>
-#include <TensionLinearInterpolator.h>
 
 void BurnOutMode::OnFromUnwindingToWinding()
 {
@@ -100,7 +99,7 @@ void BurnOutMode::OnFromUnwindingToWinding()
         }
     }
 
-    TensionLinearInterpolator::Instance().ChangeEndValue(_tension);
+    _tension_linear_interpolator.SetEndValue(_tension);
     _unwinding_tick = 0;
 }
 
@@ -111,7 +110,7 @@ void BurnOutMode::Execute()
 
     if (Option::Instance().BodyBuildingModeChanged())
     {
-        TensionLinearInterpolator::Instance().ChangeEndValue(Option::Instance().Tension_kg());
+        _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
         PullTimesDetector::Instance().Reset();
         _tension = Option::Instance().Tension_kg();
     }
@@ -138,7 +137,7 @@ void BurnOutMode::Execute()
     }
 
     DD(8, (_tension * 5 + 15));
-    double tension = TensionLinearInterpolator::Instance().StepForward();
+    double tension = ++_tension_linear_interpolator;
     double torque = tension * Option::Instance().TorqueRatio();
     Cmd::Instance().SetTorque(torque);
 }

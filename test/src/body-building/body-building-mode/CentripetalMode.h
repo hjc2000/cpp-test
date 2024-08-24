@@ -1,8 +1,10 @@
 #pragma once
 #include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
+#include <base/math/LinearInterpolator.h>
 #include <lua_api.h>
 #include <memory>
+#include <Option.h>
 
 /// @brief 向心模式
 class CentripetalMode : public base::IExecutable
@@ -21,6 +23,12 @@ private:
             base::InertialElement_TimeConstant{0.025},
             base::InertialElement_SampleInterval{0.002},
         },
+    };
+
+    base::LinearInterpolator _tension_linear_interpolator{
+        base::LinearInterpolator_StartVlaue{0},
+        base::LinearInterpolator_EndVlaue{Option::Instance().Tension_kg()},
+        base::LinearInterpolator_StepLength{0.03},
     };
 
 public:

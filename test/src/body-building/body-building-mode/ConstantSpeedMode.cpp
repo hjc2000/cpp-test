@@ -3,7 +3,6 @@
 #include <Cmd.h>
 #include <Option.h>
 #include <Servo.h>
-#include <TensionLinearInterpolator.h>
 
 #pragma region 选项
 
