@@ -1,4 +1,5 @@
 #pragma once
+#include <lua_api.h>
 #include <stdint.h>
 #include <string>
 
@@ -89,9 +90,11 @@ public:
 
     void TurnOn()
     {
+        SRV_PARA(2, 76, 0, 0);
     }
 
     void TurnOff()
     {
+        SRV_PARA(2, 76, 1, 0);
     }
 };

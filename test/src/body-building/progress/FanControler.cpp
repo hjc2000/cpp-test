@@ -5,12 +5,12 @@
 
 std::chrono::seconds FanControler::TurnOnFanDelay()
 {
-    return std::chrono::seconds();
+    return std::chrono::seconds{SRV_PARA(3, 92)};
 }
 
 std::chrono::seconds FanControler::TurnOffFanDelay()
 {
-    return std::chrono::seconds();
+    return std::chrono::seconds{SRV_PARA(3, 93)};
 }
 
 int64_t FanControler::TurnOnDelayTick()

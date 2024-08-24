@@ -44,3 +44,11 @@ int SRV_MON(int index)
 void SRV_EI(int index, bool value)
 {
 }
+
+void AXIS_SPEED(double value)
+{
+}
+
+void DELAY(int ms)
+{
+}

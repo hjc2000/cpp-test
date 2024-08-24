@@ -24,6 +24,7 @@ void Refresh()
 
 void Initialize()
 {
+    Option::Instance().Clear_AdditionalMode();
     Servo::Instance().Use_PI_Control();
     ServoFan::Instance().TurnOff();
 }

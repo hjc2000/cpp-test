@@ -45,3 +45,7 @@ int SRV_MON(int index);
 /// @param index EI 的索引。例如 EI1 的索引是 1.
 /// @param value 要设置给 EI 的值。true 表示让 EI 开，false 表示让 EI 关。
 void SRV_EI(int index, bool value);
+
+void AXIS_SPEED(double value);
+
+void DELAY(int ms);

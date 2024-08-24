@@ -2,21 +2,23 @@
 
 void Servo::Disable()
 {
+    SRV_PARA(3, 25, 0, 0);
 }
 
 void Servo::Enable()
 {
+    SRV_PARA(3, 25, 1, 0);
 }
 
 int Servo::Version()
 {
-    return 20;
+    return SRV_PARA(3, 99);
 }
 
 void Servo::Refresh_FeedbackPosition()
 {
     _last_feedback_position = _feedback_position;
-    _feedback_position = 0; // 这里先赋值为 0，实际上是要从外界获取信息的
+    _feedback_position = SRV_MON(6);
 }
 
 int64_t Servo::FeedbackPosition()
@@ -31,45 +33,60 @@ int64_t Servo::LastFeedbackPosition()
 
 double Servo::FeedbackSpeed()
 {
-    return 0.0;
+    if (CounterClockwiseIsForward())
+    {
+        return SRV_MON(33);
+    }
+
+    return -SRV_MON(33);
 }
 
 bool Servo::CounterClockwiseIsForward()
 {
-    return true;
+    return SRV_PARA(1, 4) == 0;
 }
 
 void Servo::SetSpeed(double value)
 {
+    AXIS_SPEED(value);
 }
 
 int Servo::TorqueLimit()
 {
-    return 0;
+    // SRV_PARA(1, 27)
+    // SRV_PARA(1, 28)
+    return SRV_PARA(1, 27);
 }
 
 void Servo::SetTorqueLimit(int value)
 {
+    SRV_PARA(1, 27, value, 0);
+    SRV_PARA(1, 28, value, 0);
 }
 
 int Servo::OverloadForecast()
 {
-    return 0;
+    return SRV_MON(18);
 }
 
 int32_t Servo::CommandTorque()
 {
-    return 0;
+    return SRV_MON(2);
 }
 
 void Servo::Use_P_Control()
 {
+    SRV_EI(10, 1);
 }
 
 void Servo::Use_PI_Control()
 {
+    SRV_EI(10, 0);
 }
 
 void Servo::SetCurrentPositonAsZeroPoint()
 {
+    SRV_EI(9, 1);
+    DELAY(10);
+    SRV_EI(9, 0);
 }

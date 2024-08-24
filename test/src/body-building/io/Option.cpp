@@ -3,7 +3,8 @@
 void Option::Refresh_BodyBuildingMode()
 {
     _last_body_building_mode = _body_building_mode;
-    // _body_building_mode =
+    uint32_t mode_code = static_cast<uint32_t>(DD(0)) >> 16;
+    _body_building_mode = static_cast<Option_BodyBuildingMode>(mode_code);
 }
 
 Option_BodyBuildingMode Option::BodyBuildingMode()
@@ -21,10 +22,15 @@ bool Option::BodyBuildingModeChanged()
     return _body_building_mode != _last_body_building_mode;
 }
 
+void Option::Clear_AdditionalMode()
+{
+    DD(20, 0);
+}
+
 void Option::Refresh_AdditionalMode()
 {
     _last_additional_mode = _additional_mode;
-    // _additional_mode=
+    _additional_mode = static_cast<Option_AdditionalMode>(DD(20));
 }
 
 Option_AdditionalMode Option::AdditionalMode()
@@ -45,7 +51,7 @@ bool Option::AdditionalModeCodeChanged()
 void Option::Refresh_Tension_kg()
 {
     _last_tension_kg = _tension_kg;
-    // _tension_kg=
+    _tension_kg = static_cast<uint16_t>(DD(0));
 }
 
 double Option::Tension_kg()
@@ -70,47 +76,53 @@ double Option::MaxTension_kg()
 
 int Option::MinTorque()
 {
-    return 0;
+    return static_cast<double>(SRV_PARA(1, 29)) / 5;
 }
 
 int Option::MaxTorque()
 {
-    return 0;
+    return SRV_PARA(2, 69);
 }
 
 double Option::WindingSpeed()
 {
-    return 0.0;
+    return static_cast<double>(SRV_PARA(1, 41)) / 100;
 }
 
 double Option::TorqueRatio()
 {
-    return 1.85;
+    return static_cast<double>(SRV_PARA(1, 42)) / 100;
 }
 
 bool Option::UseGravitationPackage()
 {
-    return false;
+    return DD(13);
 }
 
 int Option::ZeroPositionProtectionThreshold()
 {
-    return 0;
+    return SRV_PARA(2, 14) * 30;
 }
 
-int Option::UpdateFrequencyOfMaxTorque_Hz()
+double Option::UpdateFrequencyOfMaxTorque_Hz()
 {
-    return 0;
+    double freq = static_cast<double>(DD(9)) / 10;
+    if (freq > 500 || freq < 0.1)
+    {
+        freq = 500;
+    }
+
+    return 500;
 }
 
 double Option::OverspeedDampingCoefficientThreshold()
 {
-    return 0.0;
+    return SRV_PARA(2, 33);
 }
 
 double Option::DampingCoefficientWhenOverspeeding()
 {
-    return 0.0;
+    return static_cast<double>(SRV_PARA(2, 34)) / 1000;
 }
 
 int Option::IntelligentModeTensionCompensation()

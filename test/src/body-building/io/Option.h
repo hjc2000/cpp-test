@@ -1,5 +1,7 @@
 #pragma once
 #include <chrono>
+#include <cmath>
+#include <lua_api.h>
 #include <stdint.h>
 
 /// @brief 健身模式
@@ -67,6 +69,7 @@ public:
     Option_BodyBuildingMode LastBodyBuildingMode();
     bool BodyBuildingModeChanged();
 
+    void Clear_AdditionalMode();
     void Refresh_AdditionalMode();
     Option_AdditionalMode AdditionalMode();
     Option_AdditionalMode LastAdditionalMode();
@@ -108,7 +111,7 @@ public:
 
     /// @brief 最大转矩的更新频率。
     /// @return
-    int UpdateFrequencyOfMaxTorque_Hz();
+    double UpdateFrequencyOfMaxTorque_Hz();
 
     /// @brief 阻尼阈值速度。超过后会遇到阻尼，速度越大阻力越大。
     /// @return
