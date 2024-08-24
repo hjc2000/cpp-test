@@ -17,6 +17,7 @@
 #include <test_tsduck.h>
 
 // 测试健身
+#include <SpringMode.h>
 #include <StandardMode.h>
 
 using namespace std;
@@ -25,7 +26,9 @@ int main(void)
 {
     try
     {
-        Test_StandardMode();
+        // Test_StandardMode();
+        Test_SpringMode();
+
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
         // test_AVPacketPlayer();

@@ -14,7 +14,7 @@ public:
     virtual double Option_WindingSpeed_rpm() = 0;
     virtual int Option_OneMeterPosition() = 0;
 
-    /// @brief 弹簧劲度系数。
+    /// @brief 弹簧劲度系数。每转一圈转矩要增大的百分比。
     /// @return
     virtual double Option_SpringRatio() = 0;
 
@@ -59,3 +59,5 @@ public:
 
     void Execute() override;
 };
+
+void Test_SpringMode();
