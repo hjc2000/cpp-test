@@ -8,13 +8,13 @@ StandardMode::StandardMode(std::shared_ptr<Cmd> cmd,
     _cmd = cmd;
     _infos = infos;
 
-    _current_tension_kg = _infos->Tension_kg();
-    _last_tension_kg = _infos->Tension_kg();
+    _current_tension_kg = _infos->Option_Tension_kg();
+    _last_tension_kg = _infos->Option_Tension_kg();
 
     _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
         new base::LinearInterpolator{
             base::LinearInterpolator_StartVlaue{0},
-            base::LinearInterpolator_EndVlaue{_infos->Tension_kg()},
+            base::LinearInterpolator_EndVlaue{_infos->Option_Tension_kg()},
             base::LinearInterpolator_StepLength{0.03},
         },
     };
@@ -22,8 +22,8 @@ StandardMode::StandardMode(std::shared_ptr<Cmd> cmd,
 
 void StandardMode::Execute()
 {
-    _cmd->SetSpeed(_infos->WindingSpeed_rpm());
-    _current_tension_kg = _infos->Tension_kg();
+    _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
+    _current_tension_kg = _infos->Option_Tension_kg();
     if (_last_tension_kg != _current_tension_kg)
     {
         _last_tension_kg = _current_tension_kg;
@@ -36,7 +36,7 @@ void StandardMode::Execute()
         tension = 4;
     }
 
-    double torque = tension * _infos->TorqueRatio();
+    double torque = tension * _infos->Option_TorqueRatio();
     _cmd->SetTorque(torque);
 }
 
@@ -46,17 +46,17 @@ void Test_StandardMode()
         public IStandardMode_InformationGetter
     {
     public:
-        virtual double Tension_kg() override
+        virtual double Option_Tension_kg() override
         {
             return 5;
         }
 
-        virtual double WindingSpeed_rpm() override
+        virtual double Option_WindingSpeed_rpm() override
         {
             return 20;
         }
 
-        virtual double TorqueRatio() override
+        virtual double Option_TorqueRatio() override
         {
             return 1.85;
         }

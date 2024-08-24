@@ -27,17 +27,17 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
                 public IStandardMode_InformationGetter
             {
             public:
-                double Tension_kg() override
+                double Option_Tension_kg() override
                 {
                     return Option::Instance().Tension_kg();
                 }
 
-                double WindingSpeed_rpm() override
+                double Option_WindingSpeed_rpm() override
                 {
                     return Option::Instance().WindingSpeed();
                 }
 
-                double TorqueRatio() override
+                double Option_TorqueRatio() override
                 {
                     return Option::Instance().TorqueRatio();
                 }
@@ -72,29 +72,34 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
             class Getter : public ISpringMode_InfomationGetter
             {
             public:
-                double Tension_kg() override
+                double Option_Tension_kg() override
                 {
                     return Option::Instance().Tension_kg();
                 }
 
-                double TorqueRatio() override
+                double Option_TorqueRatio() override
                 {
                     return Option::Instance().TorqueRatio();
                 }
 
-                int OneMeterPosition() override
+                double Option_WindingSpeed_rpm() override
+                {
+                    return 50;
+                }
+
+                int Option_OneMeterPosition() override
                 {
                     return 1000;
                 }
 
-                int FeedbackPosition() override
+                int Servo_FeedbackPosition() override
                 {
                     return 100;
                 }
 
                 /// @brief 弹簧劲度系数。
                 /// @return
-                virtual double SpringRatio() override
+                virtual double Option_SpringRatio() override
                 {
                     return 1.5;
                 }

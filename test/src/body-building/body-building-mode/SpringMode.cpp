@@ -1,35 +1,33 @@
 #include "SpringMode.h"
 #include <Cmd.h>
-#include <Option.h>
-#include <Servo.h>
 
 void SpringMode::Execute()
 {
-    _cmd->SetSpeed(Option::Instance().WindingSpeed());
-
-    if (Option::Instance().Tension_kg_Changed())
+    _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
+    _current_tension_kg = _infos->Option_Tension_kg();
+    if (_last_tension_kg != _current_tension_kg)
     {
-        _tension_linear_interpolator->SetEndValue(_infos->Tension_kg());
+        _tension_linear_interpolator->SetEndValue(_current_tension_kg);
 
-        _filter = std::shared_ptr<base::InertialElement>{
-            new base::InertialElement{
-                base::InertialElement_TimeConstant{0.025},
-                base::InertialElement_SampleInterval{0.002},
+        _filter = std::shared_ptr<base::ChXFilter>{
+            new base::ChXFilter{
+                base::ChXFilter_KError{10},
+                base::ChXFilter_FeedbackDiv{40},
             },
         };
     }
 
     double tension = ++(*_tension_linear_interpolator);
-    double torque = tension * Option::Instance().TorqueRatio();
+    double torque = tension * _infos->Option_TorqueRatio();
 
-    if (Servo::Instance().FeedbackPosition() < OneMeterPosition())
+    if (_infos->Servo_FeedbackPosition() < _infos->Option_OneMeterPosition())
     {
-        torque = torque * Servo::Instance().FeedbackPosition() / OneMeterPosition();
+        torque = torque * _infos->Servo_FeedbackPosition() / _infos->Option_OneMeterPosition();
     }
     else
     {
-        int delta_position = Servo::Instance().FeedbackPosition() - OneMeterPosition();
-        torque = torque + (delta_position * Ratio() / 30000);
+        int delta_position = _infos->Servo_FeedbackPosition() - _infos->Option_OneMeterPosition();
+        torque = torque + (delta_position * _infos->Option_SpringRatio() / 30000);
     }
 
     torque = _filter->Input(torque);

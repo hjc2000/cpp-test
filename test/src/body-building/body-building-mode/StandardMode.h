@@ -8,9 +8,9 @@
 class IStandardMode_InformationGetter
 {
 public:
-    virtual double Tension_kg() = 0;
-    virtual double WindingSpeed_rpm() = 0;
-    virtual double TorqueRatio() = 0;
+    virtual double Option_Tension_kg() = 0;
+    virtual double Option_WindingSpeed_rpm() = 0;
+    virtual double Option_TorqueRatio() = 0;
 };
 
 class StandardMode :
