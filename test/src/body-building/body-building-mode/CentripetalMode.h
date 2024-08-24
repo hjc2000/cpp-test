@@ -1,5 +1,6 @@
 #pragma once
 #include <base/math/InertialElement.h>
+#include <lua_api.h>
 #include <memory>
 
 /// @brief 向心模式
@@ -13,7 +14,7 @@ private:
     /// @return
     double Ratio()
     {
-        return 2;
+        return SRV_PARA(1, 43);
     }
 
     std::shared_ptr<base::InertialElement> _filter{
