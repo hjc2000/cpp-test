@@ -9,26 +9,26 @@
 
 double ConstantSpeedMode::TorqueGrowRatio()
 {
-    switch (Option::Instance().BodyBuildingMode())
+    switch (_sub_mode)
     {
-    case Option_BodyBuildingMode::ConstantSpeedMode1:
+    case 0:
         {
             return SRV_PARA(1, 39) / 1000;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode2:
+    case 1:
         {
             return 1;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode3:
+    case 2:
         {
             return 1.45;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode4:
+    case 3:
         {
             return 2;
         }
     default:
-    case Option_BodyBuildingMode::ConstantSpeedMode5:
+    case 4:
         {
             return 0.6;
         }
@@ -37,26 +37,26 @@ double ConstantSpeedMode::TorqueGrowRatio()
 
 double ConstantSpeedMode::SpeedLimit()
 {
-    switch (Option::Instance().BodyBuildingMode())
+    switch (_sub_mode)
     {
-    case Option_BodyBuildingMode::ConstantSpeedMode1:
+    case 0:
         {
             return SRV_PARA(1, 21) / 100;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode2:
+    case 1:
         {
             return 1400;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode3:
+    case 2:
         {
             return 1100;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode4:
+    case 3:
         {
             return 1;
         }
     default:
-    case Option_BodyBuildingMode::ConstantSpeedMode5:
+    case 4:
         {
             return 1800;
         }
@@ -65,26 +65,26 @@ double ConstantSpeedMode::SpeedLimit()
 
 int ConstantSpeedMode::Torque()
 {
-    switch (Option::Instance().BodyBuildingMode())
+    switch (_sub_mode)
     {
-    case Option_BodyBuildingMode::ConstantSpeedMode1:
+    case 0:
         {
             return SRV_PARA(2, 18);
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode2:
+    case 1:
         {
             return 13;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode3:
+    case 2:
         {
             return 30;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode4:
+    case 3:
         {
             return 45;
         }
     default:
-    case Option_BodyBuildingMode::ConstantSpeedMode5:
+    case 4:
         {
             return 6;
         }
@@ -93,26 +93,26 @@ int ConstantSpeedMode::Torque()
 
 double ConstantSpeedMode::WindingSpeed()
 {
-    switch (Option::Instance().BodyBuildingMode())
+    switch (_sub_mode)
     {
-    case Option_BodyBuildingMode::ConstantSpeedMode1:
+    case 0:
         {
             return SRV_PARA(1, 10) / 100;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode2:
+    case 1:
         {
             return 600;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode3:
+    case 2:
         {
             return 400;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode4:
+    case 3:
         {
             return 300;
         }
     default:
-    case Option_BodyBuildingMode::ConstantSpeedMode5:
+    case 4:
         {
             return 800;
         }
@@ -121,26 +121,26 @@ double ConstantSpeedMode::WindingSpeed()
 
 int ConstantSpeedMode::FilterGain()
 {
-    switch (Option::Instance().BodyBuildingMode())
+    switch (_sub_mode)
     {
-    case Option_BodyBuildingMode::ConstantSpeedMode1:
+    case 0:
         {
             return SRV_PARA(1, 20);
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode2:
+    case 1:
         {
             return 200;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode3:
+    case 2:
         {
             return 200;
         }
-    case Option_BodyBuildingMode::ConstantSpeedMode4:
+    case 3:
         {
             return 1000;
         }
     default:
-    case Option_BodyBuildingMode::ConstantSpeedMode5:
+    case 4:
         {
             return 500;
         }

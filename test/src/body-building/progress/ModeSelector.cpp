@@ -56,27 +56,27 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::ConstantSpeedMode1:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{0}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode2:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{1}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode3:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{2}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode4:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{3}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode5:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{4}};
             break;
         }
     case Option_BodyBuildingMode::BurnOutMode:

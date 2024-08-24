@@ -31,7 +31,13 @@ private:
     std::shared_ptr<base::InertialElement> CreateFilter();
 
     std::shared_ptr<base::InertialElement> _filter = CreateFilter();
+    int _sub_mode = 0;
 
 public:
+    ConstantSpeedMode(int sub_mod)
+    {
+        _sub_mode = sub_mod;
+    }
+
     void Execute();
 };
