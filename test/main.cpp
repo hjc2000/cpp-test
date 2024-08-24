@@ -3,6 +3,7 @@
 #include <base/container/List.h>
 #include <base/container/StdContainerEnumerable.h>
 #include <base/Initializer.h>
+#include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
@@ -21,7 +22,7 @@ int main(void)
 {
     try
     {
-        base::Test_DirectionDetecter();
+        base::Test_ChXFilter();
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
         // test_AVPacketPlayer();
