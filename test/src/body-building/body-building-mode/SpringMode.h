@@ -1,13 +1,12 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
 #include <memory>
 
 /// @brief 弹簧模式
-class SpringMode
+class SpringMode : public base::IExecutable
 {
 private:
-    SpringMode() = default;
-
     /// @brief 放线 1m 对应的伺服反馈位置。
     /// @return
     int OneMeterPosition()
@@ -30,11 +29,5 @@ private:
     };
 
 public:
-    static SpringMode &Instance()
-    {
-        static SpringMode o;
-        return o;
-    }
-
     void Execute();
 };

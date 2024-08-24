@@ -1,16 +1,9 @@
 #pragma once
+#include <base/IExecutable.h>
 
-class StandardMode
+class StandardMode :
+    public base::IExecutable
 {
-private:
-    StandardMode() = default;
-
 public:
-    static StandardMode &Instance()
-    {
-        static StandardMode o;
-        return o;
-    }
-
     void Execute();
 };

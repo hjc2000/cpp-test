@@ -1,13 +1,12 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
 #include <memory>
 
 /// @brief 离心模式
-class CentrifugalMode
+class CentrifugalMode : public base::IExecutable
 {
 private:
-    CentrifugalMode() = default;
-
     /// @brief 大于 1 的值。
     /// @note 离心模式下，顺从它离心，拉力会减小。减小拉力是通过将转矩除以本系数。
     /// @return
@@ -24,11 +23,5 @@ private:
     };
 
 public:
-    static CentrifugalMode &Instance()
-    {
-        static CentrifugalMode o;
-        return o;
-    }
-
     void Execute();
 };

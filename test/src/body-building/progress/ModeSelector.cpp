@@ -17,81 +17,82 @@ void ModeSelector::HandleAfterBodyBuildingMode()
 {
 }
 
-void ModeSelector::SelectOneBodyBuildingModeToExecute()
+void ModeSelector::CreateBodyBuildingModeExecutable()
 {
     switch (Option::Instance().BodyBuildingMode())
     {
     case Option_BodyBuildingMode::Standard:
         {
-            StandardMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new StandardMode{}};
             break;
         }
     case Option_BodyBuildingMode::IntelligentMode:
         {
-            IntelligentMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new IntelligentMode{}};
             break;
         }
     case Option_BodyBuildingMode::CentripetalMode:
         {
-            CentripetalMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentripetalMode{}};
             break;
         }
     case Option_BodyBuildingMode::CentrifugalMode:
         {
-            CentrifugalMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentrifugalMode{}};
             break;
         }
     case Option_BodyBuildingMode::SpringMode:
         {
-            SpringMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new SpringMode{}};
             break;
         }
     default:
     case Option_BodyBuildingMode::Standby:
         {
+            _body_building_executable = nullptr;
             Cmd::Instance().SetSpeed(0);
             Cmd::Instance().SetTorque(0);
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode1:
         {
-            ConstantSpeedMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode2:
         {
-            ConstantSpeedMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode3:
         {
-            ConstantSpeedMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode4:
         {
-            ConstantSpeedMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
             break;
         }
     case Option_BodyBuildingMode::ConstantSpeedMode5:
         {
-            ConstantSpeedMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new ConstantSpeedMode{}};
             break;
         }
     case Option_BodyBuildingMode::BurnOutMode:
         {
-            BurnOutMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new BurnOutMode{}};
             break;
         }
     case Option_BodyBuildingMode::AssistanceMode:
         {
-            AssistanceMode::Instance().Execute();
+            _body_building_executable = std::shared_ptr<base::IExecutable>{new AssistanceMode{}};
             break;
         }
     }
 }
 
-void ModeSelector::SelectOneModeToExecute()
+void ModeSelector::Execute()
 {
     if (!CalibrateZeroPointMode::Instance().IsCompleted())
     {
@@ -118,11 +119,14 @@ void ModeSelector::SelectOneModeToExecute()
     }
 
     // 健身模式
-    SelectOneBodyBuildingModeToExecute();
-    HandleAfterBodyBuildingMode();
-}
+    if (Option::Instance().BodyBuildingModeChanged())
+    {
+        CreateBodyBuildingModeExecutable();
+    }
 
-void ModeSelector::Execute()
-{
-    SelectOneModeToExecute();
+    if (_body_building_executable)
+    {
+        _body_building_executable->Execute();
+        HandleAfterBodyBuildingMode();
+    }
 }

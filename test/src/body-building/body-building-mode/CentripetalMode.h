@@ -1,14 +1,13 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
 #include <lua_api.h>
 #include <memory>
 
 /// @brief 向心模式
-class CentripetalMode
+class CentripetalMode : public base::IExecutable
 {
 private:
-    CentripetalMode() = default;
-
     /// @brief 大于 1 的值。
     /// @note 向心模式下，顺从它向心，拉力会减小。减小拉力是通过将转矩除以本系数。
     /// @return
@@ -25,11 +24,5 @@ private:
     };
 
 public:
-    static CentripetalMode &Instance()
-    {
-        static CentripetalMode o;
-        return o;
-    }
-
     void Execute();
 };

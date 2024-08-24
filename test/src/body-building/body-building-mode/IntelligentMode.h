@@ -1,14 +1,13 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <base/math/InertialElement.h>
 #include <ChXFilter.h>
 #include <lua_api.h>
 #include <memory>
 
-class IntelligentMode
+class IntelligentMode : public base::IExecutable
 {
 private:
-    IntelligentMode() = default;
-
     double k()
     {
         return SRV_PARA(1, 45) / 100;
@@ -30,11 +29,5 @@ private:
     };
 
 public:
-    static IntelligentMode &Instance()
-    {
-        static IntelligentMode o;
-        return o;
-    }
-
     void Execute();
 };

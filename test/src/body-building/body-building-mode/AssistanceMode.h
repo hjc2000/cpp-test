@@ -6,8 +6,6 @@ class AssistanceMode :
     public base::IExecutable
 {
 private:
-    AssistanceMode() = default;
-
     int _unwinding_tick = 0;
     double _tension = 0;
     bool _has_effective_unwinding = false;
@@ -25,11 +23,5 @@ private:
     double CalSubKg(double base_kg);
 
 public:
-    static AssistanceMode &Instance()
-    {
-        static AssistanceMode o;
-        return o;
-    }
-
     void Execute() override;
 };

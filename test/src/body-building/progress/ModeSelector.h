@@ -1,13 +1,14 @@
 #pragma once
+#include <base/IExecutable.h>
+#include <memory>
 
-class ModeSelector
+class ModeSelector : public base::IExecutable
 {
 private:
-    ModeSelector() = default;
+    std::shared_ptr<base::IExecutable> _body_building_executable;
 
     void HandleAfterBodyBuildingMode();
-    void SelectOneBodyBuildingModeToExecute();
-    void SelectOneModeToExecute();
+    void CreateBodyBuildingModeExecutable();
 
 public:
     static ModeSelector &Instance()

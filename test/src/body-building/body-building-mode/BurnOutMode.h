@@ -1,11 +1,11 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <base/math/DirectionDetecter.h>
 
-class BurnOutMode
+class BurnOutMode :
+    public base::IExecutable
 {
 private:
-    BurnOutMode() = default;
-
     int _unwinding_tick = 0;
     double _t2 = 0;
     double _t3 = 0;
@@ -25,11 +25,5 @@ private:
     void OnFromUnwindingToWinding();
 
 public:
-    static BurnOutMode &Instance()
-    {
-        static BurnOutMode o;
-        return o;
-    }
-
     void Execute();
 };

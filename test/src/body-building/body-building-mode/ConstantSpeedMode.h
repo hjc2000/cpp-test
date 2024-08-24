@@ -1,12 +1,11 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <ChXFilter.h>
 #include <lua_api.h>
 
-class ConstantSpeedMode
+class ConstantSpeedMode : public base::IExecutable
 {
 private:
-    ConstantSpeedMode() = default;
-
 #pragma region 选项
     /// @brief 限制转速时让转矩增长的比例。越大转矩随着速度变大增长越快。
     /// @return
@@ -34,11 +33,5 @@ private:
     std::shared_ptr<base::InertialElement> _filter = CreateFilter();
 
 public:
-    static ConstantSpeedMode &Instance()
-    {
-        static ConstantSpeedMode o;
-        return o;
-    }
-
     void Execute();
 };
