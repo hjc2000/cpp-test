@@ -5,13 +5,15 @@
 
 void StandardMode::Execute()
 {
-    _cmd->SetSpeed(Option::Instance().WindingSpeed());
-    if (Option::Instance().Tension_kg_Changed())
+    _cmd->SetSpeed(_infos->WindingSpeed_rpm());
+    _current_tension_kg = _infos->Tension_kg();
+    if (_last_tension_kg != _current_tension_kg)
     {
-        _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
+        _last_tension_kg = _current_tension_kg;
+        _tension_linear_interpolator->SetEndValue(_current_tension_kg);
     }
 
-    double tension = ++_tension_linear_interpolator;
+    double tension = ++(*_tension_linear_interpolator);
     if (tension < 4)
     {
         tension = 4;

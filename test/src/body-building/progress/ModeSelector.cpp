@@ -23,7 +23,28 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
     {
     case Option_BodyBuildingMode::Standard:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new StandardMode{_cmd}};
+            class InfoGetter :
+                public IStandardMode_RequiredInformationGetter
+            {
+            public:
+                double Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double WindingSpeed_rpm() override
+                {
+                    return Option::Instance().WindingSpeed();
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new StandardMode{
+                    _cmd,
+                    std::shared_ptr<InfoGetter>{new InfoGetter{}},
+                },
+            };
+
             break;
         }
     case Option_BodyBuildingMode::IntelligentMode:
