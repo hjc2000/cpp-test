@@ -3,11 +3,31 @@
 #include <format>
 #include <thread>
 
+SpringMode::SpringMode(std::shared_ptr<Cmd> cmd,
+                       std::shared_ptr<ISpringMode_InfomationGetter> infos)
+{
+    _cmd = cmd;
+    _infos = infos;
+    _current_tension_kg = _infos->Option_Tension_kg();
+    _last_tension_kg = _current_tension_kg;
+
+    _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
+        new base::LinearInterpolator{
+            base::LinearInterpolator_StartVlaue{0},
+            base::LinearInterpolator_EndVlaue{_current_tension_kg},
+            base::LinearInterpolator_StepLength{0.03},
+        },
+    };
+}
+
 void SpringMode::Execute()
 {
     _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
     _current_tension_kg = _infos->Option_Tension_kg();
     int feedback_position = _infos->Servo_FeedbackPosition();
+    int one_meter_position = _infos->Option_OneMeterPosition();
+    double torque_ratio = _infos->Option_TorqueRatio();
+    double spring_ratio = _infos->Option_SpringRatio();
 
     if (_last_tension_kg != _current_tension_kg)
     {
@@ -22,19 +42,19 @@ void SpringMode::Execute()
     }
 
     double tension = ++(*_tension_linear_interpolator);
-    double torque = tension * _infos->Option_TorqueRatio();
+    double torque = tension * torque_ratio;
 
-    if (feedback_position < _infos->Option_OneMeterPosition())
+    if (feedback_position < one_meter_position)
     {
-        torque = torque * feedback_position / _infos->Option_OneMeterPosition();
+        torque = torque * feedback_position / one_meter_position;
         std::cout << std::format("1m 内，当前位置：{}", feedback_position) << std::endl;
     }
     else
     {
-        int delta_position = feedback_position - _infos->Option_OneMeterPosition();
+        int delta_position = feedback_position - one_meter_position;
 
-        // 每转一圈转矩增大  _infos->Option_SpringRatio()
-        torque = torque + (delta_position * _infos->Option_SpringRatio() / 30000);
+        // 每转一圈转矩增大 spring_ratio
+        torque = torque + (delta_position * spring_ratio / 30000);
         std::cout << std::format("1m 外，当前位置：{}", feedback_position) << std::endl;
     }
 

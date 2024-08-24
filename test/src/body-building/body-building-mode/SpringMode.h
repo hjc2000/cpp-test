@@ -41,21 +41,7 @@ private:
 
 public:
     SpringMode(std::shared_ptr<Cmd> cmd,
-               std::shared_ptr<ISpringMode_InfomationGetter> infos)
-    {
-        _cmd = cmd;
-        _infos = infos;
-        _current_tension_kg = _infos->Option_Tension_kg();
-        _last_tension_kg = _current_tension_kg;
-
-        _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
-            new base::LinearInterpolator{
-                base::LinearInterpolator_StartVlaue{0},
-                base::LinearInterpolator_EndVlaue{_infos->Option_Tension_kg()},
-                base::LinearInterpolator_StepLength{0.03},
-            },
-        };
-    }
+               std::shared_ptr<ISpringMode_InfomationGetter> infos);
 
     void Execute() override;
 };
