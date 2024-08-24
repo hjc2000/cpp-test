@@ -2,13 +2,13 @@
 #include <base/math/InertialElement.h>
 #include <ChXFilter.h>
 #include <Cmd.h>
-#include <DirectionDetector.h>
 #include <lua_api.h>
 #include <memory>
 #include <Option.h>
 #include <PullLengthDetecter.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
+#include <State.h>
 #include <TensionLinearInterpolator.h>
 
 void BurnOutMode::OnFromUnwindingToWinding()
@@ -106,6 +106,7 @@ void BurnOutMode::OnFromUnwindingToWinding()
 
 void BurnOutMode::Execute()
 {
+    _direction_detecter.Input(State::Instance().ReleasedLengthOfLine());
     Cmd::Instance().SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged())
@@ -126,7 +127,7 @@ void BurnOutMode::Execute()
         _has_effective_unwinding = true;
     }
 
-    if (DI_DirectionDetecter().DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+    if (_direction_detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
         // 从放线变成收线
         if (_has_effective_unwinding)

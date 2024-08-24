@@ -1,4 +1,5 @@
 #pragma once
+#include <base/math/DirectionDetecter.h>
 
 /// @brief 拉绳长度检测器
 class PullLengthDetecter
@@ -11,6 +12,13 @@ private:
     int _last_pull_length = 0;
     bool _has_effective_unwinding = false;
     bool _has_effective_winding = false;
+
+    base::DirectionDetecter _direction_detecter{
+        base::DirectionDetecter_RisingThreshold{20},
+        base::DirectionDetecter_FallenThreshold{-20},
+        base::DirectionDetecter_Direction::Falling,
+        0,
+    };
 
 public:
     static PullLengthDetecter &Instance()

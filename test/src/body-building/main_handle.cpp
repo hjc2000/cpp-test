@@ -2,7 +2,6 @@
 #include <AdditionMode.h>
 #include <CalibrateZeroPointMode.h>
 #include <Cmd.h>
-#include <DirectionDetector.h>
 #include <ModeSelector.h>
 #include <Option.h>
 #include <PullLengthDetecter.h>
@@ -54,7 +53,6 @@ void main_handle()
 
             Refresh();
 
-            DI_DirectionDetecter().Input(State::Instance().ReleasedLengthOfLine());
             PullTimesDetector::Instance().Execute();
             PullLengthDetecter::Instance().Execute();
 
