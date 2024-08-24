@@ -1,7 +1,9 @@
 #pragma once
+#include <base/IExecutable.h>
 #include <base/math/DirectionDetecter.h>
 
-class AssistanceMode
+class AssistanceMode :
+    public base::IExecutable
 {
 private:
     AssistanceMode() = default;
@@ -29,5 +31,5 @@ public:
         return o;
     }
 
-    void Execute();
+    void Execute() override;
 };
