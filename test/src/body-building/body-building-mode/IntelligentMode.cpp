@@ -26,13 +26,15 @@ void IntelligentMode::Execute()
     {
         // 当前是出绳
         double torque = CalculateTorque(feedback_speed);
-        if (torque > _filter->CurrentOutput())
+        if (torque > _filter->Feedback())
         {
-            _filter->ChangeParameter(_little_time_constant);
+            _filter->ChangeParameter(base::ChXFilter_KError{500},
+                                     base::ChXFilter_FeedbackDiv{10000});
         }
         else
         {
-            _filter->ChangeParameter(_big_time_constant);
+            _filter->ChangeParameter(base::ChXFilter_KError{5},
+                                     base::ChXFilter_FeedbackDiv{10000});
         }
 
         _filter->Input(torque);
@@ -41,11 +43,11 @@ void IntelligentMode::Execute()
     else
     {
         // 当前是收绳
-        _filter->SetCurrentOutput(winding_torque);
+        _filter->SetFeedback(winding_torque);
         _cmd->SetSpeed(winding_speed);
     }
 
-    double torque = _filter->CurrentOutput();
+    double torque = _filter->Feedback();
     if (torque < 10)
     {
         torque = 10;
