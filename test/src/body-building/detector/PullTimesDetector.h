@@ -7,14 +7,14 @@ class PullTimesDetector
 {
 private:
     base::SlidingHysteresisiElement _hys{
-        base::HysteresisElement_RisingThreshold{100},
+        base::HysteresisElement_RisingThreshold{50}, // 起码拉出 50cm 才算有效
         base::HysteresisElement_FallenThreshold{20},
     };
 
     std::shared_ptr<base::DirectionDetecter> _direction_detecter{
         new base::DirectionDetecter{
-            base::DirectionDetecter_RisingThreshold{20},
-            base::DirectionDetecter_FallenThreshold{-20},
+            base::DirectionDetecter_RisingThreshold{5},  // 拉出 5cm 就算作方向是出绳
+            base::DirectionDetecter_FallenThreshold{-5}, // 收回 5cm 就算作方向是回绳
             base::DirectionDetecter_Direction::Falling,
             0,
         },
@@ -29,6 +29,25 @@ private:
 
 public:
     void Input(double released_length_of_line);
+
+    /// @brief 设置有效回绳的阈值。绳长小于此值后认为回绳有效。
+    /// @param value
+    void SetEffectiveWindingThreshold(double value)
+    {
+        _hys.SetFallenThreshold(value);
+    }
+
+    /// @brief 设置有效出绳阈值。绳长大于此值后认为进行了一次有效出绳。
+    /// @param value
+    void SetEffectiveUnwindingThreshold(double value)
+    {
+        _hys.SetRisingThreshold(value);
+    }
+
+    base::DirectionDetecter_DirectionChange DirectionChange()
+    {
+        return _direction_detecter->DirectionChange();
+    }
 
     /// @brief 收绳次数发生变化。接下来可以检查 TurningPoint 属性获取变化瞬间的绳长。
     /// @return
@@ -65,6 +84,16 @@ public:
     int UnwindingTimes() const
     {
         return _unwinding_times;
+    }
+
+    base::DirectionDetecter_Direction CurrentDirection() const
+    {
+        return _direction_detecter->CurrentDirection();
+    }
+
+    base::DirectionDetecter_Direction LastDirection() const
+    {
+        return _direction_detecter->LastDirection();
     }
 
     /// @brief 重置拉绳次数检测器。会重置出绳次数和收绳次数。

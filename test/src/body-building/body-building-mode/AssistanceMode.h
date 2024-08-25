@@ -27,6 +27,7 @@ class AssistanceMode :
     public base::IExecutable
 {
 private:
+    bool _is_preparing = true;
     int _unwinding_tick = 0;
     double _tension = 0;
     std::shared_ptr<Cmd> _cmd;
@@ -34,25 +35,17 @@ private:
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
     PullTimesDetector _pull_times_detecter;
 
+    /// @brief 参考时间。超过此时间还没有发生有效出绳，则需要助力。
+    int _reference_time = 0;
+    double _end_point_line_length = 0;
+    double _starting_point_line_length = 0;
+
+    void Prepare();
     double CalSubKg(double base_kg);
 
 public:
     AssistanceMode(std::shared_ptr<Cmd> cmd,
-                   std::shared_ptr<IAssistanceMode_InfomationGetter> infos)
-    {
-        _cmd = cmd;
-        _infos = infos;
-
-        _tension = _infos->Option_Tension_kg();
-
-        _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
-            new base::LinearInterpolator{
-                base::LinearInterpolator_StartVlaue{0},
-                base::LinearInterpolator_EndVlaue{_infos->Option_Tension_kg()},
-                base::LinearInterpolator_StepLength{0.03},
-            },
-        };
-    }
+                   std::shared_ptr<IAssistanceMode_InfomationGetter> infos);
 
     void Execute() override;
 };
