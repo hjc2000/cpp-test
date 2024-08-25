@@ -75,12 +75,13 @@ void AssistanceMode::Execute()
 
     if (_is_preparing)
     {
+        _cmd->SetTorque(_tension * _infos->Option_TorqueRatio());
         Prepare();
     }
     else
     {
         DD(14, _tension * 5 + 15);
-        double torque = _tension * _infos->Option_TorqueRatio();
+        double torque = (_tension - _reduced_tension) * _infos->Option_TorqueRatio();
         _cmd->SetTorque(torque);
     }
 }
