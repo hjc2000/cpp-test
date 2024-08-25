@@ -111,7 +111,46 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::CentrifugalMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentrifugalMode{_cmd}};
+            class Getter :
+                public ICentrifugalMode_InfomationGetter
+            {
+            public:
+                /// @brief 离心比例
+                /// @note 大于 1 的值。离心模式下，顺从它离心，拉力会减小。减小拉力是通过将转矩除以本系数。
+                /// @return
+                double Option_CentrifugalRatio() override
+                {
+                    return SRV_PARA(1, 44);
+                }
+
+                double Option_Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double Option_TorqueRatio() override
+                {
+                    return Option::Instance().TorqueRatio();
+                }
+
+                double Option_WindingSpeed_rpm() override
+                {
+                    return Option::Instance().WindingSpeed();
+                }
+
+                double Servo_FeedbackSpeed() override
+                {
+                    return Servo::Instance().FeedbackSpeed();
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new CentrifugalMode{
+                    _cmd,
+                    std::shared_ptr<Getter>{new Getter},
+                },
+            };
+
             break;
         }
     case Option_BodyBuildingMode::SpringMode:

@@ -27,9 +27,7 @@ int main(void)
     try
     {
         // Test_StandardMode();
-        // Test_SpringMode();
-        int a = 10;
-        std::cout << (a / 20.0) << std::endl;
+        Test_SpringMode();
 
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
