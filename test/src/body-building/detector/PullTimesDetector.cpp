@@ -1,7 +1,7 @@
 #include "PullTimesDetector.h"
 #include <State.h>
 
-void PullTimesDetector::Input(int released_length_of_line)
+void PullTimesDetector::Input(double released_length_of_line)
 {
     // 新的输入，要清除上一次输入产生的事件
     _winding_times_changed = false;

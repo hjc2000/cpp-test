@@ -28,7 +28,16 @@ private:
     bool _unwinding_times_changed = false;
 
 public:
-    void Input(int released_length_of_line);
+    void Input(double released_length_of_line);
+
+    /// @brief 转折点
+    /// @note 收绳次数变化或放绳次数变化时，可以检查本属性，获取变化瞬间的方向切换转折点。
+    /// 转折点就是方向切换瞬间的线长，也是收绳次数或放绳次数发生递增的瞬间的线长。
+    /// @return
+    double TurningPoint() const
+    {
+        return _direction_detecter->TurningPoint();
+    }
 
     bool WindingTimesChanged() const
     {
