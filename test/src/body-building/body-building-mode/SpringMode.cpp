@@ -40,6 +40,11 @@ void SpringMode::Execute()
     }
 
     double tension = ++(*_tension_linear_interpolator);
+    if (tension < 4)
+    {
+        tension = 4;
+    }
+
     double torque = tension * torque_ratio;
 
     if (feedback_position < one_meter_position)
@@ -132,5 +137,6 @@ void Test_SpringMode()
     {
         mode.Execute();
         std::cout << (*cmd) << std::endl;
+        std::cout << "-------------------" << std::endl;
     }
 }

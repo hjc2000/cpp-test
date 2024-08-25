@@ -70,5 +70,6 @@ void Test_StandardMode()
     {
         mode.Execute();
         std::cout << (*cmd) << std::endl;
+        std::cout << "-------------------" << std::endl;
     }
 }
