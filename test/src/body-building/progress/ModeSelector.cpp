@@ -106,7 +106,46 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::CentripetalMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new CentripetalMode{_cmd}};
+            class Getter :
+                public ICentripetalMode_InfomationGetter
+            {
+            public:
+                /// @brief 向心比例
+                /// @note 大于 1 的值。向心模式下，顺从它向心，拉力会减小。减小拉力是通过将转矩除以本系数。
+                /// @return
+                double Option_CentripetalRatio() override
+                {
+                    return SRV_PARA(1, 43);
+                }
+
+                double Option_Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double Option_TorqueRatio() override
+                {
+                    return Option::Instance().TorqueRatio();
+                }
+
+                double Option_WindingSpeed_rpm() override
+                {
+                    return Option::Instance().WindingSpeed();
+                }
+
+                double Servo_FeedbackSpeed() override
+                {
+                    return Servo::Instance().FeedbackSpeed();
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new CentripetalMode{
+                    _cmd,
+                    std::shared_ptr<Getter>{new Getter},
+                },
+            };
+
             break;
         }
     case Option_BodyBuildingMode::CentrifugalMode:
