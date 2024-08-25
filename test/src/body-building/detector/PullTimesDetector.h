@@ -23,7 +23,7 @@ private:
             base::DirectionDetecter_RisingThreshold{5},  // 拉出 5cm 就算作方向是出绳
             base::DirectionDetecter_FallenThreshold{-5}, // 收回 5cm 就算作方向是回绳
             base::DirectionDetecter_Direction::Falling,
-            0,
+            base::DirectionDetecter_InitialAnchor{0},
         },
     };
 
