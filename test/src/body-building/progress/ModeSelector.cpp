@@ -9,6 +9,7 @@
 #include <ConstantSpeedMode.h>
 #include <IntelligentMode.h>
 #include <Option.h>
+#include <Servo.h>
 #include <SpringMode.h>
 #include <StallProtectionMode.h>
 #include <StandardMode.h>
@@ -54,7 +55,53 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::IntelligentMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new IntelligentMode{_cmd}};
+            class Getter :
+                public IIntelligentMode_InfomationGetter
+            {
+            public:
+                double Option_Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double Option_WindingTorque() override
+                {
+                    return SRV_PARA(1, 34);
+                }
+
+                double Option_WindingSpeed_rpm() override
+                {
+                    return Option::Instance().WindingSpeed();
+                }
+
+                double Option_k() override
+                {
+                    return SRV_PARA(1, 45) / 100.0;
+                }
+
+                double Option_b() override
+                {
+                    return SRV_PARA(1, 46) / 100.0;
+                }
+
+                double Option_MaxTorque() override
+                {
+                    return Option::Instance().MaxTorque();
+                }
+
+                double Servo_FeedbackSpeed() override
+                {
+                    return Servo::Instance().FeedbackSpeed();
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new IntelligentMode{
+                    _cmd,
+                    std::shared_ptr<Getter>{new Getter{}},
+                },
+            };
+
             break;
         }
     case Option_BodyBuildingMode::CentripetalMode:

@@ -8,21 +8,24 @@
 #include <memory>
 #include <Option.h>
 
+class IIntelligentMode_InfomationGetter
+{
+public:
+    virtual double Option_Tension_kg() = 0;
+    virtual double Option_WindingTorque() = 0;
+    virtual double Option_WindingSpeed_rpm() = 0;
+    virtual double Option_k() = 0;
+    virtual double Option_b() = 0;
+    virtual double Option_MaxTorque() = 0;
+    virtual double Servo_FeedbackSpeed() = 0;
+};
+
 class IntelligentMode :
     public base::IExecutable
 {
 private:
-    double k()
-    {
-        return SRV_PARA(1, 45) / 100;
-    }
-
-    double b()
-    {
-        return SRV_PARA(1, 46) / 100;
-    }
-
     std::shared_ptr<Cmd> _cmd;
+    std::shared_ptr<IIntelligentMode_InfomationGetter> _infos;
     base::InertialElement_TimeConstant const _little_time_constant{CalculateTimeConstant(5, 10000)};
     base::InertialElement_TimeConstant const _big_time_constant{CalculateTimeConstant(500, 10000)};
 
@@ -39,10 +42,14 @@ private:
         base::LinearInterpolator_StepLength{0.03},
     };
 
+    double CalculateTorque(double feedback_speed);
+
 public:
-    IntelligentMode(std::shared_ptr<Cmd> cmd)
+    IntelligentMode(std::shared_ptr<Cmd> cmd,
+                    std::shared_ptr<IIntelligentMode_InfomationGetter> infos)
     {
         _cmd = cmd;
+        _infos = infos;
     }
 
     void Execute();
