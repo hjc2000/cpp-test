@@ -6,6 +6,13 @@
 class PullTimesDetector
 {
 private:
+    bool _has_effective_winding = false;
+    bool _has_effective_unwinding = false;
+    int _winding_times = 0;
+    int _unwinding_times = 0;
+    bool _winding_times_changed = false;
+    bool _unwinding_times_changed = false;
+
     base::SlidingHysteresisiElement _hys{
         base::HysteresisElement_RisingThreshold{50}, // 起码拉出 50cm 才算有效
         base::HysteresisElement_FallenThreshold{20},
@@ -19,13 +26,6 @@ private:
             0,
         },
     };
-
-    bool _has_effective_winding = false;
-    bool _has_effective_unwinding = false;
-    int _winding_times = 0;
-    int _unwinding_times = 0;
-    bool _winding_times_changed = false;
-    bool _unwinding_times_changed = false;
 
 public:
     void Input(double released_length_of_line);
