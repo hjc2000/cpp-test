@@ -1,46 +1,43 @@
 #include "PullTimesDetector.h"
 #include <State.h>
 
-void PullTimesDetector::Execute()
+void PullTimesDetector::Input(int released_length_of_line)
 {
-    _hysteresis_element.Input(State::Instance().ReleasedLengthOfLine());
-    if (_hysteresis_element.OutputChange() == base::HysteresisElement_OutputChange::Rise)
+    // 新的输入，要清除上一次输入产生的事件
+    _winding_times_changed = false;
+    _unwinding_times_changed = false;
+
+    // 检测收线、放线的有效性
+    _hys.Input(released_length_of_line);
+    if (_hys.OutputChange() == base::HysteresisElement_OutputChange::Rise)
     {
-        _unwinding_times++;
+        _has_effective_unwinding = true;
     }
-    else if (_hysteresis_element.OutputChange() == base::HysteresisElement_OutputChange::Fall)
+    else if (_hys.OutputChange() == base::HysteresisElement_OutputChange::Fall)
     {
-        _winding_times++;
+        _has_effective_winding = true;
     }
 
-    if (State::Instance().ReleasedLengthOfLine() - State::Instance().LastReleasedLengthOfLine() > 0)
+    // 检测方向变化的瞬间
+    _direction_detecter->Input(released_length_of_line);
+    if (_direction_detecter->DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
-        // 当前是放线方向
-        if (State::Instance().ReleasedLengthOfLine() > _hysteresis_element.RisingThreshold())
+        // 从放线切换成收线
+        if (_has_effective_unwinding)
         {
-            /* 出绳距离超过上升阈值，将迟滞特性曲线右移，使得上升阈值与当前位置相等，
-             * 使得回绳时不用回到原本的下降阈值处。
-             */
-            _hysteresis_element.MoveX(State::Instance().ReleasedLengthOfLine() - _hysteresis_element.RisingThreshold());
+            _has_effective_unwinding = false;
+            _unwinding_times++;
+            _unwinding_times_changed = true;
         }
     }
-    else
+    else if (_direction_detecter->DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
     {
-        // 当前在收绳阶段
-        if (State::Instance().ReleasedLengthOfLine() < _hysteresis_element.FallenThreshold())
+        // 从收线切换成放线
+        if (_has_effective_winding)
         {
-            // 回绳后位置小于下降阈值，将迟滞特性曲线左移
-            _hysteresis_element.MoveX(State::Instance().ReleasedLengthOfLine() - _hysteresis_element.FallenThreshold());
+            _has_effective_winding = false;
+            _winding_times++;
+            _winding_times_changed = true;
         }
     }
-}
-
-bool PullTimesDetector::WindingTimesChanged() const
-{
-    return _hysteresis_element.OutputChange() == base::HysteresisElement_OutputChange::Fall;
-}
-
-bool PullTimesDetector::UnwindingTimesChanged() const
-{
-    return _hysteresis_element.OutputChange() == base::HysteresisElement_OutputChange::Rise;
 }

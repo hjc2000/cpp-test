@@ -31,16 +31,10 @@ double AssistanceMode::CalSubKg(double base_kg)
 
 void AssistanceMode::Execute()
 {
-    _direction_detecter.Input(State::Instance().ReleasedLengthOfLine());
-    _cmd->SetSpeed(Option::Instance().WindingSpeed());
+    _direction_detecter->Input(_infos->RleasedLengthOfLine());
+    _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
 
-    if (Option::Instance().BodyBuildingModeChanged())
-    {
-        PullTimesDetector::Instance().Reset();
-        _tension = Option::Instance().Tension_kg();
-    }
-
-    if (Servo::Instance().FeedbackSpeed() > 10)
+    if (_infos->Servo_FeedbackSpeed() > 10)
     {
         _unwinding_tick++;
     }
@@ -56,7 +50,7 @@ void AssistanceMode::Execute()
         _has_effective_winding = true;
     }
 
-    if (_direction_detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
+    if (_direction_detecter->DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
     {
         // 从放线变成收线
         if (_has_effective_unwinding)
@@ -65,7 +59,7 @@ void AssistanceMode::Execute()
             OnFromUnwindingToWinding();
         }
     }
-    else if (_direction_detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
+    else if (_direction_detecter->DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
     {
         // 从收线变成放线
         if (_has_effective_winding)
@@ -76,6 +70,6 @@ void AssistanceMode::Execute()
     }
 
     DD(14, _tension * 5 + 15);
-    double torque = _tension * Option::Instance().TorqueRatio();
+    double torque = _tension * _infos->Option_TorqueRatio();
     _cmd->SetTorque(torque);
 }

@@ -1,30 +1,44 @@
 #pragma once
-#include <base/math/HysteresisElement.h>
+#include <base/math/DirectionDetecter.h>
+#include <base/math/SlidingHysteresisiElement.h>
+#include <memory>
 
 class PullTimesDetector
 {
 private:
-    PullTimesDetector() = default;
-
-    base::HysteresisElement _hysteresis_element{
+    base::SlidingHysteresisiElement _hys{
         base::HysteresisElement_RisingThreshold{100},
         base::HysteresisElement_FallenThreshold{20},
     };
 
+    std::shared_ptr<base::DirectionDetecter> _direction_detecter{
+        new base::DirectionDetecter{
+            base::DirectionDetecter_RisingThreshold{20},
+            base::DirectionDetecter_FallenThreshold{-20},
+            base::DirectionDetecter_Direction::Falling,
+            0,
+        },
+    };
+
+    bool _has_effective_winding = false;
+    bool _has_effective_unwinding = false;
     int _winding_times = 0;
     int _unwinding_times = 0;
+    bool _winding_times_changed = false;
+    bool _unwinding_times_changed = false;
 
 public:
-    static PullTimesDetector &Instance()
+    void Input(int released_length_of_line);
+
+    bool WindingTimesChanged() const
     {
-        static PullTimesDetector o;
-        return o;
+        return _winding_times_changed;
     }
 
-    void Execute();
-
-    bool WindingTimesChanged() const;
-    bool UnwindingTimesChanged() const;
+    bool UnwindingTimesChanged() const
+    {
+        return _unwinding_times_changed;
+    }
 
     int WindingTimes() const
     {
