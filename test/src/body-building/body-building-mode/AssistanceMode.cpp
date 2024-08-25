@@ -2,7 +2,7 @@
 
 void AssistanceMode::Prepare()
 {
-    _pull_times_detecter.Input(_infos->RleasedLengthOfLine());
+    _cmd->SetTorque(_tension * _infos->Option_TorqueRatio());
     if (_pull_times_detecter.UnwindingTimesChanged())
     {
         // 一次出绳已经完成，此时已经处在回绳的方向
@@ -33,6 +33,29 @@ void AssistanceMode::Prepare()
     {
         // 一次回绳已经完成，此时已经处在出绳的方向
         _starting_point_line_length = _pull_times_detecter.TurningPoint();
+    }
+}
+
+void AssistanceMode::Work()
+{
+    if (_pull_times_detecter.UnwindingTimesChanged())
+    {
+        // 一次出绳已经完成，此时已经处在回绳的方向
+        _cmd->SetTorque(_tension * _infos->Option_TorqueRatio());
+        _unwinding_tick = 0;
+    }
+    else if (_pull_times_detecter.WindingTimesChanged())
+    {
+        // 一次回绳已经完成，此时已经处在出绳的方向
+        if (_unwinding_tick > _reference_time)
+        {
+            // 出绳时间太长了，需要助力
+        }
+
+        double output_tension = _tension - _reduced_tension;
+        DD(14, output_tension * 5 + 15);
+        double torque = output_tension * _infos->Option_TorqueRatio();
+        _cmd->SetTorque(torque);
     }
 }
 
@@ -73,15 +96,13 @@ void AssistanceMode::Execute()
         _unwinding_tick++;
     }
 
+    _pull_times_detecter.Input(_infos->RleasedLengthOfLine());
     if (_is_preparing)
     {
-        _cmd->SetTorque(_tension * _infos->Option_TorqueRatio());
         Prepare();
     }
     else
     {
-        DD(14, _tension * 5 + 15);
-        double torque = (_tension - _reduced_tension) * _infos->Option_TorqueRatio();
-        _cmd->SetTorque(torque);
+        Work();
     }
 }

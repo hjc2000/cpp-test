@@ -42,6 +42,7 @@ private:
     double _starting_point_line_length = 0;
 
     void Prepare();
+    void Work();
     double CalSubKg(double base_kg);
 
 public:
