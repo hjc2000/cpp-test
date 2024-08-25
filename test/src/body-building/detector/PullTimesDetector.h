@@ -44,11 +44,6 @@ public:
         _hys.SetRisingThreshold(value);
     }
 
-    base::DirectionDetecter_DirectionChange DirectionChange()
-    {
-        return _direction_detecter->DirectionChange();
-    }
-
     /// @brief 收绳次数发生变化。接下来可以检查 TurningPoint 属性获取变化瞬间的绳长。
     /// @return
     bool WindingTimesChanged() const
@@ -84,16 +79,6 @@ public:
     int UnwindingTimes() const
     {
         return _unwinding_times;
-    }
-
-    base::DirectionDetecter_Direction CurrentDirection() const
-    {
-        return _direction_detecter->CurrentDirection();
-    }
-
-    base::DirectionDetecter_Direction LastDirection() const
-    {
-        return _direction_detecter->LastDirection();
     }
 
     /// @brief 重置拉绳次数检测器。会重置出绳次数和收绳次数。
