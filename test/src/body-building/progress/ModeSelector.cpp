@@ -201,7 +201,43 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::AssistanceMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new AssistanceMode{_cmd}};
+            class Getter :
+                public IAssistanceMode_InfomationGetter
+            {
+            public:
+                double Option_Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double Option_TorqueRatio() override
+                {
+                    return Option::Instance().TorqueRatio();
+                }
+
+                double Option_WindingSpeed_rpm() override
+                {
+                    return Option::Instance().WindingSpeed();
+                }
+
+                int Servo_FeedbackPosition() override
+                {
+                    return Servo::Instance().FeedbackPosition();
+                }
+
+                double Servo_FeedbackSpeed() override
+                {
+                    return Servo::Instance().FeedbackSpeed();
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new AssistanceMode{
+                    _cmd,
+                    std::shared_ptr<Getter>{new Getter},
+                },
+            };
+
             break;
         }
     }

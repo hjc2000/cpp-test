@@ -4,7 +4,6 @@
 #include <Cmd.h>
 #include <ModeSelector.h>
 #include <Option.h>
-#include <PullLengthDetecter.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <SleepControler.h>
@@ -55,10 +54,6 @@ void main_handle()
             // ResetTimer()
 
             Refresh();
-
-            PullTimesDetector::Instance().Execute();
-            PullLengthDetecter::Instance().Execute();
-
             mod_selector.Execute();
             SleepControler::Instance().Execute();
             RecodeStatus();

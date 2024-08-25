@@ -13,13 +13,13 @@ std::chrono::seconds FanControler::TurnOffFanDelay()
     return std::chrono::seconds{SRV_PARA(3, 93)};
 }
 
-int64_t FanControler::TurnOnDelayTick()
+int FanControler::TurnOnDelayTick()
 {
     // 脚本定时器周期是 2ms，所以乘上 500，每一秒对应 500 个计数。
     return TurnOnFanDelay().count() * 500;
 }
 
-int64_t FanControler::TurnOffDelayTick()
+int FanControler::TurnOffDelayTick()
 {
     // 脚本定时器周期是 2ms，所以乘上 500，每一秒对应 500 个计数。
     return TurnOffFanDelay().count() * 500;
@@ -27,8 +27,8 @@ int64_t FanControler::TurnOffDelayTick()
 
 void FanControler::ControlByTick()
 {
-    _hysteresis_element.ChangeThreshold(TurnOnDelayTick(),
-                                        TurnOnDelayTick() - TurnOffDelayTick());
+    _hysteresis_element.ChangeThreshold(base::HysteresisElement_RisingThreshold{static_cast<double>(TurnOnDelayTick())},
+                                        base::HysteresisElement_FallenThreshold{static_cast<double>(TurnOnDelayTick() - TurnOffDelayTick())});
 
     if (Servo::Instance().FeedbackPosition() >= Option::Instance().ZeroPositionProtectionThreshold())
     {

@@ -1,10 +1,12 @@
 #pragma once
 #include <base/IExecutable.h>
-#include <base/math/DirectionDetecter.h>
+#include <base/math/InertialElement.h>
 #include <base/math/LinearInterpolator.h>
+#include <ChXFilter.h>
 #include <Cmd.h>
+#include <lua_api.h>
 #include <memory>
-#include <Option.h>
+#include <PullTimesDetector.h>
 
 class IAssistanceMode_InfomationGetter
 {
@@ -27,23 +29,11 @@ class AssistanceMode :
 private:
     int _unwinding_tick = 0;
     double _tension = 0;
-    bool _has_effective_unwinding = false;
-    bool _has_effective_winding = false;
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<IAssistanceMode_InfomationGetter> _infos;
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
+    PullTimesDetector _pull_times_detecter;
 
-    std::shared_ptr<base::DirectionDetecter> _direction_detecter{
-        new base::DirectionDetecter{
-            base::DirectionDetecter_RisingThreshold{20},
-            base::DirectionDetecter_FallenThreshold{-20},
-            base::DirectionDetecter_Direction::Falling,
-            0,
-        },
-    };
-
-    void OnFromUnwindingToWinding();
-    void OnFromWindingToUnwinding();
     double CalSubKg(double base_kg);
 
 public:

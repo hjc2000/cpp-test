@@ -10,8 +10,8 @@ private:
 
     std::chrono::seconds TurnOnFanDelay();
     std::chrono::seconds TurnOffFanDelay();
-    int64_t TurnOnDelayTick();
-    int64_t TurnOffDelayTick();
+    int TurnOnDelayTick();
+    int TurnOffDelayTick();
 
     base::HysteresisElement _hysteresis_element{
         base::HysteresisElement_RisingThreshold{static_cast<double>(TurnOnDelayTick())},

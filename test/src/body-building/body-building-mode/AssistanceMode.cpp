@@ -1,21 +1,4 @@
 #include "AssistanceMode.h"
-#include <base/math/InertialElement.h>
-#include <ChXFilter.h>
-#include <Cmd.h>
-#include <lua_api.h>
-#include <memory>
-#include <PullLengthDetecter.h>
-#include <PullTimesDetector.h>
-#include <Servo.h>
-#include <State.h>
-
-void AssistanceMode::OnFromUnwindingToWinding()
-{
-}
-
-void AssistanceMode::OnFromWindingToUnwinding()
-{
-}
 
 double AssistanceMode::CalSubKg(double base_kg)
 {
@@ -31,42 +14,18 @@ double AssistanceMode::CalSubKg(double base_kg)
 
 void AssistanceMode::Execute()
 {
-    _direction_detecter->Input(_infos->RleasedLengthOfLine());
     _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
-
     if (_infos->Servo_FeedbackSpeed() > 10)
     {
         _unwinding_tick++;
     }
 
-    if (PullTimesDetector::Instance().UnwindingTimesChanged())
+    _pull_times_detecter.Input(_infos->RleasedLengthOfLine());
+    if (_pull_times_detecter.UnwindingTimesChanged())
     {
-        // 经历了有效放线
-        _has_effective_unwinding = true;
     }
-    else if (PullTimesDetector::Instance().WindingTimesChanged())
+    else if (_pull_times_detecter.WindingTimesChanged())
     {
-        // 经历了有效收线
-        _has_effective_winding = true;
-    }
-
-    if (_direction_detecter->DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
-    {
-        // 从放线变成收线
-        if (_has_effective_unwinding)
-        {
-            _has_effective_unwinding = false;
-            OnFromUnwindingToWinding();
-        }
-    }
-    else if (_direction_detecter->DirectionChange() == base::DirectionDetecter_DirectionChange::FromFallingToRising)
-    {
-        // 从收线变成放线
-        if (_has_effective_winding)
-        {
-            _has_effective_winding = false;
-            OnFromWindingToUnwinding();
-        }
     }
 
     DD(14, _tension * 5 + 15);

@@ -5,14 +5,13 @@
 #include <lua_api.h>
 #include <memory>
 #include <Option.h>
-#include <PullLengthDetecter.h>
 #include <PullTimesDetector.h>
 #include <Servo.h>
 #include <State.h>
 
 void BurnOutMode::OnFromUnwindingToWinding()
 {
-    if (PullTimesDetector::Instance().UnwindingTimes() < 2)
+    if (_pull_times_detecter.UnwindingTimes() < 2)
     {
         // 被拉出次数小于 2
         _t2 = 0;
@@ -20,21 +19,21 @@ void BurnOutMode::OnFromUnwindingToWinding()
         _changing = false;
         _tension = Option::Instance().Tension_kg();
     }
-    else if (PullTimesDetector::Instance().UnwindingTimes() == 2)
+    else if (_pull_times_detecter.UnwindingTimes() == 2)
     {
         _tension = Option::Instance().Tension_kg();
-        _t2 = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick;
-        _last_pull_length = PullLengthDetecter::Instance().PullLength();
+        _t2 = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick;
+        _last_pull_length = _pull_times_detecter.TurningPoint();
     }
-    else if (PullTimesDetector::Instance().UnwindingTimes() == 3)
+    else if (_pull_times_detecter.UnwindingTimes() == 3)
     {
-        _last_pull_length = (_last_pull_length + PullLengthDetecter::Instance().PullLength()) / 2;
-        _t3 = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick;
+        _last_pull_length = (_last_pull_length + _pull_times_detecter.TurningPoint()) / 2;
+        _t3 = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick;
         _power = (_t2 + _t3) / 2;
     }
     else
     {
-        double ratio = PullLengthDetecter::Instance().PullLength() / _last_pull_length;
+        double ratio = _pull_times_detecter.TurningPoint() / _last_pull_length;
         if (_changing)
         {
             ratio = 1;
@@ -43,11 +42,11 @@ void BurnOutMode::OnFromUnwindingToWinding()
         double pt = 0;
         if (ratio < 0.7)
         {
-            pt = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick * ratio;
+            pt = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick * ratio;
         }
         else
         {
-            pt = _tension * PullLengthDetecter::Instance().PullLength() / _unwinding_tick;
+            pt = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick;
         }
 
         double pe_ratio = (pt - _power) / _power;
@@ -105,13 +104,13 @@ void BurnOutMode::OnFromUnwindingToWinding()
 
 void BurnOutMode::Execute()
 {
-    _direction_detecter.Input(State::Instance().ReleasedLengthOfLine());
+    _pull_times_detecter.Input(State::Instance().ReleasedLengthOfLine());
     _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged())
     {
         _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
-        PullTimesDetector::Instance().Reset();
+        _pull_times_detecter.Reset();
         _tension = Option::Instance().Tension_kg();
     }
 
@@ -120,20 +119,9 @@ void BurnOutMode::Execute()
         _unwinding_tick++;
     }
 
-    if (PullTimesDetector::Instance().UnwindingTimesChanged())
+    if (_pull_times_detecter.UnwindingTimesChanged())
     {
-        // 经过了有效放线s
-        _has_effective_unwinding = true;
-    }
-
-    if (_direction_detecter.DirectionChange() == base::DirectionDetecter_DirectionChange::FromRisingToFalling)
-    {
-        // 从放线变成收线
-        if (_has_effective_unwinding)
-        {
-            _has_effective_unwinding = false;
-            OnFromUnwindingToWinding();
-        }
+        OnFromUnwindingToWinding();
     }
 
     DD(8, (_tension * 5 + 15));

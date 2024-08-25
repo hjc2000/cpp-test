@@ -5,6 +5,7 @@
 #include <Cmd.h>
 #include <memory>
 #include <Option.h>
+#include <PullTimesDetector.h>
 
 class BurnOutMode :
     public base::IExecutable
@@ -17,15 +18,8 @@ private:
     double _tension = 0;
     int _last_pull_length = 0;
     double _power = 0;
-    bool _has_effective_unwinding = false;
     std::shared_ptr<Cmd> _cmd;
-
-    base::DirectionDetecter _direction_detecter{
-        base::DirectionDetecter_RisingThreshold{20},
-        base::DirectionDetecter_FallenThreshold{-20},
-        base::DirectionDetecter_Direction::Falling,
-        0,
-    };
+    PullTimesDetector _pull_times_detecter;
 
     base::LinearInterpolator _tension_linear_interpolator{
         base::LinearInterpolator_StartVlaue{0},
