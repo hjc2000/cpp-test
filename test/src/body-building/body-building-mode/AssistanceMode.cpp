@@ -50,33 +50,24 @@ void AssistanceMode::Work()
         double reduced_tension = 0;
         if (_unwinding_tick > _reference_time)
         {
-            // 出绳时间太长了，需要助力
+            /* 出绳时间太长了，需要助力。
+             * 需要每 3 秒减小 20% 的拉力。
+             * 因为程序每 2ms 执行一次，所以 3s 对应 1500 次 tick。
+             * 每多一次 tick，就减去 (1 / 1500 * _current_tension * 0.2) 的拉力。
+             */
             int delta_tick = _unwinding_tick - _reference_time;
             if (delta_tick > 1500)
             {
                 delta_tick = 1500;
             }
 
-            reduced_tension = (delta_tick / 1500) * CalSubKg(_current_tension);
+            reduced_tension = static_cast<double>(delta_tick) / 1500 * _current_tension * 0.2;
         }
 
         double output_tension = _current_tension - reduced_tension;
         DD(14, output_tension * 5 + 15);
-        double torque = output_tension * _infos->Option_TorqueRatio();
-        _tension_linear_interpolator->SetEndValue(torque);
+        _tension_linear_interpolator->SetEndValue(output_tension);
     }
-}
-
-double AssistanceMode::CalSubKg(double base_kg)
-{
-    double zlSubkg = (base_kg * 5 + 15) * 0.2;
-    double zlSubkgV = static_cast<int>(zlSubkg / 5) * 5;
-    if (zlSubkg - zlSubkgV > 0)
-    {
-        zlSubkgV = zlSubkgV + 5;
-    }
-
-    return zlSubkgV * 0.2;
 }
 
 AssistanceMode::AssistanceMode(std::shared_ptr<Cmd> cmd,

@@ -43,7 +43,6 @@ private:
 
     void Prepare();
     void Work();
-    double CalSubKg(double base_kg);
 
 public:
     AssistanceMode(std::shared_ptr<Cmd> cmd,
