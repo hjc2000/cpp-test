@@ -274,7 +274,47 @@ void ModeSelector::CreateBodyBuildingModeExecutable()
         }
     case Option_BodyBuildingMode::BurnOutMode:
         {
-            _body_building_executable = std::shared_ptr<base::IExecutable>{new BurnOutMode{_cmd}};
+            class Getter : public IBurnOutMode_InfomationGetter
+            {
+            public:
+                double Option_Tension_kg() override
+                {
+                    return Option::Instance().Tension_kg();
+                }
+
+                double Option_MaxTension_kg() override
+                {
+                    return Option::Instance().MaxTension_kg();
+                }
+
+                double Option_TorqueRatio() override
+                {
+                    return Option::Instance().TorqueRatio();
+                }
+
+                double Option_WindingSpeed_rpm() override
+                {
+                    return Option::Instance().WindingSpeed();
+                }
+
+                double Servo_FeedbackSpeed() override
+                {
+                    return Servo::Instance().FeedbackSpeed();
+                }
+
+                int Servo_FeedbackPosition() override
+                {
+                    return Servo::Instance().FeedbackPosition();
+                }
+            };
+
+            _body_building_executable = std::shared_ptr<base::IExecutable>{
+                new BurnOutMode{
+                    _cmd,
+                    std::shared_ptr<Getter>{new Getter{}},
+                },
+            };
+
             break;
         }
     case Option_BodyBuildingMode::AssistanceMode:
