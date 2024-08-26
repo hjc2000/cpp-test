@@ -58,16 +58,15 @@ void AssistanceMode::Work()
              * 因为程序每 2ms 执行一次，所以 3s 对应 1500 次 tick。
              * 每多一次 tick，就减去 (1 / 1500 * _current_tension * 0.2) 的拉力。
              */
-            int delta_tick = _unwinding_tick - _reference_time;
-            if (delta_tick > 1500)
-            {
-                delta_tick = 1500;
-            }
-
-            reduced_tension = static_cast<double>(delta_tick) / 1500 * _current_tension * 0.2;
+            reduced_tension = static_cast<double>(_unwinding_tick - _reference_time) / 1500 * _current_tension * 0.2;
         }
 
         double output_tension = _current_tension - reduced_tension;
+        if (output_tension < 1)
+        {
+            output_tension = 1;
+        }
+
         DD(14, output_tension * 5 + 15);
         _tension_linear_interpolator->SetEndValue(output_tension);
     }
