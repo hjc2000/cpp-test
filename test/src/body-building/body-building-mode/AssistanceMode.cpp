@@ -6,10 +6,7 @@ void AssistanceMode::Prepare()
     if (_pull_times_detecter->UnwindingTimesChanged())
     {
         // 一次出绳已经完成，此时已经处在回绳的方向
-        if (_pull_times_detecter->UnwindingTimes() < 2)
-        {
-        }
-        else if (_pull_times_detecter->UnwindingTimes() == 2)
+        if (_pull_times_detecter->UnwindingTimes() == 2)
         {
             _reference_time = _unwinding_tick;
             _end_point_line_length = _pull_times_detecter->TurningPoint();
