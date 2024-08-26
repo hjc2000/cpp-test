@@ -38,6 +38,8 @@ private:
     double _last_tension = 0;
     int _last_pull_length = 0;
     double _power = 0;
+    double _starting_point_line_length = 0;
+    double _end_point_line_length = 0;
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<IBurnOutMode_InfomationGetter> _infos;
     std::shared_ptr<PullTimesDetector> _pull_times_detecter{new PullTimesDetector{}};

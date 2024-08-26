@@ -2,6 +2,8 @@
 
 void BurnOutMode::OnUnwindingTimesChanged()
 {
+    _end_point_line_length = _pull_times_detecter->TurningPoint();
+    double pull_length = _end_point_line_length - _starting_point_line_length;
     if (_pull_times_detecter->UnwindingTimes() < 2)
     {
         // 被拉出次数小于 2
@@ -13,18 +15,18 @@ void BurnOutMode::OnUnwindingTimesChanged()
     else if (_pull_times_detecter->UnwindingTimes() == 2)
     {
         _current_tension = _infos->Option_Tension_kg();
-        _t2 = _current_tension * _pull_times_detecter->TurningPoint() / _unwinding_tick;
-        _last_pull_length = _pull_times_detecter->TurningPoint();
+        _t2 = _current_tension * pull_length / _unwinding_tick;
+        _last_pull_length = pull_length;
     }
     else if (_pull_times_detecter->UnwindingTimes() == 3)
     {
-        _last_pull_length = (_last_pull_length + _pull_times_detecter->TurningPoint()) / 2;
-        _t3 = _current_tension * _pull_times_detecter->TurningPoint() / _unwinding_tick;
+        _last_pull_length = (_last_pull_length + pull_length) / 2;
+        _t3 = _current_tension * pull_length / _unwinding_tick;
         _power = (_t2 + _t3) / 2;
     }
     else
     {
-        double ratio = _pull_times_detecter->TurningPoint() / _last_pull_length;
+        double ratio = pull_length / _last_pull_length;
         if (_changing)
         {
             ratio = 1;
@@ -33,11 +35,11 @@ void BurnOutMode::OnUnwindingTimesChanged()
         double pt = 0;
         if (ratio < 0.7)
         {
-            pt = _current_tension * _pull_times_detecter->TurningPoint() / _unwinding_tick * ratio;
+            pt = _current_tension * pull_length / _unwinding_tick * ratio;
         }
         else
         {
-            pt = _current_tension * _pull_times_detecter->TurningPoint() / _unwinding_tick;
+            pt = _current_tension * pull_length / _unwinding_tick;
         }
 
         double pe_ratio = (pt - _power) / _power;
@@ -131,6 +133,10 @@ void BurnOutMode::Execute()
     if (_pull_times_detecter->UnwindingTimesChanged())
     {
         OnUnwindingTimesChanged();
+    }
+    else if (_pull_times_detecter->WindingTimesChanged())
+    {
+        _starting_point_line_length = _pull_times_detecter->TurningPoint();
     }
 
     DD(8, (_current_tension * 5 + 15));
