@@ -2,7 +2,7 @@
 
 void BurnOutMode::Prepare()
 {
-    _tension_linear_interpolator->SetEndValue(_current_option_tension);
+    _tension_linear_interpolator->SetEndValue(_infos->Option_Tension_kg());
     if (_pull_times_detecter->UnwindingTimesChanged())
     {
         if (_pull_times_detecter->UnwindingTimes() == 2)
@@ -10,15 +10,16 @@ void BurnOutMode::Prepare()
             _end_point_line_length = _pull_times_detecter->TurningPoint();
 
             double pull_length = _end_point_line_length - _starting_point_line_length;
-            _reference_power = _current_option_tension * pull_length / _unwinding_tick;
+            _reference_power = _infos->Option_Tension_kg() * pull_length / _unwinding_tick;
         }
         else if (_pull_times_detecter->UnwindingTimes() == 3)
         {
             _end_point_line_length += _pull_times_detecter->TurningPoint();
             _end_point_line_length = _end_point_line_length / 2;
+            _reference_line_length = _end_point_line_length - _starting_point_line_length;
 
             double pull_length = _end_point_line_length - _starting_point_line_length;
-            _reference_power += _current_option_tension * pull_length / _unwinding_tick;
+            _reference_power += _infos->Option_Tension_kg() * pull_length / _unwinding_tick;
             _reference_power = _reference_power / 2;
         }
 
@@ -32,6 +33,57 @@ void BurnOutMode::Prepare()
 
 void BurnOutMode::Work()
 {
+    if (_pull_times_detecter->UnwindingTimesChanged())
+    {
+        _end_point_line_length = _pull_times_detecter->TurningPoint();
+        double pull_length = _end_point_line_length - _starting_point_line_length;
+        double length_ratio = pull_length / _reference_line_length;
+
+        double power = 0;
+        if (length_ratio < 0.7)
+        {
+            power = _tension * pull_length / _unwinding_tick * length_ratio;
+        }
+        else
+        {
+            power = _reference_power;
+        }
+
+        double power_grow_ratio = (power - _reference_power) / _reference_power;
+        if (power_grow_ratio >= 0.2 && power_grow_ratio < 0.5)
+        {
+            _tension += _tension * 0.1 + 1;
+        }
+        else if (power_grow_ratio >= 0.5)
+        {
+            _tension += _tension * 0.2 + 2;
+        }
+        else if (power_grow_ratio <= -0.2 && power_grow_ratio > -0.5)
+        {
+            _tension -= _tension * 0.1 + 1;
+        }
+        else if (power_grow_ratio <= -0.5)
+        {
+            _tension -= _tension * 0.2 + 2;
+        }
+
+        if (_tension <= 2)
+        {
+            _tension = 2;
+        }
+        else if (_tension > _infos->Option_MaxTension_kg())
+        {
+            _tension = _infos->Option_MaxTension_kg();
+        }
+
+        _tension_linear_interpolator->SetEndValue(_tension);
+        _reference_line_length = pull_length;
+        _unwinding_tick = 0;
+    }
+    else if (_pull_times_detecter->WindingTimesChanged())
+    {
+        _starting_point_line_length = _pull_times_detecter->TurningPoint();
+    }
 }
 
 BurnOutMode::BurnOutMode(std::shared_ptr<Cmd> cmd,
@@ -42,9 +94,7 @@ BurnOutMode::BurnOutMode(std::shared_ptr<Cmd> cmd,
 
     _tension_linear_interpolator->SetEndValue(_infos->Option_Tension_kg());
     _pull_times_detecter = std::shared_ptr<PullTimesDetector>{new PullTimesDetector{}};
-
-    _current_option_tension = _infos->Option_Tension_kg();
-    _adjusted_tension = _current_option_tension;
+    _tension = _infos->Option_Tension_kg();
 
     _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
         new base::LinearInterpolator{
@@ -58,7 +108,6 @@ BurnOutMode::BurnOutMode(std::shared_ptr<Cmd> cmd,
 void BurnOutMode::Execute()
 {
     _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
-    _current_option_tension = _infos->Option_Tension_kg();
     if (_infos->Servo_FeedbackSpeed() > 10)
     {
         _unwinding_tick++;
@@ -74,7 +123,7 @@ void BurnOutMode::Execute()
         Work();
     }
 
-    DD(8, (_current_option_tension * 5 + 15));
+    DD(8, _tension * 10 + 0.5);
     double tension = ++(*_tension_linear_interpolator);
     double torque = tension * _infos->Option_TorqueRatio();
     _cmd->SetTorque(torque);

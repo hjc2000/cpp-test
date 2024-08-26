@@ -33,12 +33,11 @@ private:
     bool _is_preparing = true;
     int _unwinding_tick = 0;
     double _reference_power = 0;
-
-    double _current_option_tension = 0;
-    double _adjusted_tension = 0;
+    double _tension = 0;
 
     double _starting_point_line_length = 0;
     double _end_point_line_length = 0;
+    double _reference_line_length = 0;
 
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<IBurnOutMode_InfomationGetter> _infos;
