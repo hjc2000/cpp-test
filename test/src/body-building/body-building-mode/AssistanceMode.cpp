@@ -77,6 +77,7 @@ AssistanceMode::AssistanceMode(std::shared_ptr<Cmd> cmd,
     _infos = infos;
 
     _current_tension = _infos->Option_Tension_kg();
+    _last_tension = _current_tension;
 
     _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
         new base::LinearInterpolator{
