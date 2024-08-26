@@ -9,7 +9,7 @@ void BurnOutMode::Prepare()
         {
             _end_point_line_length = _pull_times_detecter->TurningPoint();
 
-            double pull_length = _end_point_line_length - _starting_point_line_length;
+            double pull_length = _pull_times_detecter->TurningPoint() - _starting_point_line_length;
             _reference_power = _infos->Option_Tension_kg() * pull_length / _unwinding_tick;
         }
         else if (_pull_times_detecter->UnwindingTimes() == 3)
@@ -18,7 +18,7 @@ void BurnOutMode::Prepare()
             _end_point_line_length = _end_point_line_length / 2;
             _reference_line_length = _end_point_line_length - _starting_point_line_length;
 
-            double pull_length = _end_point_line_length - _starting_point_line_length;
+            double pull_length = _pull_times_detecter->TurningPoint() - _starting_point_line_length;
             _reference_power += _infos->Option_Tension_kg() * pull_length / _unwinding_tick;
             _reference_power = _reference_power / 2;
         }
