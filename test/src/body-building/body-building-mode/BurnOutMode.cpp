@@ -11,7 +11,7 @@
 
 void BurnOutMode::OnFromUnwindingToWinding()
 {
-    if (_pull_times_detecter.UnwindingTimes() < 2)
+    if (_pull_times_detecter->UnwindingTimes() < 2)
     {
         // 被拉出次数小于 2
         _t2 = 0;
@@ -19,21 +19,21 @@ void BurnOutMode::OnFromUnwindingToWinding()
         _changing = false;
         _tension = Option::Instance().Tension_kg();
     }
-    else if (_pull_times_detecter.UnwindingTimes() == 2)
+    else if (_pull_times_detecter->UnwindingTimes() == 2)
     {
         _tension = Option::Instance().Tension_kg();
-        _t2 = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick;
-        _last_pull_length = _pull_times_detecter.TurningPoint();
+        _t2 = _tension * _pull_times_detecter->TurningPoint() / _unwinding_tick;
+        _last_pull_length = _pull_times_detecter->TurningPoint();
     }
-    else if (_pull_times_detecter.UnwindingTimes() == 3)
+    else if (_pull_times_detecter->UnwindingTimes() == 3)
     {
-        _last_pull_length = (_last_pull_length + _pull_times_detecter.TurningPoint()) / 2;
-        _t3 = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick;
+        _last_pull_length = (_last_pull_length + _pull_times_detecter->TurningPoint()) / 2;
+        _t3 = _tension * _pull_times_detecter->TurningPoint() / _unwinding_tick;
         _power = (_t2 + _t3) / 2;
     }
     else
     {
-        double ratio = _pull_times_detecter.TurningPoint() / _last_pull_length;
+        double ratio = _pull_times_detecter->TurningPoint() / _last_pull_length;
         if (_changing)
         {
             ratio = 1;
@@ -42,11 +42,11 @@ void BurnOutMode::OnFromUnwindingToWinding()
         double pt = 0;
         if (ratio < 0.7)
         {
-            pt = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick * ratio;
+            pt = _tension * _pull_times_detecter->TurningPoint() / _unwinding_tick * ratio;
         }
         else
         {
-            pt = _tension * _pull_times_detecter.TurningPoint() / _unwinding_tick;
+            pt = _tension * _pull_times_detecter->TurningPoint() / _unwinding_tick;
         }
 
         double pe_ratio = (pt - _power) / _power;
@@ -104,13 +104,13 @@ void BurnOutMode::OnFromUnwindingToWinding()
 
 void BurnOutMode::Execute()
 {
-    _pull_times_detecter.Input(State::Instance().ReleasedLengthOfLine());
+    _pull_times_detecter->Input(State::Instance().ReleasedLengthOfLine());
     _cmd->SetSpeed(Option::Instance().WindingSpeed());
 
     if (Option::Instance().BodyBuildingModeChanged())
     {
         _tension_linear_interpolator.SetEndValue(Option::Instance().Tension_kg());
-        _pull_times_detecter.Reset();
+        _pull_times_detecter = std::shared_ptr<PullTimesDetector>{new PullTimesDetector{}};
         _tension = Option::Instance().Tension_kg();
     }
 
@@ -119,7 +119,7 @@ void BurnOutMode::Execute()
         _unwinding_tick++;
     }
 
-    if (_pull_times_detecter.UnwindingTimesChanged())
+    if (_pull_times_detecter->UnwindingTimesChanged())
     {
         OnFromUnwindingToWinding();
     }

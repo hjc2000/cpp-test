@@ -19,7 +19,7 @@ private:
     int _last_pull_length = 0;
     double _power = 0;
     std::shared_ptr<Cmd> _cmd;
-    PullTimesDetector _pull_times_detecter;
+    std::shared_ptr<PullTimesDetector> _pull_times_detecter{new PullTimesDetector{}};
 
     base::LinearInterpolator _tension_linear_interpolator{
         base::LinearInterpolator_StartVlaue{0},

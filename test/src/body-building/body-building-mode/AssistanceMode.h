@@ -29,11 +29,12 @@ class AssistanceMode :
 private:
     bool _is_preparing = true;
     int _unwinding_tick = 0;
-    double _tension = 0;
+    double _current_tension = 0;
+    double _last_tension = 0;
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<IAssistanceMode_InfomationGetter> _infos;
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
-    PullTimesDetector _pull_times_detecter;
+    std::shared_ptr<PullTimesDetector> _pull_times_detecter{new PullTimesDetector{}};
 
     /// @brief 参考时间。超过此时间还没有发生有效出绳，则需要助力。
     int _reference_time = 0;
