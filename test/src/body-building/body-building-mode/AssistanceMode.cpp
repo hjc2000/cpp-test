@@ -67,7 +67,8 @@ void AssistanceMode::Work()
             output_tension = 1;
         }
 
-        DD(14, output_tension * 5 + 15);
+        // 加 0.5 是为了四舍五入
+        DD(14, static_cast<int>(output_tension * 10 + 0.5));
         _tension_linear_interpolator->SetEndValue(output_tension);
     }
 }
