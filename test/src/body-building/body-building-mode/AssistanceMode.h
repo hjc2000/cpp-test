@@ -40,6 +40,7 @@ private:
     int _reference_time = 0;
     double _end_point_line_length = 0;
     double _starting_point_line_length = 0;
+    bool _is_pulling_out = false;
 
     void Prepare();
     void Work();

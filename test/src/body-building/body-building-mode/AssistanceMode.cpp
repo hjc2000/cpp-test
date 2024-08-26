@@ -43,10 +43,16 @@ void AssistanceMode::Work()
         // 一次出绳已经完成，此时已经处在回绳的方向
         _tension_linear_interpolator->SetEndValue(_current_tension);
         _unwinding_tick = 0;
+        _is_pulling_out = false;
     }
     else if (_pull_times_detecter->WindingTimesChanged())
     {
         // 一次回绳已经完成，此时已经处在出绳的方向
+        _is_pulling_out = true;
+    }
+
+    if (_is_pulling_out)
+    {
         double reduced_tension = 0;
         if (_unwinding_tick > _reference_time)
         {
