@@ -30,7 +30,6 @@ private:
     bool _is_preparing = true;
     int _unwinding_tick = 0;
     double _current_tension = 0;
-    double _last_tension = 0;
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<IAssistanceMode_InfomationGetter> _infos;
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;

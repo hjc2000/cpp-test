@@ -30,7 +30,6 @@ private:
     std::shared_ptr<ISpringMode_InfomationGetter> _infos;
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
     double _current_tension_kg = 0;
-    double _last_tension_kg = 0;
 
     std::shared_ptr<base::ChXFilter> _filter{
         new base::ChXFilter{

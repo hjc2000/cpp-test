@@ -7,7 +7,6 @@ StandardMode::StandardMode(std::shared_ptr<Cmd> cmd,
     _infos = infos;
 
     _current_tension_kg = _infos->Option_Tension_kg();
-    _last_tension_kg = _current_tension_kg;
 
     _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
         new base::LinearInterpolator{
@@ -25,11 +24,6 @@ void StandardMode::Execute()
     double torque_ratio = _infos->Option_TorqueRatio();
 
     _cmd->SetSpeed(winding_speed);
-    if (_last_tension_kg != _current_tension_kg)
-    {
-        _last_tension_kg = _current_tension_kg;
-        _tension_linear_interpolator->SetEndValue(_current_tension_kg);
-    }
 
     double tension = ++(*_tension_linear_interpolator);
     if (tension < 4)

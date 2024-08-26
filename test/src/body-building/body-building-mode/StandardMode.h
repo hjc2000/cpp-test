@@ -21,7 +21,6 @@ private:
     std::shared_ptr<IStandardMode_InformationGetter> _infos;
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
     double _current_tension_kg = 0;
-    double _last_tension_kg = 0;
 
 public:
     StandardMode(std::shared_ptr<Cmd> cmd,

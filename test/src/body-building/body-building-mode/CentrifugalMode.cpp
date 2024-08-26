@@ -18,20 +18,6 @@ CentrifugalMode::CentrifugalMode(std::shared_ptr<Cmd> cmd,
 void CentrifugalMode::Execute()
 {
     _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
-
-    _last_tension = _infos->Option_Tension_kg();
-    if (_last_tension != _infos->Option_Tension_kg())
-    {
-        _tension_linear_interpolator->SetEndValue(_infos->Option_Tension_kg());
-
-        _filter = std::shared_ptr<base::ChXFilter>{
-            new base::ChXFilter{
-                base::ChXFilter_KError{10},
-                base::ChXFilter_FeedbackDiv{1000},
-            },
-        };
-    }
-
     double tension = ++(*_tension_linear_interpolator);
     double torque = tension * _infos->Option_TorqueRatio();
 

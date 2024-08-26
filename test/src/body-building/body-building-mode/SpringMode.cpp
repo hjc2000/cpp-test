@@ -6,8 +6,8 @@ SpringMode::SpringMode(std::shared_ptr<Cmd> cmd,
 {
     _cmd = cmd;
     _infos = infos;
+
     _current_tension_kg = _infos->Option_Tension_kg();
-    _last_tension_kg = _current_tension_kg;
 
     _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
         new base::LinearInterpolator{
@@ -26,18 +26,6 @@ void SpringMode::Execute()
     int one_meter_position = _infos->Option_OneMeterPosition();
     double torque_ratio = _infos->Option_TorqueRatio();
     double spring_ratio = _infos->Option_SpringRatio();
-
-    if (_last_tension_kg != _current_tension_kg)
-    {
-        _tension_linear_interpolator->SetEndValue(_current_tension_kg);
-
-        _filter = std::shared_ptr<base::ChXFilter>{
-            new base::ChXFilter{
-                base::ChXFilter_KError{10},
-                base::ChXFilter_FeedbackDiv{40},
-            },
-        };
-    }
 
     double tension = ++(*_tension_linear_interpolator);
     if (tension < 4)

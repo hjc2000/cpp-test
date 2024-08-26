@@ -26,7 +26,6 @@ class CentripetalMode :
     public base::IExecutable
 {
 private:
-    double _last_tension = 0;
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<ICentripetalMode_InfomationGetter> _infos;
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;

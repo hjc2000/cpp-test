@@ -80,7 +80,6 @@ AssistanceMode::AssistanceMode(std::shared_ptr<Cmd> cmd,
     _infos = infos;
 
     _current_tension = _infos->Option_Tension_kg();
-    _last_tension = _current_tension;
 
     _tension_linear_interpolator = std::shared_ptr<base::LinearInterpolator>{
         new base::LinearInterpolator{
@@ -94,14 +93,7 @@ AssistanceMode::AssistanceMode(std::shared_ptr<Cmd> cmd,
 void AssistanceMode::Execute()
 {
     _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
-    _last_tension = _current_tension;
     _current_tension = _infos->Option_Tension_kg();
-    if (_last_tension != _current_tension)
-    {
-        _is_preparing = true;
-        _pull_times_detecter = std::shared_ptr<PullTimesDetector>{new PullTimesDetector{}};
-    }
-
     if (_infos->Servo_FeedbackSpeed() > 10)
     {
         _unwinding_tick++;

@@ -388,7 +388,7 @@ void ModeSelector::Execute()
     }
 
     // 健身模式
-    if (Option::Instance().BodyBuildingModeChanged())
+    if (Option::Instance().BodyBuildingModeChanged() || Option::Instance().Tension_kg_Changed())
     {
         CreateBodyBuildingModeExecutable();
     }

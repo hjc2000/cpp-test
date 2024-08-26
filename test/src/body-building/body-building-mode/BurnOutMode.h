@@ -30,22 +30,23 @@ class BurnOutMode :
     public base::IExecutable
 {
 private:
+    bool _is_preparing = true;
     int _unwinding_tick = 0;
-    double _t2 = 0;
-    double _t3 = 0;
-    bool _changing = false;
-    double _current_tension = 0;
-    double _last_tension = 0;
-    int _last_pull_length = 0;
-    double _power = 0;
+    double _reference_power = 0;
+
+    double _current_option_tension = 0;
+    double _adjusted_tension = 0;
+
     double _starting_point_line_length = 0;
     double _end_point_line_length = 0;
+
     std::shared_ptr<Cmd> _cmd;
     std::shared_ptr<IBurnOutMode_InfomationGetter> _infos;
     std::shared_ptr<PullTimesDetector> _pull_times_detecter{new PullTimesDetector{}};
     std::shared_ptr<base::LinearInterpolator> _tension_linear_interpolator;
 
-    void OnUnwindingTimesChanged();
+    void Prepare();
+    void Work();
 
 public:
     BurnOutMode(std::shared_ptr<Cmd> cmd,
