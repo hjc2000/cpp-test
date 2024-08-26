@@ -113,8 +113,16 @@ BurnOutMode::BurnOutMode(std::shared_ptr<Cmd> cmd,
 
 void BurnOutMode::Execute()
 {
-    _pull_times_detecter->Input(_infos->RleasedLengthOfLine());
     _cmd->SetSpeed(_infos->Option_WindingSpeed_rpm());
+    _last_tension = _current_tension;
+    _current_tension = _infos->Option_Tension_kg();
+    if (_last_pull_length != _current_tension)
+    {
+        _unwinding_tick = 0;
+        _pull_times_detecter = std::shared_ptr<PullTimesDetector>{new PullTimesDetector{}};
+    }
+
+    _pull_times_detecter->Input(_infos->RleasedLengthOfLine());
     if (_infos->Servo_FeedbackSpeed() > 10)
     {
         _unwinding_tick++;

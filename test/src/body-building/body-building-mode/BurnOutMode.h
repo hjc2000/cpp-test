@@ -35,6 +35,7 @@ private:
     double _t3 = 0;
     bool _changing = false;
     double _current_tension = 0;
+    double _last_tension = 0;
     int _last_pull_length = 0;
     double _power = 0;
     std::shared_ptr<Cmd> _cmd;
