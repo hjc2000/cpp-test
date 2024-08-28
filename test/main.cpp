@@ -18,12 +18,36 @@
 
 using namespace std;
 
+class Test
+{
+private:
+    int a = 1;
+
+public:
+    int &operator[](int index) &
+    {
+        std::cout << "左值版本" << endl;
+        return a;
+    }
+
+    int &operator[](int index) &&
+    {
+        std::cout << "左值版本" << endl;
+        return a;
+    }
+};
+
 int main(void)
 {
     try
     {
-        std::filesystem::current_path(Predefine_ResourceDir);
-        test_SptsEncodeMux();
+        Test t;
+        int a = t[1];
+        t[1] = 5;
+        std::cout << a << std::endl;
+
+        // std::filesystem::current_path(Predefine_ResourceDir);
+        // test_SptsEncodeMux();
         // test_AVPacketPlayer();
         // test_tsduck();
         return 0;
