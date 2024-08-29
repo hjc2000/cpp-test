@@ -17,24 +17,17 @@
 #include <test_tsduck.h>
 #include <time.h>
 
+class Test
+{
+public:
+    inline static int num = 5;
+};
+
 int main(void)
 {
     try
     {
-        timespec ts; // 定义一个 timespec 结构体变量
-        time_t t;
-
-        // 设置时间
-        t = 1693327440;
-        ts.tv_sec = t;  // 设置秒数
-        ts.tv_nsec = 0; // 清除纳秒部分
-
-        // 调用 clock_settime() 函数
-        if (clock_settime(CLOCK_REALTIME, &ts) == -1)
-        {
-            std::cout << "设置失败" << std::endl;
-        }
-
+        std::cout << Test::num << std::endl;
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
         // test_AVPacketPlayer();
