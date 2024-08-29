@@ -17,17 +17,17 @@
 #include <test_tsduck.h>
 #include <time.h>
 
-class Test
+std::unique_ptr<int> Create()
 {
-public:
-    inline static int num = 5;
-};
+    return std::unique_ptr<int>{new int{6}};
+}
 
 int main(void)
 {
     try
     {
-        std::cout << Test::num << std::endl;
+        auto p = Create();
+        std::cout << *p << std::endl;
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
         // test_AVPacketPlayer();
