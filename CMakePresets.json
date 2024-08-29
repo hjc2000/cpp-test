@@ -8,7 +8,6 @@
 			"binaryDir": "${sourceDir}/out/build/${presetName}",
 			"installDir": "${sourceDir}/out/install/${presetName}",
 			"cacheVariables": {
-				"cpp_lib_build_scripts_path": "$env{cpp_lib_build_scripts_path}",
 				"platform": "msys",
 				"CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
 				"CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
@@ -75,9 +74,6 @@
 				"type": "equals",
 				"lhs": "${hostSystemName}",
 				"rhs": "Linux"
-			},
-			"cacheVariables": {
-				"cpp_lib_build_scripts_path": "$env{HOME}/cpp-lib-build-scripts"
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
