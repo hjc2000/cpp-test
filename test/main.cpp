@@ -5,6 +5,7 @@
 #include <base/Initializer.h>
 #include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
+#include <base/SingletonGetter.h>
 #include <base/string/ToHexString.h>
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
@@ -17,18 +18,36 @@
 #include <test_tsduck.h>
 #include <time.h>
 
-std::unique_ptr<int> Create()
+class IntSingleTonGetter :
+    public base::SingletonGetter<int>
 {
-    return std::unique_ptr<int>{new int{6}};
-}
+protected:
+    void Lock() override
+    {
+        std::cout << "锁定" << std::endl;
+    }
+
+    void Unlock() override
+    {
+        std::cout << "解锁" << std::endl;
+    }
+
+    std::unique_ptr<int> Create() override
+    {
+        return std::unique_ptr<int>{new int{666}};
+    }
+};
 
 int main(void)
 {
     try
     {
-        std::unique_ptr<int> p;
-        p = Create();
-        std::cout << *p << std::endl;
+        for (int i = 0; i < 5; i++)
+        {
+            IntSingleTonGetter g{};
+            std::cout << g.Instance() << std::endl;
+        }
+
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
         // test_AVPacketPlayer();
