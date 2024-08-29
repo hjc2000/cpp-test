@@ -45,7 +45,7 @@ int main(void)
         for (int i = 0; i < 5; i++)
         {
             IntSingleTonGetter g{};
-            std::cout << g.Instance() << std::endl;
+            std::cout << (*g)++ << std::endl;
         }
 
         // std::filesystem::current_path(Predefine_ResourceDir);
