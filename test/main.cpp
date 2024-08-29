@@ -26,7 +26,8 @@ int main(void)
 {
     try
     {
-        auto p = Create();
+        std::unique_ptr<int> p;
+        p = Create();
         std::cout << *p << std::endl;
         // std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
