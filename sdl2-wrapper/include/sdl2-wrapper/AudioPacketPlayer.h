@@ -28,12 +28,12 @@ namespace video
         void Dispose() override;
 
     private:
-        atomic_bool _disposed = false;
-        shared_ptr<AudioFramePlayer> _player;
-        shared_ptr<IDecoderPipe> _decoder_pipe;
-        shared_ptr<base::PipeBlockingQueue<AVPacketWrapper>> _packet_queue;
+        std::atomic_bool _disposed = false;
+        std::shared_ptr<AudioFramePlayer> _player;
+        std::shared_ptr<IDecoderPipe> _decoder_pipe;
+        std::shared_ptr<base::PipeBlockingQueue<AVPacketWrapper>> _packet_queue;
         base::CancellationTokenSource _cancel_pump_source;
-        shared_ptr<base::Pump<AVPacketWrapper>> _packet_pump;
+        std::shared_ptr<base::Pump<AVPacketWrapper>> _packet_pump;
 
         /// @brief 此任务完成，说明解码线程函数 DecodingThreadFunc 已经结束了，且不会再执行了，
         /// 已经彻底退出了。初始时线程没有启动，所以为已完成。

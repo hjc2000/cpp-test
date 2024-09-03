@@ -5,8 +5,8 @@
 
 AVPacketPlayer::AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream)
 {
-    _audio_packet_player = shared_ptr<AudioPacketPlayer>{new AudioPacketPlayer{audio_stream}};
-    _video_packet_player = shared_ptr<VideoPacketPlayer>{new VideoPacketPlayer{x, y, video_stream}};
+    _audio_packet_player = std::shared_ptr<AudioPacketPlayer>{new AudioPacketPlayer{audio_stream}};
+    _video_packet_player = std::shared_ptr<VideoPacketPlayer>{new VideoPacketPlayer{x, y, video_stream}};
     _video_packet_player->SetRefTimer(_audio_packet_player);
     _video_stream_index = video_stream.Index();
     _audio_stream_index = audio_stream.Index();
@@ -21,7 +21,10 @@ AVPacketPlayer::~AVPacketPlayer()
 void AVPacketPlayer::Dispose()
 {
     if (_disposed)
+    {
         return;
+    }
+
     _disposed = true;
 
     _audio_packet_player->Dispose();
@@ -49,14 +52,14 @@ void AVPacketPlayer::SendData(AVPacketWrapper &packet)
 void video::test_AVPacketPlayer()
 {
     auto fs = base::FileStream::Open("idol.mp4");
-    shared_ptr<AVIOContextWrapper> io_context{new AVIOContextWrapper{false, fs}};
-    shared_ptr<InputFormat> in_fmt_ctx{new InputFormat{io_context}};
+    std::shared_ptr<AVIOContextWrapper> io_context{new AVIOContextWrapper{false, fs}};
+    std::shared_ptr<InputFormat> in_fmt_ctx{new InputFormat{io_context}};
     in_fmt_ctx->DumpFormat();
 
     AVStreamWrapper best_audio_stream = in_fmt_ctx->FindBestStream(AVMediaType::AVMEDIA_TYPE_AUDIO);
     AVStreamWrapper best_video_stream = in_fmt_ctx->FindBestStream(AVMediaType::AVMEDIA_TYPE_VIDEO);
 
-    shared_ptr<AVPacketPlayer> player{new AVPacketPlayer{0, 70, best_video_stream, best_audio_stream}};
+    std::shared_ptr<AVPacketPlayer> player{new AVPacketPlayer{0, 70, best_video_stream, best_audio_stream}};
     AVPacketWrapper packet;
 
     base::CancellationTokenSource cancellation_token_source;

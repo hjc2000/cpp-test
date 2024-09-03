@@ -27,9 +27,9 @@ namespace video
         void Dispose() override;
 
     private:
-        atomic_bool _disposed = false;
-        shared_ptr<VideoPacketPlayer> _video_packet_player;
-        shared_ptr<AudioPacketPlayer> _audio_packet_player;
+        std::atomic_bool _disposed = false;
+        std::shared_ptr<VideoPacketPlayer> _video_packet_player;
+        std::shared_ptr<AudioPacketPlayer> _audio_packet_player;
         int _video_stream_index = 0;
         int _audio_stream_index = 0;
 

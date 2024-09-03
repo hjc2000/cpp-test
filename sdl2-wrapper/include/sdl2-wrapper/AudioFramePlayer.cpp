@@ -8,7 +8,7 @@ using namespace video;
 AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
 {
     _time_base = infos.TimeBase();
-    _device = shared_ptr<SDL_DefaultAudioDevice>{new SDL_DefaultAudioDevice{}};
+    _device = std::shared_ptr<SDL_DefaultAudioDevice>{new SDL_DefaultAudioDevice{}};
     cout << _device->ToString() << endl;
 
     _device->_audio_callback = [&](uint8_t *stream, int len)
@@ -16,7 +16,7 @@ AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
         AudioCallbackHandler(stream, len);
     };
 
-    _swr_pipe = shared_ptr<SwrPipe>{new SwrPipe{*_device}};
+    _swr_pipe = std::shared_ptr<SwrPipe>{new SwrPipe{*_device}};
     _swr_pipe->ConsumerList().Add(_frame_queue);
 }
 

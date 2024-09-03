@@ -17,48 +17,30 @@
 #include <test_tsduck.h>
 #include <time.h>
 
-class IntSingleTonGetter :
-    public base::SingletonGetter<int>
+#include <windows.h>
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
 {
-protected:
-    void Lock() override
-    {
-        std::cout << "锁定" << std::endl;
-    }
-
-    void Unlock() override
-    {
-        std::cout << "解锁" << std::endl;
-    }
-
-    std::unique_ptr<int> Create() override
-    {
-        return std::unique_ptr<int>{new int{666}};
-    }
-};
-
-int main(void)
-{
-    try
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            IntSingleTonGetter g{};
-            std::cout << (*g)++ << std::endl;
-        }
-
-        // std::filesystem::current_path(Predefine_ResourceDir);
-        // test_SptsEncodeMux();
-        // test_AVPacketPlayer();
-        // test_tsduck();
-        return 0;
-    }
-    catch (std::runtime_error const &e)
-    {
-        std::cout << e.what() << std::endl;
-        throw;
-    }
+    MessageBox(NULL, "Hello world!", "Title", MB_OK);
+    return 0;
 }
+
+// int main(void)
+// {
+//     try
+//     {
+//         std::filesystem::current_path(Predefine_ResourceDir);
+//         test_SptsEncodeMux();
+//         // test_AVPacketPlayer();
+//         // test_tsduck();
+//         return 0;
+//     }
+//     catch (std::runtime_error const &e)
+//     {
+//         std::cout << e.what() << std::endl;
+//         throw;
+//     }
+// }
 
 // int main()
 //{

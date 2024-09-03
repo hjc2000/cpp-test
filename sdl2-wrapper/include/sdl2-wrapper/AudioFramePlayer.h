@@ -20,17 +20,17 @@ namespace video
         public base::IConsumer<AVFrameWrapper>
     {
     private:
-        atomic_bool _disposed = false;
-        atomic_bool _should_pause = false;
+        std::atomic_bool _disposed = false;
+        std::atomic_bool _should_pause = false;
         AVFrameWrapper _swr_out_frame;
-        shared_ptr<SDL_DefaultAudioDevice> _device;
+        std::shared_ptr<SDL_DefaultAudioDevice> _device;
         AVRational _time_base;
 
-        shared_ptr<base::PipeBlockingQueue<AVFrameWrapper>> _frame_queue{
+        std::shared_ptr<base::PipeBlockingQueue<AVFrameWrapper>> _frame_queue{
             new base::PipeBlockingQueue<AVFrameWrapper>{},
         };
 
-        shared_ptr<SwrPipe> _swr_pipe;
+        std::shared_ptr<SwrPipe> _swr_pipe;
         base::TimeInterpolator _time_interpolator;
 
         void AudioCallbackHandler(uint8_t *stream, int len);
