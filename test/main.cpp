@@ -18,28 +18,25 @@
 #include <time.h>
 #include <windows.h>
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow)
+int main(void)
 {
-    MessageBox(NULL, "Hello world!", "Title", MB_OK);
-    return 0;
-}
+    try
+    {
+        MessageBox(NULL, "Hello world!", "Title", MB_OK);
+        return 0;
 
-// int main(void)
-// {
-//     try
-//     {
-//         std::filesystem::current_path(Predefine_ResourceDir);
-//         test_SptsEncodeMux();
-//         // test_AVPacketPlayer();
-//         // test_tsduck();
-//         return 0;
-//     }
-//     catch (std::runtime_error const &e)
-//     {
-//         std::cout << e.what() << std::endl;
-//         throw;
-//     }
-// }
+        // std::filesystem::current_path(Predefine_ResourceDir);
+        // test_SptsEncodeMux();
+        // test_AVPacketPlayer();
+        // test_tsduck();
+        return 0;
+    }
+    catch (std::runtime_error const &e)
+    {
+        std::cout << e.what() << std::endl;
+        throw;
+    }
+}
 
 // int main()
 //{
