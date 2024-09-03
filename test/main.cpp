@@ -22,12 +22,12 @@ int main(void)
 {
     try
     {
-        MessageBox(NULL, "Hello world!", "标题", MB_OK);
-        return 0;
+        // MessageBox(NULL, "Hello world!", "标题", MB_OK);
+        // return 0;
 
-        // std::filesystem::current_path(Predefine_ResourceDir);
+        std::filesystem::current_path(Predefine_ResourceDir);
         // test_SptsEncodeMux();
-        // test_AVPacketPlayer();
+        test_AVPacketPlayer();
         // test_tsduck();
         return 0;
     }
