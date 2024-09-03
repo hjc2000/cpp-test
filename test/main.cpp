@@ -2,7 +2,6 @@
 #include <base/container/IEnumerable.h>
 #include <base/container/List.h>
 #include <base/container/StdContainerEnumerable.h>
-#include <base/Initializer.h>
 #include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/SingletonGetter.h>
