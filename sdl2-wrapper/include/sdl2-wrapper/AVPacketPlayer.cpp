@@ -69,20 +69,21 @@ void video::test_AVPacketPlayer()
     base::Pump<AVPacketWrapper> packet_pump{in_fmt_ctx};
     packet_pump.ConsumerList().Add(player);
 
-    std::thread{[&]()
-                {
-                    // 将包从封装泵送到播放器。
-                    try
-                    {
-                        packet_pump.PumpDataToConsumers(cancellation_token);
-                    }
-                    catch (std::exception &e)
-                    {
-                        cout << CODE_POS_STR << e.what() << endl;
-                    }
+    std::thread{
+        [&]()
+        {
+            // 将包从封装泵送到播放器。
+            try
+            {
+                packet_pump.PumpDataToConsumers(cancellation_token);
+            }
+            catch (std::exception &e)
+            {
+                cout << CODE_POS_STR << e.what() << endl;
+            }
 
-                    thread_has_exited.SetResult();
-                }}
+            thread_has_exited.SetResult();
+        }}
         .detach();
 
     // 开始播放
