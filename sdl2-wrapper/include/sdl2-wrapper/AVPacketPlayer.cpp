@@ -3,7 +3,10 @@
 #include <ffmpeg-wrapper/wrapper/AVIOContextWrapper.h>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 
-AVPacketPlayer::AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream)
+AVPacketPlayer::AVPacketPlayer(int x,
+                               int y,
+                               AVStreamWrapper &video_stream,
+                               AVStreamWrapper &audio_stream)
 {
     _audio_packet_player = std::shared_ptr<AudioPacketPlayer>{new AudioPacketPlayer{audio_stream}};
     _video_packet_player = std::shared_ptr<VideoPacketPlayer>{new VideoPacketPlayer{x, y, video_stream}};
@@ -59,13 +62,19 @@ void video::test_AVPacketPlayer()
     AVStreamWrapper best_audio_stream = in_fmt_ctx->FindBestStream(AVMediaType::AVMEDIA_TYPE_AUDIO);
     AVStreamWrapper best_video_stream = in_fmt_ctx->FindBestStream(AVMediaType::AVMEDIA_TYPE_VIDEO);
 
-    std::shared_ptr<AVPacketPlayer> player{new AVPacketPlayer{0, 70, best_video_stream, best_audio_stream}};
-    AVPacketWrapper packet;
+    std::shared_ptr<AVPacketPlayer> player{
+        new AVPacketPlayer{
+            0,
+            70,
+            best_video_stream,
+            best_audio_stream,
+        },
+    };
 
+    AVPacketWrapper packet;
     base::CancellationTokenSource cancellation_token_source;
     auto cancellation_token = cancellation_token_source.Token();
     base::TaskCompletionSignal thread_has_exited{false};
-
     base::Pump<AVPacketWrapper> packet_pump{in_fmt_ctx};
     packet_pump.ConsumerList().Add(player);
 

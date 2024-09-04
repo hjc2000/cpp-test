@@ -7,25 +7,11 @@
 
 namespace video
 {
-    /// <summary>
-    ///		同时播放一路流的音频包和一路流的视频包。
-    /// </summary>
+    /// @brief 同时播放一路流的音频包和一路流的视频包。
     class AVPacketPlayer final :
         public base::IDisposable,
         public base::IConsumer<AVPacketWrapper>
     {
-    public:
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x">窗口横坐标</param>
-        /// <param name="y">窗口纵坐标</param>
-        /// <param name="video_stream">要播放的视频流</param>
-        /// <param name="audio_stream">要播放的音频流</param>
-        AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream);
-        ~AVPacketPlayer();
-        void Dispose() override;
-
     private:
         std::atomic_bool _disposed = false;
         std::shared_ptr<VideoPacketPlayer> _video_packet_player;
@@ -34,6 +20,15 @@ namespace video
         int _audio_stream_index = 0;
 
     public:
+        /// @brief
+        /// @param x 窗口横坐标
+        /// @param y 窗口纵坐标
+        /// @param video_stream 要播放的视频流
+        /// @param audio_stream 要播放的音频流
+        AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream);
+        ~AVPacketPlayer();
+        void Dispose() override;
+
         void Pause(bool pause);
         void SendData(AVPacketWrapper &packet) override;
 
