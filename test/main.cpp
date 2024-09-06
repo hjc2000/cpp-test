@@ -37,7 +37,8 @@ int main(void)
 {
     try
     {
-        // std::cout << *base::CreateInstance<int>() << std::endl;
+        std::cout << base::GetSingletonInstance<int>() << std::endl;
+        std::cout << *base::CreateInstance<int>() << std::endl;
         std::cout << *base::GetInstance<int>() << std::endl;
 
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
