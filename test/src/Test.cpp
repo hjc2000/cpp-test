@@ -1,4 +1,5 @@
 #include <base/di/CreateInstance.h>
+#include <base/di/GetInstance.h>
 #include <base/di/GetSingletonInstance.h>
 #include <base/di/SingletonGetter.h>
 #include <iostream>
@@ -36,5 +37,11 @@ namespace base
     std::shared_ptr<int> CreateInstance<int>()
     {
         return std::shared_ptr<int>{new int{777}};
+    }
+
+    template <>
+    std::shared_ptr<int> GetInstance<int>()
+    {
+        return std::shared_ptr<int>{new int{888}};
     }
 } // namespace base
