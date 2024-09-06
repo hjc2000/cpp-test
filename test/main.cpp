@@ -2,6 +2,7 @@
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/iterator/StdContainerEnumerable.h>
 #include <base/container/List.h>
+#include <base/di/CreateInstance.h>
 #include <base/di/GetSingletonInstance.h>
 #include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
@@ -22,13 +23,17 @@ namespace base
 {
     template <>
     int &GetSingletonInstance<int>();
-}
+
+    template <>
+    std::shared_ptr<int> CreateInstance<int>();
+
+} // namespace base
 
 int main(void)
 {
     try
     {
-        std::cout << base::GetSingletonInstance<int>() << std::endl;
+        std::cout << *base::CreateInstance<int>() << std::endl;
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
