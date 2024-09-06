@@ -1,7 +1,7 @@
 #include <algorithm>
-#include <base/container/IEnumerable.h>
+#include <base/container/iterator/IEnumerable.h>
+#include <base/container/iterator/StdContainerEnumerable.h>
 #include <base/container/List.h>
-#include <base/container/StdContainerEnumerable.h>
 #include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/SingletonGetter.h>
