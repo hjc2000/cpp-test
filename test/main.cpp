@@ -2,9 +2,6 @@
 #include <base/container/iterator/IEnumerable.h>
 #include <base/container/iterator/StdContainerEnumerable.h>
 #include <base/container/List.h>
-#include <base/di/CreateInstance.h>
-#include <base/di/GetInstance.h>
-#include <base/di/GetSingletonInstance.h>
 #include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/string/ToHexString.h>
@@ -20,32 +17,15 @@
 #include <time.h>
 #include <windows.h>
 
-namespace base
-{
-    template <>
-    int &GetSingletonInstance<int>();
-
-    template <>
-    std::shared_ptr<int> CreateInstance<int>();
-
-    template <>
-    std::shared_ptr<int> GetInstance<int>();
-
-} // namespace base
-
 int main(void)
 {
     try
     {
-        std::cout << base::GetSingletonInstance<int>() << std::endl;
-        std::cout << *base::CreateInstance<int>() << std::endl;
-        std::cout << *base::GetInstance<int>() << std::endl;
-
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
-        // std::filesystem::current_path(Predefine_ResourceDir);
-        // test_AVPacketPlayer();
+        std::filesystem::current_path(Predefine_ResourceDir);
+        test_AVPacketPlayer();
         // test_SptsEncodeMux();
         // test_tsduck();
         return 0;
