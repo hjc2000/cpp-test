@@ -55,7 +55,13 @@ void AVPacketPlayer::SendData(AVPacketWrapper &packet)
 void video::test_AVPacketPlayer()
 {
     auto fs = base::FileStream::Open("idol.mp4");
-    std::shared_ptr<AVIOContextWrapper> io_context{new AVIOContextWrapper{false, fs}};
+    std::shared_ptr<AVIOContextWrapper> io_context{
+        new AVIOContextWrapper{
+            video::AVIOContextWrapper_IsWrite{false},
+            fs,
+        },
+    };
+
     std::shared_ptr<InputFormat> in_fmt_ctx{new InputFormat{io_context}};
     in_fmt_ctx->DumpFormat();
 
