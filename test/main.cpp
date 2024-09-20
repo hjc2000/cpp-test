@@ -21,14 +21,11 @@ int main(void)
 {
     try
     {
-        std::cout << base::Fraction{5, -2}.Floor() << std::endl;
-        std::cout << base::Fraction{5, -2}.Ceil() << std::endl;
-
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
-        // std::filesystem::current_path(Predefine_ResourceDir);
-        // test_AVPacketPlayer();
+        std::filesystem::current_path(Predefine_ResourceDir);
+        test_AVPacketPlayer();
         // test_SptsEncodeMux();
         // test_tsduck();
         return 0;
