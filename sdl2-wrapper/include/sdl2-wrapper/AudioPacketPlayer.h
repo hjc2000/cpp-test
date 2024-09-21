@@ -15,18 +15,11 @@
 namespace video
 {
     /// @brief 在回调中向播放器送入音频包，播放器会解码，然后播放。
-    class AudioPacketPlayer final :
+    class AudioPacketPlayer :
         public base::IDisposable,
         public IRefTimer,
         public base::IConsumer<AVPacketWrapper>
     {
-    public:
-        /// @brief 通过音频流初始化播放器。包括创建内部解码器等操作。
-        /// @param stream
-        AudioPacketPlayer(AVStreamWrapper const &stream);
-        ~AudioPacketPlayer();
-        void Dispose() override;
-
     private:
         std::atomic_bool _disposed = false;
         std::shared_ptr<AudioFramePlayer> _player;
@@ -46,6 +39,12 @@ namespace video
         void DecodingThreadFunc();
 
     public:
+        /// @brief 通过音频流初始化播放器。包括创建内部解码器等操作。
+        /// @param stream
+        AudioPacketPlayer(AVStreamWrapper const &stream);
+        ~AudioPacketPlayer();
+        void Dispose() override;
+
         int64_t RefTime() override;
 
         /// @brief 暂停或开始播放。此方法会启动解码线程。

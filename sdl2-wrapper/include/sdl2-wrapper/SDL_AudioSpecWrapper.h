@@ -22,7 +22,7 @@ namespace video
         SDL_AudioSpecWrapper(IAudioFrameInfoCollection const &infos);
         SDL_AudioSpecWrapper(IAudioStreamInfoCollection const &infos);
         SDL_AudioSpecWrapper(SDL_AudioSpecWrapper const &another);
-        video::SDL_AudioSpecWrapper &operator=(video::SDL_AudioSpecWrapper const &another);
+        SDL_AudioSpecWrapper &operator=(SDL_AudioSpecWrapper const &another);
 
         SDL_AudioSpec *&WrappedObj() override
         {

@@ -3,6 +3,12 @@
 using namespace video;
 using namespace std;
 
+void AudioPacketPlayer::DecodingThreadFunc()
+{
+    _decoding_thread_can_start.Wait();
+    _packet_pump->PumpDataToConsumers(_cancel_pump_source.Token());
+}
+
 AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper const &stream)
 {
 #pragma region 安装管道
@@ -18,31 +24,35 @@ AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper const &stream)
     };
 
     // 将包从队列送到管道解码器的泵
-    _packet_pump = shared_ptr<base::Pump<AVPacketWrapper>>{new base::Pump<AVPacketWrapper>{_packet_queue}};
+    _packet_pump = shared_ptr<base::Pump<AVPacketWrapper>>{
+        new base::Pump<AVPacketWrapper>{_packet_queue},
+    };
+
     _packet_pump->ConsumerList().Add(_decoder_pipe);
 #pragma endregion
 
     // 解码线程
-    std::thread([&]()
-                {
-                    try
-                    {
-                        DecodingThreadFunc();
-                    }
-                    catch (std::exception &e)
-                    {
-                        cout << CODE_POS_STR << e.what() << endl;
-                    }
+    std::thread(
+        [&]()
+        {
+            try
+            {
+                DecodingThreadFunc();
+            }
+            catch (std::exception &e)
+            {
+                cout << CODE_POS_STR << e.what() << endl;
+            }
 
-                    _decoding_thread_has_exited.SetResult();
-                })
+            _decoding_thread_has_exited.SetResult();
+        })
         .detach();
 }
 
 AudioPacketPlayer::~AudioPacketPlayer()
 {
     Dispose();
-    cout << "~AudioPacketPlayer" << endl;
+    cout << "~AudioPacketPlayer()" << endl;
 }
 
 void AudioPacketPlayer::Dispose()
@@ -60,12 +70,6 @@ void AudioPacketPlayer::Dispose()
     _player->Dispose();
     _packet_queue->Dispose();
     _decoding_thread_has_exited.Wait();
-}
-
-void AudioPacketPlayer::DecodingThreadFunc()
-{
-    _decoding_thread_can_start.Wait();
-    _packet_pump->PumpDataToConsumers(_cancel_pump_source.Token());
 }
 
 int64_t AudioPacketPlayer::RefTime()
