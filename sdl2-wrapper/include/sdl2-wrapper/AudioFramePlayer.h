@@ -14,7 +14,7 @@
 
 namespace video
 {
-    class AudioFramePlayer final :
+    class AudioFramePlayer :
         public base::IDisposable,
         public IRefTimer,
         public base::IConsumer<AVFrameWrapper>

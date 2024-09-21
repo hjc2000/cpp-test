@@ -20,7 +20,7 @@ void SDL_Initializer::Initialize(SDL_InitOption option)
     {
         // 发生了错误
         auto error = SDL_GetError();
-        cout << error << endl;
+        std::cout << error << std::endl;
         throw std::runtime_error(error);
     }
 

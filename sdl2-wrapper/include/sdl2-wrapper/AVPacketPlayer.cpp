@@ -18,7 +18,7 @@ AVPacketPlayer::AVPacketPlayer(int x,
 AVPacketPlayer::~AVPacketPlayer()
 {
     Dispose();
-    cout << __func__ << endl;
+    std::cout << __func__ << std::endl;
 }
 
 void AVPacketPlayer::Dispose()
@@ -94,7 +94,7 @@ void video::test_AVPacketPlayer()
             }
             catch (std::exception &e)
             {
-                cout << CODE_POS_STR << e.what() << endl;
+                std::cout << CODE_POS_STR << e.what() << std::endl;
             }
 
             thread_has_exited.SetResult();

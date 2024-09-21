@@ -44,6 +44,6 @@ namespace video
         /// @note 单位：毫秒。
         ///
         /// @return 返回下一次回调的时间间隔，单位毫秒。例如返回 1000，则下一次回调会在 1000ms 后。
-        function<uint32_t(uint32_t interval)> _callback = nullptr;
+        std::function<uint32_t(uint32_t interval)> _callback = nullptr;
     };
 } // namespace video

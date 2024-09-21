@@ -43,7 +43,7 @@ namespace video
         /// 所以，一定要保证写入成功。
         /// @param stream SDL 的音频缓冲区，需要将音频数据复制到这里。
         /// @param len 音频缓冲区的大小。写入音频数据不可以超过此大小。
-        function<void(uint8_t *stream, int len)> _audio_callback;
+        std::function<void(uint8_t *stream, int len)> _audio_callback;
 
         /// @brief 暂停或播放。
         /// @note 本方法不会阻塞，可以在回调函数中使用。

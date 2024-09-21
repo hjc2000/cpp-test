@@ -29,7 +29,7 @@ uint32_t video::Timer::static_callback(uint32_t interval, void *param)
     Timer *me = (Timer *)param;
     if (me->_callback_should_stop)
     {
-        cout << "Timer 停止" << endl;
+        std::cout << "Timer 停止" << std::endl;
         me->_callback_has_stopped.SetResult();
         return 0;
     }
@@ -38,7 +38,7 @@ uint32_t video::Timer::static_callback(uint32_t interval, void *param)
     if (ret == 0)
     {
         // _callback 返回值为 0，说明用户想停止定时器。
-        cout << "Timer 停止" << endl;
+        std::cout << "Timer 停止" << std::endl;
         me->_callback_has_stopped.SetResult();
         return 0;
     }
@@ -54,7 +54,7 @@ void video::Timer::Start(uint32_t interval_in_milliseconds)
         /* _callback_has_stopped 没完成，说明当前有一个回调任务没被停下来，
          * 即有一个定时器正在运行。
          */
-        cout << "请先停止当前定时任务再启动新的" << endl;
+        std::cout << "请先停止当前定时任务再启动新的" << std::endl;
         return;
     }
 

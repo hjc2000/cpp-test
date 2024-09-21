@@ -16,7 +16,7 @@ video::SDL_WindowWrapper::SDL_WindowWrapper(char const *title,
 
 video::SDL_WindowWrapper::~SDL_WindowWrapper()
 {
-    std::cout << "~SDL_WindowWrapper()" << endl;
+    std::cout << "~SDL_WindowWrapper()" << std::endl;
     SDL_DestroyWindow(_wrapped_obj);
 }
 

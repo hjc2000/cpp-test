@@ -13,15 +13,9 @@ extern "C"
 #include <SDL.h>
 }
 
-using std::cout;
-using std::endl;
-using std::function;
-
 namespace video
 {
-    /// <summary>
-    ///		选择初始化哪些模块
-    /// </summary>
+    /// @brief 选择初始化哪些模块
     enum class SDL_InitOption
     {
         Timer = SDL_INIT_TIMER,
@@ -36,11 +30,9 @@ namespace video
         Everything = SDL_INIT_EVERYTHING,
     };
 
-    /// <summary>
-    ///		SDL 初始化器。
-    ///		调用任何 SDL 的函数之前，应该至少调用过一次本类的 Initialize 方法。
-    /// </summary>
-    class SDL_Initializer final
+    /// @brief SDL 初始化器。
+    /// @note 调用任何 SDL 的函数之前，应该至少调用过一次本类的 Initialize 方法。
+    class SDL_Initializer
     {
     private:
         SDL_Initializer() = delete;

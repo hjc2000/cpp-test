@@ -9,7 +9,7 @@ AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
 {
     _time_base = infos.TimeBase();
     _device = std::shared_ptr<SDL_DefaultAudioDevice>{new SDL_DefaultAudioDevice{}};
-    cout << _device->ToString() << endl;
+    std::cout << _device->ToString() << endl;
 
     _device->_audio_callback = [&](uint8_t *stream, int len)
     {
@@ -23,7 +23,7 @@ AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
 AudioFramePlayer::~AudioFramePlayer()
 {
     Dispose();
-    cout << "~AudioFramePlayer()" << endl;
+    std::cout << "~AudioFramePlayer()" << std::endl;
 }
 
 void AudioFramePlayer::Dispose()
@@ -51,11 +51,12 @@ void AudioFramePlayer::AudioCallbackHandler(uint8_t *stream, int len)
     if (ret)
     {
         // 发生了未知错误，或者发生了 eof，即播放器已经被冲洗了。
+
         /* 冲洗播放器的方法是调用本播放器对象的 send_frame 方法时传入空指针，
          * 这将冲洗重采样器。
          */
         Pause(true);
-        cout << "发生了错误或到达文件尾，AudioFramePlayer 停止播放" << endl;
+        std::cout << "发生了错误或到达文件尾，AudioFramePlayer 停止播放" << std::endl;
         return;
     }
 
@@ -102,7 +103,7 @@ void AudioFramePlayer::SendData(AVFrameWrapper &frame)
     }
     catch (std::exception &e)
     {
-        cout << CODE_POS_STR << e.what() << endl;
+        std::cout << CODE_POS_STR << e.what() << std::endl;
     }
 }
 
