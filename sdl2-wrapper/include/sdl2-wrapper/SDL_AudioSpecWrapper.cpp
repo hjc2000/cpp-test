@@ -11,14 +11,15 @@ video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(IAudioStreamInfoCollection con
     IAudioStreamInfoCollection::operator=(infos);
 }
 
-video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(SDL_AudioSpecWrapper &another)
+video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(SDL_AudioSpecWrapper const &another)
 {
     *this = another;
 }
 
-void video::SDL_AudioSpecWrapper::operator=(SDL_AudioSpecWrapper const &another)
+SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(SDL_AudioSpecWrapper const &another)
 {
     _spec = another._spec;
+    return *this;
 }
 
 base::Json video::SDL_AudioSpecWrapper::ToJson()
