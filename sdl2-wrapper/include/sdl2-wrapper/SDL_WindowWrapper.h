@@ -6,42 +6,31 @@
 
 namespace video
 {
-    /// <summary>
-    ///		创建渲染器时用来选择渲染器的类型
-    /// </summary>
+    /// @brief 创建渲染器时用来选择渲染器的类型
     enum class RendererFlags
     {
-        /**
-         * @brief 不进行设置。
-         * 这个是我自己添加的，官方的 SDL_RendererFlags 里是没有的，
-         * 但是官方的函数是使用 uint32_t 接收 SDL_RendererFlags 类型变量的，并且允许
-         * 传入 0 或者 SDL_RendererFlags 中的一个或多个值按位相或。所以我在这里添加一个
-         * 扩展的 unset
-         */
+        /// @brief 不进行设置。
+        /// @note 这个是我自己添加的，官方的 SDL_RendererFlags 里是没有的，
+        /// 但是官方的函数是使用 uint32_t 接收 SDL_RendererFlags 类型变量的，并且允许
+        /// 传入 0 或者 SDL_RendererFlags 中的一个或多个值按位相或。所以我在这里添加一个
+        /// 扩展的 unset
         Unset = 0,
 
-        /**
-         * @brief The renderer is a software fallback
-         */
+        /// @brief The renderer is a software fallback
         Software = ::SDL_RendererFlags::SDL_RENDERER_SOFTWARE,
 
-        /**
-         * @brief The renderer uses hardware acceleration
-         */
+        /// @brief The renderer uses hardware acceleration
         Accelerated = ::SDL_RendererFlags::SDL_RENDERER_ACCELERATED,
 
-        /**
-         * @brief Present is synchronized with the refresh rate
-         */
+        /// @brief Present is synchronized with the refresh rate
         Presentvsync = ::SDL_RendererFlags::SDL_RENDERER_PRESENTVSYNC,
 
-        /**
-         * @brief The renderer supports rendering to texture
-         */
+        /// @brief The renderer supports rendering to texture
         RendererTargetTexture = ::SDL_RendererFlags::SDL_RENDERER_TARGETTEXTURE,
     };
 
-    class SDL_WindowWrapper final :
+    /// @brief SDL 窗口包装器
+    class SDL_WindowWrapper :
         public base::Wrapper<SDL_Window>
     {
     private:
@@ -58,27 +47,20 @@ namespace video
         int UpdateWindowSurface();
         SDL_Surface *GetWindowSurface();
 
-        /// <summary>
-        ///		创建一个渲染器
-        /// </summary>
-        /// <param name="index"></param>
-        /// <param name="flags"></param>
-        /// <returns></returns>
-        std::shared_ptr<video::SDL_RendererWrapper> CreateRenderer(
-            int index,
-            RendererFlags flags = RendererFlags::Unset);
+        /// @brief 创建一个渲染器
+        /// @param index
+        /// @param flags
+        /// @return
+        std::shared_ptr<video::SDL_RendererWrapper>
+        CreateRenderer(int index, RendererFlags flags = RendererFlags::Unset);
 
-        /// <summary>
-        ///		设置窗口的位置
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// @brief 设置窗口的位置
+        /// @param x
+        /// @param y
         void SetWindowPosition(int x, int y);
 
-        /// <summary>
-        ///		获取屏幕尺寸
-        /// </summary>
-        /// <returns></returns>
+        /// @brief 获取屏幕尺寸
+        /// @return
         static SDL_Rect GetScreenSize();
 
         SDL_Window *&WrappedObj() override
