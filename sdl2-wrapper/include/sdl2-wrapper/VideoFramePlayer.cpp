@@ -1,8 +1,5 @@
 #include "VideoFramePlayer.h"
 
-using namespace video;
-using namespace std;
-
 video::VideoFramePlayer::VideoFramePlayer(
     int x,
     int y,
@@ -11,15 +8,18 @@ video::VideoFramePlayer::VideoFramePlayer(
     SDL_WindowFlags flags)
 {
     _video_stream_infos = infos;
-    _displayer = shared_ptr<VideoFrameDisplayer>{new VideoFrameDisplayer{
-        x,
-        y,
-        _video_stream_infos.Width(),
-        _video_stream_infos.Height(),
-        _video_stream_infos.PixelFormat(),
-        window_title,
-        flags,
-    }};
+
+    _displayer = std::shared_ptr<VideoFrameDisplayer>{
+        new VideoFrameDisplayer{
+            x,
+            y,
+            _video_stream_infos.Width(),
+            _video_stream_infos.Height(),
+            _video_stream_infos.PixelFormat(),
+            window_title,
+            flags,
+        },
+    };
 
     _timer._callback = [&](uint32_t interval_in_milliseconds) -> uint32_t
     {
@@ -27,23 +27,26 @@ video::VideoFramePlayer::VideoFramePlayer(
     };
 }
 
-VideoFramePlayer::~VideoFramePlayer()
+video::VideoFramePlayer::~VideoFramePlayer()
 {
     Dispose();
-    cout << "~VideoFramePlayer()" << endl;
+    std::cout << "~VideoFramePlayer()" << std::endl;
 }
 
-void VideoFramePlayer::Dispose()
+void video::VideoFramePlayer::Dispose()
 {
     if (_disposed)
+    {
         return;
+    }
+
     _disposed = true;
 
     _frame_queue.Dispose();
     _timer.Stop();
 }
 
-shared_ptr<IRefTimer> VideoFramePlayer::RefTimer()
+std::shared_ptr<video::IRefTimer> video::VideoFramePlayer::RefTimer()
 {
     return _ref_timer;
 }
@@ -55,9 +58,9 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
     {
         frame = _frame_queue.Dequeue();
     }
-    catch (std::runtime_error &e)
+    catch (std::runtime_error const &e)
     {
-        cout << CODE_POS_STR << "_frame_queue.Dequeue() 抛出异常。停止 SDL 定时器" << endl;
+        std::cout << CODE_POS_STR << "_frame_queue.Dequeue() 抛出异常。停止 SDL 定时器" << std::endl;
         return 0;
     }
 
@@ -74,7 +77,7 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
     // 需要进行音视频同步
     int64_t ref_time = RefTime();
     int64_t e_t = video_time - ref_time;
-    cout << e_t << endl;
+    std::cout << e_t << std::endl;
 
     int64_t next_interval = static_cast<int64_t>(_video_stream_infos.FrameInterval() * 1000 + e_t);
     if (next_interval <= 0)
@@ -87,7 +90,7 @@ uint32_t video::VideoFramePlayer::SDL_TimerCallbackHandler(uint32_t interval_in_
         next_interval = 1;
     }
 
-    return (uint32_t)next_interval;
+    return static_cast<uint32_t>(next_interval);
 }
 
 void video::VideoFramePlayer::Pause(bool pause)
@@ -104,7 +107,7 @@ void video::VideoFramePlayer::Pause(bool pause)
 
     // 开始播放
     uint32_t interval = static_cast<int64_t>(_video_stream_infos.FrameInterval() * 1000);
-    cout << "开始播放，帧间隔为：" << interval << endl;
+    std::cout << "开始播放，帧间隔为：" << interval << std::endl;
     _timer.Start(interval);
 }
 
@@ -119,14 +122,12 @@ void video::VideoFramePlayer::Flush()
     _frame_queue.Flush();
 }
 
-void VideoFramePlayer::SetRefTimer(shared_ptr<IRefTimer> value)
+void video::VideoFramePlayer::SetRefTimer(std::shared_ptr<IRefTimer> value)
 {
-    lock_guard l(_ref_timer_lock);
     _ref_timer = value;
 }
 
-int64_t VideoFramePlayer::RefTime()
+int64_t video::VideoFramePlayer::RefTime()
 {
-    lock_guard l(_ref_timer_lock);
     return _ref_timer->RefTime();
 }

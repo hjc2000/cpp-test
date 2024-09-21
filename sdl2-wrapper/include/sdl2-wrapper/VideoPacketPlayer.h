@@ -23,29 +23,21 @@ namespace video
         std::shared_ptr<IDecoderPipe> _decoder_pipe;
         std::shared_ptr<VideoFramePlayer> _player;
 
-        /// <summary>
-        ///		解码线程创建后会立刻等待此信号，当时机成熟，解码线程可以开始执行了，
-        ///		就将此信号设置为已完成。
-        /// </summary>
+        /// @brief 解码线程创建后会立刻等待此信号，当时机成熟，解码线程可以开始执行了，
+        /// 就将此信号设置为已完成。
         base::TaskCompletionSignal _decoding_thread_can_start{false};
 
-        /// <summary>
-        ///		解码线程退出后设为已完成。
-        /// </summary>
+        /// @brief 解码线程退出后设为已完成。
         base::TaskCompletionSignal _thread_has_exited{true};
 
-        /// <summary>
-        ///		用于解码的线程函数
-        /// </summary>
+        /// @brief 用于解码的线程函数
         void DecodingThreadFunc();
 
     public:
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x">窗口的横坐标</param>
-        /// <param name="y">窗口的纵坐标</param>
-        /// <param name="stream">想要播放的流。必须是视频流。</param>
+        /// @brief
+        /// @param x 窗口的横坐标
+        /// @param y 窗口的纵坐标
+        /// @param stream 想要播放的流。必须是视频流。
         VideoPacketPlayer(int x, int y, AVStreamWrapper &stream);
         ~VideoPacketPlayer();
         void Dispose() override;
@@ -68,13 +60,11 @@ namespace video
 
         std::shared_ptr<IRefTimer> RefTimer();
 
-        /// <summary>
-        ///		设置参考时钟。
-        ///		- 传入非空指针则开启同步。本视频帧播放器会同步到此参考时钟。
-        ///		- 传入空指针可以关闭同步。
-        ///		- 可以随时传入空指针来关闭音视频同步。
-        /// </summary>
-        /// <param name="value"></param>
+        /// @brief 设置参考时钟。
+        /// @note 传入非空指针则开启同步。本视频帧播放器会同步到此参考时钟。
+        /// @note 传入空指针可以关闭同步。
+        /// @note 可以随时传入空指针来关闭音视频同步。
+        /// @param value
         void SetRefTimer(std::shared_ptr<IRefTimer> value);
     };
 } // namespace video

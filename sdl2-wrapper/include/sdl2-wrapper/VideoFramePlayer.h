@@ -9,15 +9,13 @@
 #include <ffmpeg-wrapper/info-collection/VideoStreamInfoCollection.h>
 #include <ffmpeg-wrapper/wrapper/AVCodecContextWrapper.h>
 #include <ffmpeg-wrapper/wrapper/AVStreamWrapper.h>
-#include <mutex>
 #include <sdl2-wrapper/IRefTimer.h>
 #include <sdl2-wrapper/Timer.h>
 #include <sdl2-wrapper/VideoFrameDisplayer.h>
-#include <semaphore>
 
 namespace video
 {
-    class VideoFramePlayer final :
+    class VideoFramePlayer :
         public base::IConsumer<AVFrameWrapper>,
         public base::IDisposable
     {
@@ -27,40 +25,30 @@ namespace video
         std::shared_ptr<VideoFrameDisplayer> _displayer;
         VideoStreamInfoCollection _video_stream_infos{};
         base::HysteresisBlockingQueue<AVFrameWrapper> _frame_queue{10};
-        std::mutex _ref_timer_lock;
         std::shared_ptr<IRefTimer> _ref_timer;
-#pragma endregion
 
-        /// <summary>
-        ///		Timer 回调处理函数。
-        ///		需要在这里向显示器送入帧。
-        /// </summary>
-        /// <returns></returns>
+        /// @brief Timer 回调处理函数，需要在这里向显示器送入帧。
+        /// @param interval_in_milliseconds
+        /// @return
         uint32_t SDL_TimerCallbackHandler(uint32_t interval_in_milliseconds);
 
     public:
-        VideoFramePlayer(
-            int x,
-            int y,
-            IVideoStreamInfoCollection &infos,
-            std::string window_title,
-            SDL_WindowFlags flags);
+        VideoFramePlayer(int x,
+                         int y,
+                         IVideoStreamInfoCollection &infos,
+                         std::string window_title,
+                         SDL_WindowFlags flags);
 
         ~VideoFramePlayer();
         void Dispose() override;
 
-        /// <summary>
-        ///		暂停播放。
-        ///		本方法不会阻塞，可以在回调函数中使用。
-        /// </summary>
-        /// <param name="pause"></param>
+        /// @brief 暂停播放。
+        /// @param pause 本方法不会阻塞，可以在回调函数中使用。
         void Pause(bool pause);
 
-        /// <summary>
-        ///		将帧送入队列。送入空指针冲洗队列。
-        ///		播放器内部队列满时本方法会阻塞，直到消费到小于阈值才会取消阻塞。
-        /// </summary>
-        /// <param name="frame">要被送入队列的帧</param>
+        /// @brief 将帧送入队列。送入空指针冲洗队列。
+        /// 播放器内部队列满时本方法会阻塞，直到消费到小于阈值才会取消阻塞。
+        /// @param frame 要被送入队列的帧
         void SendData(AVFrameWrapper &frame) override;
 
         void Flush() override;
@@ -68,19 +56,16 @@ namespace video
 #pragma region 参考时钟
         std::shared_ptr<IRefTimer> RefTimer();
 
-        /// <summary>
-        ///		设置参考时钟。
-        ///		- 传入非空指针则开启同步。本视频帧播放器会同步到此参考时钟。
-        ///		- 传入空指针可以关闭同步。
-        ///		- 可以随时传入空指针来关闭音视频同步。
-        /// </summary>
-        /// <param name="value"></param>
+        /// @brief 设置参考时钟。
+        /// @note 传入非空指针则开启同步。本视频帧播放器会同步到此参考时钟。
+        /// @note 传入空指针可以关闭同步。
+        /// @note 可以随时传入空指针来关闭音视频同步。
+        /// @param value
         void SetRefTimer(std::shared_ptr<IRefTimer> value);
 
-        /// <summary>
-        ///		获取当前的参考时间。单位：毫秒。
-        /// </summary>
-        /// <returns></returns>
+        /// @brief 获取当前的参考时间。单位：毫秒。
+        /// @return
         int64_t RefTime();
+#pragma endregion
     };
 } // namespace video
