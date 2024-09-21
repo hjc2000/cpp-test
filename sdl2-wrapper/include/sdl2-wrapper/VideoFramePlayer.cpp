@@ -3,7 +3,7 @@
 video::VideoFramePlayer::VideoFramePlayer(
     int x,
     int y,
-    IVideoStreamInfoCollection &infos,
+    IVideoStreamInfoCollection const &infos,
     std::string window_title,
     SDL_WindowFlags flags)
 {

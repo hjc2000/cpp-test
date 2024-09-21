@@ -5,7 +5,7 @@
 
 using namespace video;
 
-AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection &infos)
+AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection const &infos)
 {
     _time_base = infos.TimeBase();
     _device = std::shared_ptr<SDL_DefaultAudioDevice>{new SDL_DefaultAudioDevice{}};

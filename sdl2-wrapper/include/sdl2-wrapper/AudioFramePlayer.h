@@ -38,7 +38,7 @@ namespace video
     public:
         /// @brief 要求 infos 中的 time_base 属性必须是有效的，本对象要使用此属性。
         /// @param infos
-        AudioFramePlayer(IAudioStreamInfoCollection &infos);
+        AudioFramePlayer(IAudioStreamInfoCollection const &infos);
         ~AudioFramePlayer();
         void Dispose() override;
 

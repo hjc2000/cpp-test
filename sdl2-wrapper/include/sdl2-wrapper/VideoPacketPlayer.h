@@ -11,7 +11,7 @@
 
 namespace video
 {
-    class VideoPacketPlayer final :
+    class VideoPacketPlayer :
         public base::IDisposable,
         public base::IConsumer<AVPacketWrapper>
     {
@@ -34,21 +34,17 @@ namespace video
         void DecodingThreadFunc();
 
     public:
-        /// @brief
+        /// @brief 视频包播放器。
         /// @param x 窗口的横坐标
         /// @param y 窗口的纵坐标
         /// @param stream 想要播放的流。必须是视频流。
-        VideoPacketPlayer(int x, int y, AVStreamWrapper &stream);
+        VideoPacketPlayer(int x, int y, AVStreamWrapper const &stream);
         ~VideoPacketPlayer();
         void Dispose() override;
 
-        /// <summary>
-        ///		向播放器送入包。可以送入空指针，用来冲洗播放器。
-        ///		当内部的包队列满时，此函数会被阻塞。
-        /// </summary>
-        /// <param name="packet">要送入播放器的包。送入空指针表示冲洗播放器。</param>
-        /// <exception cref="ObjectDisposedException"></exception>
-        /// <exception cref="InvalidOperationException">冲洗后如果再调用本方法会抛出异常。</exception>
+        /// @brief 向播放器送入包。可以送入空指针，用来冲洗播放器。
+        /// 当内部的包队列满时，此函数会被阻塞。
+        /// @param packet 要送入播放器的包。送入空指针表示冲洗播放器。
         void SendData(AVPacketWrapper &packet) override;
 
         void Flush() override
