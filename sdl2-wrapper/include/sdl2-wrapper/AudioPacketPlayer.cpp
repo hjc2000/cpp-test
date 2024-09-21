@@ -3,7 +3,7 @@
 using namespace video;
 using namespace std;
 
-AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper &stream)
+AudioPacketPlayer::AudioPacketPlayer(AVStreamWrapper const &stream)
 {
 #pragma region 安装管道
     // 根据音频流构造音频帧播放器

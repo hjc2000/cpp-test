@@ -25,7 +25,7 @@ int main(void)
         // return 0;
 
         std::filesystem::current_path(Predefine_ResourceDir);
-        test_AVPacketPlayer();
+        video::test_AVPacketPlayer();
         // test_SptsEncodeMux();
         // test_tsduck();
         return 0;

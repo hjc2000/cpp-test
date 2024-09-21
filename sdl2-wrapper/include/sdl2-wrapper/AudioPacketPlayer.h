@@ -23,7 +23,7 @@ namespace video
     public:
         /// @brief 通过音频流初始化播放器。包括创建内部解码器等操作。
         /// @param stream
-        AudioPacketPlayer(AVStreamWrapper &stream);
+        AudioPacketPlayer(AVStreamWrapper const &stream);
         ~AudioPacketPlayer();
         void Dispose() override;
 

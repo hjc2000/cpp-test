@@ -3,10 +3,10 @@
 #include <ffmpeg-wrapper/wrapper/AVIOContextWrapper.h>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 
-AVPacketPlayer::AVPacketPlayer(int x,
-                               int y,
-                               AVStreamWrapper &video_stream,
-                               AVStreamWrapper &audio_stream)
+video::AVPacketPlayer::AVPacketPlayer(int x,
+                                      int y,
+                                      AVStreamWrapper const &video_stream,
+                                      AVStreamWrapper const &audio_stream)
 {
     _audio_packet_player = std::shared_ptr<AudioPacketPlayer>{new AudioPacketPlayer{audio_stream}};
     _video_packet_player = std::shared_ptr<VideoPacketPlayer>{new VideoPacketPlayer{x, y, video_stream}};
@@ -15,13 +15,13 @@ AVPacketPlayer::AVPacketPlayer(int x,
     _audio_stream_index = audio_stream.Index();
 }
 
-AVPacketPlayer::~AVPacketPlayer()
+video::AVPacketPlayer::~AVPacketPlayer()
 {
     Dispose();
     std::cout << __func__ << std::endl;
 }
 
-void AVPacketPlayer::Dispose()
+void video::AVPacketPlayer::Dispose()
 {
     if (_disposed)
     {
@@ -34,13 +34,13 @@ void AVPacketPlayer::Dispose()
     _video_packet_player->Dispose();
 }
 
-void AVPacketPlayer::Pause(bool pause)
+void video::AVPacketPlayer::Pause(bool pause)
 {
     _audio_packet_player->Pause(pause);
     _video_packet_player->Pause(pause);
 }
 
-void AVPacketPlayer::SendData(AVPacketWrapper &packet)
+void video::AVPacketPlayer::SendData(AVPacketWrapper &packet)
 {
     if (packet.StreamIndex() == _video_stream_index)
     {

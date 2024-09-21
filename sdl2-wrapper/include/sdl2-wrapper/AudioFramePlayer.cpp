@@ -9,7 +9,7 @@ AudioFramePlayer::AudioFramePlayer(IAudioStreamInfoCollection const &infos)
 {
     _time_base = infos.TimeBase();
     _device = std::shared_ptr<SDL_DefaultAudioDevice>{new SDL_DefaultAudioDevice{}};
-    std::cout << _device->ToString() << endl;
+    std::cout << _device->ToString() << std::endl;
 
     _device->_audio_callback = [&](uint8_t *stream, int len)
     {

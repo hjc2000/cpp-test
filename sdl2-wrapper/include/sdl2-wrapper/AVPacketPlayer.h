@@ -25,7 +25,10 @@ namespace video
         /// @param y 窗口纵坐标
         /// @param video_stream 要播放的视频流
         /// @param audio_stream 要播放的音频流
-        AVPacketPlayer(int x, int y, AVStreamWrapper &video_stream, AVStreamWrapper &audio_stream);
+        AVPacketPlayer(int x, int y,
+                       AVStreamWrapper const &video_stream,
+                       AVStreamWrapper const &audio_stream);
+
         ~AVPacketPlayer();
         void Dispose() override;
 

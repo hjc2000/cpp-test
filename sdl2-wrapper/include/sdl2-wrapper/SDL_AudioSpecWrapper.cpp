@@ -16,7 +16,7 @@ video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(SDL_AudioSpecWrapper const &an
     *this = another;
 }
 
-SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(SDL_AudioSpecWrapper const &another)
+video::SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(video::SDL_AudioSpecWrapper const &another)
 {
     _spec = another._spec;
     return *this;
