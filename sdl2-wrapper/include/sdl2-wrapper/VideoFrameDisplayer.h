@@ -10,10 +10,8 @@
 
 namespace video
 {
-    /**
-     * @brief 视频帧显示器
-     */
-    class VideoFrameDisplayer final :
+    /// @brief 视频帧显示器
+    class VideoFrameDisplayer :
         public base::IConsumer<AVFrameWrapper>
     {
     private:
@@ -30,13 +28,9 @@ namespace video
                             std::string window_title,
                             SDL_WindowFlags flags);
 
-        /// <summary>
-        ///		显示视频帧。
-        /// </summary>
-        /// <param name="frame">
-        ///		要显示的帧。送入空指针会直接返回，不会有任何影响。
-        ///		注意，一定要送入视频帧，不能送入音频帧。
-        /// </param>
+        /// @brief 显示视频帧。
+        /// @param frame 要显示的帧。送入空指针会直接返回，不会有任何影响。
+        /// 注意，一定要送入视频帧，不能送入音频帧。
         void SendData(AVFrameWrapper &frame) override;
 
         void Flush() override;
