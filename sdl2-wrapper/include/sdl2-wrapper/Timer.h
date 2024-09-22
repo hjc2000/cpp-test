@@ -18,6 +18,7 @@ namespace video
         static uint32_t static_callback(uint32_t interval, void *param);
 
     public:
+        /// @brief 基于 SDL 的定时器
         Timer();
         ~Timer();
 
