@@ -15,6 +15,9 @@ namespace video
         SDL_Event _event{};
     };
 
+    /// @brief SDL 事件获取器
+    /// @note 本类是窗口事件循环的基础，一个窗口一定要有一个事件循环，否则一旦发生窗口事件，
+    /// 例如拖动窗口等，程序就会卡死。
     class SDL_EventGetter final
     {
     public:
