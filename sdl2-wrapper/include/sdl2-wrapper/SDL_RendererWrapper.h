@@ -79,6 +79,16 @@ namespace video
                                                           SDL_TextureAccess access,
                                                           int w, int h);
 
+        /// @brief 创建纹理
+        /// @param format
+        /// @param access
+        /// @param w
+        /// @param h
+        /// @return
+        std::shared_ptr<SDL_TextureWrapper> CreateTexture(AVPixelFormat format,
+                                                          SDL_TextureAccess access,
+                                                          int w, int h);
+
         /// @brief 要调用这个函数才能让渲染器将缓冲区中的 RGBA 渲染到屏幕中，不然
         /// 再怎么编辑缓冲区，数据都只是停留在缓冲区而已，不会呈现到屏幕上。
         void Present();

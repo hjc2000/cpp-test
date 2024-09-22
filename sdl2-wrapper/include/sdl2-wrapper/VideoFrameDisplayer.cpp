@@ -23,7 +23,7 @@ VideoFrameDisplayer::VideoFrameDisplayer(int x,
 
     _renderer = _window->CreateRenderer(-1);
 
-    _texture = _renderer->CreateTexture(AVPixelFormatExtension::AVPixelFormat_to_SDL_PixelFormatEnum(pix_format),
+    _texture = _renderer->CreateTexture(pix_format,
                                         SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING,
                                         width,
                                         height);
