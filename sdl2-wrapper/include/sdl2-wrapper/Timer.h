@@ -1,6 +1,7 @@
 #pragma once
 #include <atomic>
 #include <base/task/TaskCompletionSignal.h>
+#include <chrono>
 #include <iostream>
 #include <sdl2-wrapper/SDL_EventGetter.h>
 #include <sdl2-wrapper/SDL_Initializer.h>
@@ -22,8 +23,8 @@ namespace video
 
         /// @brief 启动定时器。本定时器可以反复停止和启动。
         /// 如果定时器已经处于启动状态，再次调用会直接返回。
-        /// @param interval_in_milliseconds
-        void Start(uint32_t interval_in_milliseconds);
+        /// @param interval
+        void Start(std::chrono::milliseconds interval);
 
         /// @brief 与 Stop 方法不同，本方法不会等待定时器回调结束后才返回，而是直接返回。
         /// 本方法可以在定时器回调中使用。

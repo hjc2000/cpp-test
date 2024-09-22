@@ -106,9 +106,9 @@ void video::VideoFramePlayer::Pause(bool pause)
     }
 
     // 开始播放
-    uint32_t interval = static_cast<int64_t>(_video_stream_infos.FrameInterval() * 1000);
+    int64_t interval = static_cast<int64_t>(_video_stream_infos.FrameInterval() * 1000);
     std::cout << "开始播放，帧间隔为：" << interval << std::endl;
-    _timer.Start(interval);
+    _timer.Start(std::chrono::milliseconds{interval});
 }
 
 void video::VideoFramePlayer::SendData(AVFrameWrapper &frame)

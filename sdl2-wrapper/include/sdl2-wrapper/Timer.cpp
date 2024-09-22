@@ -44,7 +44,7 @@ uint32_t video::Timer::static_callback(uint32_t interval, void *param)
     return ret;
 }
 
-void video::Timer::Start(uint32_t interval_in_milliseconds)
+void video::Timer::Start(std::chrono::milliseconds interval)
 {
     if (!_callback_has_stopped.IsCompleted())
     {
@@ -64,5 +64,5 @@ void video::Timer::Start(uint32_t interval_in_milliseconds)
     _callback_should_stop = false;
     _callback_has_stopped.Reset();
 
-    SDL_AddTimer(interval_in_milliseconds, static_callback, this);
+    SDL_AddTimer(interval.count(), static_callback, this);
 }
