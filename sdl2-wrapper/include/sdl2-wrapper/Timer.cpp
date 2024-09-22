@@ -13,7 +13,7 @@ video::Timer::~Timer()
 
 void video::Timer::StopNoWait()
 {
-    std::lock_guard l(_not_private_methods_lock);
+    std::lock_guard l{_not_private_methods_lock};
     _callback_should_stop = true;
 }
 
@@ -26,20 +26,20 @@ void video::Timer::Stop()
 
 uint32_t video::Timer::static_callback(uint32_t interval, void *param)
 {
-    Timer *me = (Timer *)param;
-    if (me->_callback_should_stop)
+    Timer *self = static_cast<Timer *>(param);
+    if (self->_callback_should_stop)
     {
         std::cout << "Timer 停止" << std::endl;
-        me->_callback_has_stopped.SetResult();
+        self->_callback_has_stopped.SetResult();
         return 0;
     }
 
-    uint32_t ret = me->_callback(interval);
+    uint32_t ret = self->_callback(interval);
     if (ret == 0)
     {
         // _callback 返回值为 0，说明用户想停止定时器。
         std::cout << "Timer 停止" << std::endl;
-        me->_callback_has_stopped.SetResult();
+        self->_callback_has_stopped.SetResult();
         return 0;
     }
 
@@ -48,7 +48,7 @@ uint32_t video::Timer::static_callback(uint32_t interval, void *param)
 
 void video::Timer::Start(uint32_t interval_in_milliseconds)
 {
-    std::lock_guard l(_not_private_methods_lock);
+    std::lock_guard l{_not_private_methods_lock};
     if (!_callback_has_stopped.IsCompleted())
     {
         /* _callback_has_stopped 没完成，说明当前有一个回调任务没被停下来，
