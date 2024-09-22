@@ -11,15 +11,13 @@ video::Timer::~Timer()
     Stop();
 }
 
-void video::Timer::StopNoWait()
+void video::Timer::StopAsync()
 {
-    std::lock_guard l{_not_private_methods_lock};
     _callback_should_stop = true;
 }
 
 void video::Timer::Stop()
 {
-    /* 这里使用的是原子量，_callback_has_stopped 的方法是线程安全的，所以不用加锁。*/
     _callback_should_stop = true;
     _callback_has_stopped.Wait();
 }
@@ -48,7 +46,6 @@ uint32_t video::Timer::static_callback(uint32_t interval, void *param)
 
 void video::Timer::Start(uint32_t interval_in_milliseconds)
 {
-    std::lock_guard l{_not_private_methods_lock};
     if (!_callback_has_stopped.IsCompleted())
     {
         /* _callback_has_stopped 没完成，说明当前有一个回调任务没被停下来，

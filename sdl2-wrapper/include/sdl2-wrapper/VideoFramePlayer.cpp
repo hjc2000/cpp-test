@@ -101,7 +101,7 @@ void video::VideoFramePlayer::Pause(bool pause)
     if (pause)
     {
         // 暂停播放
-        _timer.StopNoWait();
+        _timer.StopAsync();
         return;
     }
 

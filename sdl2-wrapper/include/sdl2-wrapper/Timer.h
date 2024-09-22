@@ -8,13 +8,11 @@
 namespace video
 {
     /// @brief 本定时器支持反复停止和启动。
-    /// @note 本类线程安全。
     class Timer final
     {
     private:
         base::TaskCompletionSignal _callback_has_stopped{true};
         std::atomic_bool _callback_should_stop = false;
-        std::mutex _not_private_methods_lock;
 
         static uint32_t static_callback(uint32_t interval, void *param);
 
@@ -29,7 +27,7 @@ namespace video
 
         /// @brief 与 Stop 方法不同，本方法不会等待定时器回调结束后才返回，而是直接返回。
         /// 本方法可以在定时器回调中使用。
-        void StopNoWait();
+        void StopAsync();
 
         /// @brief 本方法会阻塞，直到回调函数返回，所以在回调函数中使用会死锁。
         void Stop();
