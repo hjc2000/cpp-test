@@ -1,15 +1,26 @@
 #include "SDL_RendererWrapper.h"
 #include <iostream>
 
-video::SDL_RendererWrapper::SDL_RendererWrapper(SDL_Renderer *pRenderer)
+video::SDL_RendererWrapper::SDL_RendererWrapper(SDL_Renderer *renderer)
 {
-    _wrapped_obj = pRenderer;
+    _wrapped_obj = renderer;
+}
+
+video::SDL_RendererWrapper::SDL_RendererWrapper(SDL_RendererWrapper const &o)
+{
+    *this = o;
 }
 
 video::SDL_RendererWrapper::~SDL_RendererWrapper()
 {
     std::cout << "~SDL_RendererWrapper()" << std::endl;
     SDL_DestroyRenderer(_wrapped_obj);
+}
+
+video::SDL_RendererWrapper &video::SDL_RendererWrapper::operator=(SDL_RendererWrapper const &o)
+{
+    _wrapped_obj = o._wrapped_obj;
+    return *this;
 }
 
 int video::SDL_RendererWrapper::SetDrawColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
