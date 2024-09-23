@@ -41,8 +41,8 @@ namespace video
         void SetTimeBase(AVRational value) override;
 
         /// @brief 获取采样格式
-        /// @return 如果 SDL_AudioSpec 的 format 字段内储存的 SDL 采样格式没有对应的 AVSampleFormat 值，
-        /// 则会返回 AVSampleFormat::AV_SAMPLE_FMT_NONE
+        /// @return 如果 SDL_AudioSpec 的 format 字段内储存的 SDL 采样格式没有对应的
+        /// AVSampleFormat 值，则会返回 AVSampleFormat::AV_SAMPLE_FMT_NONE
         AVSampleFormat SampleFormat() const override;
 
         /// @brief 设置采样格式
