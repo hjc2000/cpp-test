@@ -46,8 +46,8 @@ namespace video
         AVSampleFormat SampleFormat() const override;
 
         /// @brief 设置采样格式
-        /// @param value 如果设置的 AVSampleFormat 值没有对应的 SDL 值，则会将 SDL_AudioSpec 的 format 字段
-        /// 设置为 0.
+        /// @param value 如果设置的 AVSampleFormat 值没有对应的 SDL 值，
+        /// 则会将 SDL_AudioSpec 的 format 字段设置为 0.
         void SetSampleFormat(AVSampleFormat value) override;
 
         int SampleRate() const override;
