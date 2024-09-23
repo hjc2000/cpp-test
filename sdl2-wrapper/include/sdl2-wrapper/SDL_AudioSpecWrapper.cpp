@@ -24,6 +24,7 @@ video::SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(video::SDL_A
 
 base::Json video::SDL_AudioSpecWrapper::ToJson()
 {
+    // _wrapped_obj->padding 这个值是 SDL 内部使用的，用户不能使用，作用是内存对齐
     return base::Json{
         {
             "freq",
@@ -60,9 +61,6 @@ base::Json video::SDL_AudioSpecWrapper::ToJson()
             _wrapped_obj->size,
         },
     };
-
-    // 这个值是 SDL 内部使用的，用户不能使用，作用是内存对齐
-    // sb << "padding = " << _wrapped_obj->padding << endl;
 }
 
 AVRational video::SDL_AudioSpecWrapper::TimeBase() const
