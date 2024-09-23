@@ -11,36 +11,54 @@ video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(IAudioStreamInfoCollection con
     IAudioStreamInfoCollection::operator=(infos);
 }
 
-video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(SDL_AudioSpecWrapper const &another)
+video::SDL_AudioSpecWrapper::SDL_AudioSpecWrapper(SDL_AudioSpecWrapper const &o)
 {
-    *this = another;
+    *this = o;
 }
 
-video::SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(video::SDL_AudioSpecWrapper const &another)
+video::SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(video::SDL_AudioSpecWrapper const &o)
 {
-    _spec = another._spec;
+    _spec = o._spec;
     return *this;
 }
 
 base::Json video::SDL_AudioSpecWrapper::ToJson()
 {
     return base::Json{
-        {"freq", _wrapped_obj->freq},
+        {
+            "freq",
+            _wrapped_obj->freq,
+        },
         {
             "format",
             {
-                {"SDL_AudioFormat", _wrapped_obj->format},
-                {"AVSampleFormat", sample_format_string()},
+                {
+                    "SDL_AudioFormat",
+                    _wrapped_obj->format,
+                },
+                {
+                    "AVSampleFormat",
+                    sample_format_string(),
+                },
             },
         },
-        {"channels", (int)_wrapped_obj->channels},
+        {
+            "channels",
+            static_cast<int>(_wrapped_obj->channels),
+        },
         {
             // 这个值表示：什么值表示静音。对于 s8，静音值是 0，对于 u8，静音值是 128.
             "silence",
-            (int)_wrapped_obj->silence,
+            static_cast<int>(_wrapped_obj->silence),
         },
-        {"samples", _wrapped_obj->samples},
-        {"size", _wrapped_obj->size},
+        {
+            "samples",
+            _wrapped_obj->samples,
+        },
+        {
+            "size",
+            _wrapped_obj->size,
+        },
     };
 
     // 这个值是 SDL 内部使用的，用户不能使用，作用是内存对齐
