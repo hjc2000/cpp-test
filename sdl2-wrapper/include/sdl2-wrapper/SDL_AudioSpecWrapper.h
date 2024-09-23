@@ -8,7 +8,8 @@
 
 namespace video
 {
-    class SDL_AudioSpecWrapper final :
+    /// @brief 音频设备包装器
+    class SDL_AudioSpecWrapper :
         public base::Wrapper<SDL_AudioSpec>,
         public IAudioFrameInfoCollection,
         public base::IJsonSerializable
