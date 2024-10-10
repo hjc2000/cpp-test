@@ -1,7 +1,6 @@
 #include <algorithm>
-#include <base/container/iterator/IEnumerable.h>
-#include <base/container/iterator/StdContainerEnumerable.h>
 #include <base/container/List.h>
+#include <base/di/SingletonGetter.h>
 #include <base/math/ChXFilter.h>
 #include <base/math/DirectionDetecter.h>
 #include <base/string/ToHexString.h>
@@ -17,15 +16,69 @@
 #include <time.h>
 #include <windows.h>
 
+int F1()
+{
+    class Getter :
+        public base::SingletonGetter<int>
+    {
+    protected:
+        std::unique_ptr<int> Create() override
+        {
+            return std::unique_ptr<int>{new int{666}};
+        }
+
+        void Lock() override
+        {
+        }
+
+        void Unlock() override
+        {
+        }
+    };
+
+    Getter o;
+    std::cout << &o.Instance() << std::endl;
+    return o.Instance();
+}
+
+int F2()
+{
+    class Getter :
+        public base::SingletonGetter<int>
+    {
+    protected:
+        std::unique_ptr<int> Create() override
+        {
+            return std::unique_ptr<int>{new int{777}};
+        }
+
+        void Lock() override
+        {
+        }
+
+        void Unlock() override
+        {
+        }
+    };
+
+    Getter o;
+    std::cout << &o.Instance() << std::endl;
+    return o.Instance();
+}
+
 int main(void)
 {
     try
     {
+        std::cout << F1() << std::endl;
+        std::cout << F2() << std::endl;
+
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
-        std::filesystem::current_path(Predefine_ResourceDir);
-        video::test_AVPacketPlayer();
+        // std::filesystem::current_path(Predefine_ResourceDir);
+        // video::test_AVPacketPlayer();
+
         // test_SptsEncodeMux();
         // test_tsduck();
         return 0;
