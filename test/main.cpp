@@ -16,55 +16,8 @@
 #include <time.h>
 #include <windows.h>
 
-int F1()
-{
-    class Getter :
-        public base::SingletonGetter<int>
-    {
-    protected:
-        std::unique_ptr<int> Create() override
-        {
-            return std::unique_ptr<int>{new int{666}};
-        }
-
-        void Lock() override
-        {
-        }
-
-        void Unlock() override
-        {
-        }
-    };
-
-    Getter o;
-    std::cout << &o.Instance() << std::endl;
-    return o.Instance();
-}
-
-int F2()
-{
-    class Getter :
-        public base::SingletonGetter<int>
-    {
-    protected:
-        std::unique_ptr<int> Create() override
-        {
-            return std::unique_ptr<int>{new int{777}};
-        }
-
-        void Lock() override
-        {
-        }
-
-        void Unlock() override
-        {
-        }
-    };
-
-    Getter o;
-    std::cout << &o.Instance() << std::endl;
-    return o.Instance();
-}
+int F1();
+int F2();
 
 int main(void)
 {
