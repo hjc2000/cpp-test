@@ -23,14 +23,11 @@ int main(void)
 {
     try
     {
-        std::cout << F1() << std::endl;
-        std::cout << F2() << std::endl;
-
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
-        // std::filesystem::current_path(Predefine_ResourceDir);
-        // video::test_AVPacketPlayer();
+        std::filesystem::current_path(Predefine_ResourceDir);
+        video::test_AVPacketPlayer();
 
         // test_SptsEncodeMux();
         // test_tsduck();
