@@ -16,9 +16,6 @@
 #include <time.h>
 #include <windows.h>
 
-int F1();
-int F2();
-
 int main(void)
 {
     try
