@@ -7,6 +7,7 @@
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
+#include <pcap/pcap.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -23,8 +24,11 @@ int main(void)
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
-        std::filesystem::current_path(Predefine_ResourceDir);
-        video::test_AVPacketPlayer();
+        // std::filesystem::current_path(Predefine_ResourceDir);
+        // video::test_AVPacketPlayer();
+
+        // pacman -S mingw-w64-ucrt-x86_64-libpcap
+        std::cout << pcap_lib_version() << std::endl;
 
         // test_SptsEncodeMux();
         // test_tsduck();
