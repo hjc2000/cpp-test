@@ -29,6 +29,21 @@ int main(void)
 
         std::cout << pcap_lib_version() << std::endl;
         net::PcapInitializer::Initialize();
+        pcap_if_t *interface_link_list = nullptr;
+        char error_message_buffer[1024]{};
+
+        int result = pcap_findalldevs_ex(PCAP_SRC_IF_STRING,
+                                         nullptr,
+                                         &interface_link_list,
+                                         error_message_buffer);
+
+        if (result)
+        {
+            std::cout << error_message_buffer << std::endl;
+        }
+
+        pcap_freealldevs(interface_link_list);
+        interface_link_list = nullptr;
 
         // test_SptsEncodeMux();
         // test_tsduck();
