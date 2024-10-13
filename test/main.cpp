@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <iostream>
 #include <pcap/pcap.h>
+#include <PcapInitializer.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -29,6 +30,7 @@ int main(void)
 
         // pacman -S mingw-w64-ucrt-x86_64-libpcap
         std::cout << pcap_lib_version() << std::endl;
+        net::PcapInitializer::Initialize();
 
         // test_SptsEncodeMux();
         // test_tsduck();
