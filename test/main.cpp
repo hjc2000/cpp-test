@@ -7,8 +7,7 @@
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
-#include <pcap/pcap.h>
-#include <PcapInitializer.h>
+#include <pcappp/PcapInitializer.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -28,7 +27,6 @@ int main(void)
         // std::filesystem::current_path(Predefine_ResourceDir);
         // video::test_AVPacketPlayer();
 
-        // pacman -S mingw-w64-ucrt-x86_64-libpcap
         std::cout << pcap_lib_version() << std::endl;
         net::PcapInitializer::Initialize();
 
