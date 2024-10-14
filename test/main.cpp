@@ -7,6 +7,7 @@
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
+#include <pcappp/Pcap.h>
 #include <pcappp/PcapInitializer.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
@@ -27,8 +28,7 @@ int main(void)
         // std::filesystem::current_path(Predefine_ResourceDir);
         // video::test_AVPacketPlayer();
 
-        std::cout << pcap_lib_version() << std::endl;
-        net::PcapInitializer::Initialize();
+        std::cout << net::Pcap::Version() << std::endl;
         pcap_if_t *interface_link_list = nullptr;
         char error_message_buffer[1024]{};
 
