@@ -8,8 +8,7 @@
 #include <filesystem>
 #include <iostream>
 #include <pcappp/Pcap.h>
-#include <pcappp/PcapInitializer.h>
-#include <pcappp/PcapInterfaceList.h>
+#include <pcappp/PcapInterfaceCollection.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -30,7 +29,7 @@ int main(void)
         // video::test_AVPacketPlayer();
 
         std::cout << net::Pcap::Version() << std::endl;
-        auto interfeces = net::PcapInterfaceList::FindInterfaces();
+        auto interfeces = net::PcapInterfaceCollection::FindInterfaces();
 
         // test_SptsEncodeMux();
         // test_tsduck();
