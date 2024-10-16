@@ -7,8 +7,6 @@
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
-#include <pcappp/Pcap.h>
-#include <pcappp/PcapInterfaceCollection.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -25,11 +23,8 @@ int main(void)
         // MessageBox(NULL, "Hello world!", "标题", MB_OK);
         // return 0;
 
-        // std::filesystem::current_path(Predefine_ResourceDir);
-        // video::test_AVPacketPlayer();
-
-        std::cout << net::Pcap::Version() << std::endl;
-        auto interfeces = net::PcapInterfaceCollection::FindInterfaces();
+        std::filesystem::current_path(Predefine_ResourceDir);
+        video::test_AVPacketPlayer();
 
         // test_SptsEncodeMux();
         // test_tsduck();
