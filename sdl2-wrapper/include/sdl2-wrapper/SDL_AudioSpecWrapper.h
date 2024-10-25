@@ -35,7 +35,7 @@ namespace video
             return _wrapped_obj;
         }
 
-        base::Json ToJson() override;
+        base::Json ToJson() const override;
 
 #pragma region 通过 IAudioFrameInfoCollection 继承
         AVRational TimeBase() const override;

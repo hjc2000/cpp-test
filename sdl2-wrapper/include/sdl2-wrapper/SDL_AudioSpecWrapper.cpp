@@ -22,7 +22,7 @@ video::SDL_AudioSpecWrapper &video::SDL_AudioSpecWrapper::operator=(video::SDL_A
     return *this;
 }
 
-base::Json video::SDL_AudioSpecWrapper::ToJson()
+base::Json video::SDL_AudioSpecWrapper::ToJson() const
 {
     // _wrapped_obj->padding 这个值是 SDL 内部使用的，用户不能使用，作用是内存对齐
     return base::Json{

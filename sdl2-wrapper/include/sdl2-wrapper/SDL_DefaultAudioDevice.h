@@ -63,6 +63,6 @@ namespace video
         void SetSampleCount(int value) override;
 #pragma endregion
 
-        base::Json ToJson() override;
+        base::Json ToJson() const override;
     };
 } // namespace video
