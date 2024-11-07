@@ -39,6 +39,10 @@ private:
     /// @brief 802.1Q标签
     uint8_t _802_1q_tag[4] = {};
 
+    /// @brief 为 true 则表示 _802_1q_tag 此时是有效值。
+    /// @note 因为 802.1Q标签 是可选的，所以需要本字段来指示是否有效。
+    bool _802_1q_tag_is_avaliable = false;
+
     /// @brief 类型或长度。
     /// @note 是一个大端序的 16 位整型。
     ///
