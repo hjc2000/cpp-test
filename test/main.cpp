@@ -23,9 +23,9 @@ int main(void)
     {
         // 格式化
         {
-            FATFS fatfs;
+            FATFS fatfs{};
             BYTE work[FF_MAX_SS]; // 工作缓冲区
-            FRESULT res;
+            FRESULT res{};
 
             // 初始化FatFs模块
             res = f_mount(&fatfs, "", 0); // 卸载任何已挂载的卷
@@ -67,7 +67,7 @@ int main(void)
             std::cout << "Current FAT time: " << fat_time << std::endl;
             std::cout << "Disk formatted successfully." << std::endl;
 
-            FIL file;
+            FIL file{};
             char const *filename = "example.txt";
             char const *str = "Hello, FATFS!";
 
