@@ -21,7 +21,6 @@ int main(void)
 {
     try
     {
-        // 格式化
         {
             FATFS fatfs{};
             BYTE work[FF_MAX_SS]; // 工作缓冲区
