@@ -5,7 +5,7 @@
 #include <ff.h>
 
 // 定义一个静态数组作为磁盘存储空间
-static uint8_t _buffer[16 * 1024 * 1024]; // 16KB的存储空间
+static uint8_t _buffer[1 * 1024 * 1024]; // 16KB的存储空间
 
 // 每个扇区的大小（单位：字节）
 #define SECTOR_SIZE 512
