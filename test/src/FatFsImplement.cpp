@@ -4,17 +4,15 @@
 #include <diskio.h>
 #include <ff.h>
 
-// 定义一个静态数组作为磁盘存储空间
-static uint8_t _buffer[16 * 1024 * 1024]; // 16KB的存储空间
+namespace
+{
+    // 定义一个静态数组作为磁盘存储空间
+    uint8_t _buffer[16 * 1024 * 1024]; // 16KB的存储空间
 
 // 每个扇区的大小（单位：字节）
 #define SECTOR_SIZE 512
 
-// 计算给定扇区对应的缓冲区地址
-uint8_t *getSectorAddress(LBA_t sector)
-{
-    return &_buffer[sector * SECTOR_SIZE];
-}
+} // namespace
 
 extern "C"
 {
@@ -35,24 +33,16 @@ extern "C"
     DRESULT disk_read(BYTE pdrv, BYTE *buff, LBA_t sector, UINT count)
     {
         // 从磁盘读取指定数量的扇区到缓冲区
-        for (UINT i = 0; i < count; i++)
-        {
-            uint8_t *src = getSectorAddress(sector + i);
-            std::copy(src, src + SECTOR_SIZE, buff + i * SECTOR_SIZE);
-        }
+        std::copy(_buffer + sector * SECTOR_SIZE,
+                  _buffer + (sector + count) * SECTOR_SIZE,
+                  buff);
 
         return RES_OK; // 成功
     }
 
     DRESULT disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count)
     {
-        // 将指定数量的扇区从缓冲区写入磁盘
-        for (UINT i = 0; i < count; i++)
-        {
-            uint8_t *dest = getSectorAddress(sector + i);
-            std::copy(buff + i * SECTOR_SIZE, buff + (i + 1) * SECTOR_SIZE, dest);
-        }
-
+        std::copy(buff, buff + count * SECTOR_SIZE, _buffer + sector * SECTOR_SIZE);
         return RES_OK; // 成功
     }
 
@@ -68,18 +58,18 @@ extern "C"
             }
         case GET_SECTOR_COUNT: // 获取磁盘上的总扇区数
             {
-                *(DWORD *)buff = sizeof(_buffer) / SECTOR_SIZE;
+                *reinterpret_cast<DWORD *>(buff) = sizeof(_buffer) / SECTOR_SIZE;
                 break;
             }
         case GET_SECTOR_SIZE: // 获取每个扇区的大小
             {
-                *(WORD *)buff = SECTOR_SIZE;
+                *reinterpret_cast<WORD *>(buff) = SECTOR_SIZE;
                 break;
             }
         case GET_BLOCK_SIZE: // 获取擦除块的大小（以扇区为单位）
             {
                 // 对于模拟磁盘，我们假设擦除块大小等于一个扇区
-                *(DWORD *)buff = 1;
+                *reinterpret_cast<DWORD *>(buff) = 1;
                 break;
             }
         default:
