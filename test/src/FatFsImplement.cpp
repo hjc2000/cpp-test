@@ -72,6 +72,10 @@ extern "C"
                 *reinterpret_cast<DWORD *>(buff) = 1;
                 break;
             }
+        case CTRL_TRIM:
+            {
+                break;
+            }
         default:
             {
                 return RES_PARERR; // 参数错误
