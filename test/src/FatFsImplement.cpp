@@ -6,35 +6,44 @@
 
 namespace
 {
-    // 定义一个静态数组作为磁盘存储空间
-    uint8_t _buffer[16 * 1024 * 1024]; // 16KB的存储空间
+    /// @brief 定义一个静态数组作为磁盘存储空间
+    uint8_t _buffer[16 * 1024 * 1024];
 
-// 每个扇区的大小（单位：字节）
-#define SECTOR_SIZE 512
+    // 每个扇区的大小（单位：字节）
+    constinit int _sector_size = 512;
 
 } // namespace
 
 extern "C"
 {
+    /// @brief 初始化磁盘驱动器
+    /// @param pdrv
+    /// @return
     DSTATUS disk_initialize(BYTE pdrv)
     {
-        // 初始化磁盘驱动器
         // 这里假设初始化总是成功的
         return 0; // 返回0表示成功
     }
 
+    /// @brief 获取磁盘的状态
+    /// @param pdrv
+    /// @return
     DSTATUS disk_status(BYTE pdrv)
     {
-        // 获取磁盘的状态
         // 假设磁盘总是处于良好状态
         return 0; // 返回0表示正常
     }
 
+    /// @brief 从磁盘读取指定数量的扇区到缓冲区
+    /// @param pdrv
+    /// @param buff
+    /// @param sector
+    /// @param count
+    /// @return
     DRESULT disk_read(BYTE pdrv, BYTE *buff, LBA_t sector, UINT count)
     {
-        // 从磁盘读取指定数量的扇区到缓冲区
-        std::copy(_buffer + sector * SECTOR_SIZE,
-                  _buffer + (sector + count) * SECTOR_SIZE,
+        std::copy(_buffer + sector * _sector_size,
+                  _buffer + (sector + count) * _sector_size,
                   buff);
 
         return RES_OK; // 成功
@@ -42,13 +51,17 @@ extern "C"
 
     DRESULT disk_write(BYTE pdrv, const BYTE *buff, LBA_t sector, UINT count)
     {
-        std::copy(buff, buff + count * SECTOR_SIZE, _buffer + sector * SECTOR_SIZE);
+        std::copy(buff, buff + count * _sector_size, _buffer + sector * _sector_size);
         return RES_OK; // 成功
     }
 
+    /// @brief 控制磁盘设备
+    /// @param pdrv
+    /// @param cmd
+    /// @param buff
+    /// @return
     DRESULT disk_ioctl(BYTE pdrv, BYTE cmd, void *buff)
     {
-        // 控制磁盘设备
         switch (cmd)
         {
         case CTRL_SYNC: // 刷新缓存到磁盘
@@ -58,12 +71,12 @@ extern "C"
             }
         case GET_SECTOR_COUNT: // 获取磁盘上的总扇区数
             {
-                *reinterpret_cast<DWORD *>(buff) = sizeof(_buffer) / SECTOR_SIZE;
+                *reinterpret_cast<DWORD *>(buff) = sizeof(_buffer) / _sector_size;
                 break;
             }
         case GET_SECTOR_SIZE: // 获取每个扇区的大小
             {
-                *reinterpret_cast<WORD *>(buff) = SECTOR_SIZE;
+                *reinterpret_cast<WORD *>(buff) = _sector_size;
                 break;
             }
         case GET_BLOCK_SIZE: // 获取擦除块的大小（以扇区为单位）
@@ -85,7 +98,9 @@ extern "C"
         return RES_OK; // 成功
     }
 
-    // 使用 std::chrono 获取当前时间并转换为 FatFs 时间戳
+    /// @brief 使用 std::chrono 获取当前时间并转换为 FatFs 时间戳
+    /// @param
+    /// @return
     DWORD get_fattime(void)
     {
         auto now = std::chrono::system_clock::now();
