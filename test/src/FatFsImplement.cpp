@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <base/string/ToHexString.h>
 #include <chrono>
 #include <cstdint>
 #include <diskio.h>
 #include <ff.h>
+#include <iostream>
 
 namespace
 {
@@ -13,6 +15,18 @@ namespace
     constinit int _sector_size = 512;
 
 } // namespace
+
+void LogBuffer()
+{
+    for (int i = 0; i < 1024; i++)
+    {
+        std::cout << base::ToHexString(_buffer[i]) + "  ";
+        if (i % 20 == 0 && i != 0)
+        {
+            std::cout << std::endl;
+        }
+    }
+}
 
 extern "C"
 {

@@ -17,6 +17,8 @@
 #include <time.h>
 #include <windows.h>
 
+void LogBuffer();
+
 int main(void)
 {
     try
@@ -51,6 +53,8 @@ int main(void)
                 std::cerr << "f_mkfs error: " << res << std::endl;
                 return -1;
             }
+
+            LogBuffer();
 
             // 重新挂载文件系统
             res = f_mount(&fatfs, "", 1); // 挂载文件系统
