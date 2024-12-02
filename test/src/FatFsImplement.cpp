@@ -9,7 +9,7 @@
 namespace
 {
     /// @brief 定义一个静态数组作为磁盘存储空间
-    uint8_t _buffer[16 * 1024 * 1024];
+    uint8_t _buffer[200 * 1024];
 
     // 每个扇区的大小（单位：字节）
     constinit int _sector_size = 512;
