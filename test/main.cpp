@@ -37,11 +37,11 @@ int main(void)
 
             // 创建格式化参数结构体
             MKFS_PARM mkfs_parm{};
-            mkfs_parm.fmt = FM_FAT | FM_SFD; // 设置文件系统类型为FAT，并创建一个简单的FAT12/FAT16分区
-            mkfs_parm.n_fat = 1;             // 设置FAT表的数量为1
-            mkfs_parm.align = 1;             // 数据区域对齐为1扇区
-            mkfs_parm.n_root = 0;            // 根目录条目数为0（自动选择）
-            mkfs_parm.au_size = 0;           // 分配单元大小为自动选择
+            mkfs_parm.fmt = FM_FAT; // 设置文件系统类型为FAT，并创建一个简单的FAT12/FAT16分区
+            mkfs_parm.n_fat = 1;    // 设置FAT表的数量为1
+            mkfs_parm.align = 1;    // 数据区域对齐为1扇区
+            mkfs_parm.n_root = 0;   // 根目录条目数为0（自动选择）
+            mkfs_parm.au_size = 0;  // 分配单元大小为自动选择
 
             // 格式化磁盘
             res = f_mkfs("", &mkfs_parm, work, sizeof(work));
