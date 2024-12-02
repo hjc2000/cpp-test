@@ -117,18 +117,19 @@ extern "C"
     /// @return
     DWORD get_fattime(void)
     {
-        auto now = std::chrono::system_clock::now();
-        std::time_t now_c = std::chrono::system_clock::to_time_t(now);
-        struct tm *now_tm = std::localtime(&now_c);
+        // auto now = std::chrono::system_clock::now();
+        // std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+        // struct tm *now_tm = std::localtime(&now_c);
 
-        // FatFs 时间戳格式：YYYYMMDD HHMMSS
-        DWORD fat_time = ((now_tm->tm_year + 1900 - 1980) << 25) |
-                         ((now_tm->tm_mon + 1) << 21) |
-                         (now_tm->tm_mday << 16) |
-                         (now_tm->tm_hour << 11) |
-                         (now_tm->tm_min << 5) |
-                         (now_tm->tm_sec >> 1);
+        // // FatFs 时间戳格式：YYYYMMDD HHMMSS
+        // DWORD fat_time = ((now_tm->tm_year + 1900 - 1980) << 25) |
+        //                  ((now_tm->tm_mon + 1) << 21) |
+        //                  (now_tm->tm_mday << 16) |
+        //                  (now_tm->tm_hour << 11) |
+        //                  (now_tm->tm_min << 5) |
+        //                  (now_tm->tm_sec >> 1);
 
-        return fat_time;
+        // return fat_time;
+        return 0;
     }
 }
