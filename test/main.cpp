@@ -128,22 +128,11 @@ int main(void)
 	{
 		TestFatFs();
 
-		// // 重新挂载文件系统
-		// res = f_mount(&fatfs, "", 1); // 挂载文件系统
-		// if (res != FR_OK)
-		// {
-		//     // 处理错误
-		//     std::cerr << "f_mount error: " << res << std::endl;
-		//     return -1;
-		// }
-
-		// std::cout << "Disk formatted successfully." << std::endl;
-
 		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
 		// return 0;
 
-		// std::filesystem::current_path(Predefine_ResourceDir);
-		// video::test_AVPacketPlayer();
+		std::filesystem::current_path(Predefine_ResourceDir);
+		video::test_AVPacketPlayer();
 
 		// test_SptsEncodeMux();
 		// test_tsduck();
