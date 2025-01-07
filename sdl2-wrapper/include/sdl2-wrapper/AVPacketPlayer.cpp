@@ -1,4 +1,5 @@
 #include <base/stream/FileStream.h>
+#include <base/string/define.h>
 #include <ffmpeg-wrapper/input-format/InputFormat.h>
 #include <ffmpeg-wrapper/wrapper/AVIOContextWrapper.h>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -18,7 +19,6 @@ video::AVPacketPlayer::AVPacketPlayer(int x,
 video::AVPacketPlayer::~AVPacketPlayer()
 {
 	Dispose();
-	std::cout << __func__ << std::endl;
 }
 
 void video::AVPacketPlayer::Dispose()
