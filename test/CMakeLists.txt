@@ -19,4 +19,9 @@ target_import_boost_asio(${ProjectName} PUBLIC)
 target_import_qt_core(${ProjectName} PUBLIC)
 target_import_ffmpeg_wrapper(${ProjectName} PUBLIC)
 target_import_tsduck(${ProjectName} PUBLIC)
-target_link_libraries(${ProjectName} PUBLIC sdl2-wrapper)
+
+target_link_libraries(${ProjectName} PUBLIC
+					  sdl2-wrapper
+					  libPocoNet
+					  libPocoUtil
+					  libPocoFoundation)

@@ -1,3 +1,5 @@
+#include "Poco/Delegate.h"
+#include "Poco/Net/Net.h"
 #include <algorithm>
 #include <base/container/List.h>
 #include <base/di/SingletonGetter.h>
@@ -7,6 +9,10 @@
 #include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
+#include <Poco/DateTime.h>
+#include <Poco/DateTimeFormatter.h>
+#include <Poco/Net/NTPClient.h>
+#include <Poco/Timespan.h>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
 #include <sdl2-wrapper/AVPacketPlayer.h>
@@ -18,26 +24,63 @@
 
 void LogBuffer();
 
-int main(void)
+class MyEventHandler
 {
-	try
+public:
+	// 定义事件处理器方法
+	void onNTPResponse(void const *sender, Poco::Net::NTPEventArgs &args)
 	{
-		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
-		// return 0;
+		Poco::Timestamp T1 = args.packet().originateTime(); // Originate Time
+		Poco::Timestamp T2 = args.packet().receiveTime();   // Receive Time
+		Poco::Timestamp T3 = args.packet().transmitTime();  // Transmit Time
+		Poco::Timestamp T4 = Poco::Timestamp();             // Current client time when receiving the response
+		Poco::Timespan delay = (T4 - T1) - (T3 - T2);
+		Poco::Timespan offset = ((T2 - T1) + (T3 - T4)) / 2;
+		Poco::Timestamp accurateTime = T4 + offset;
 
-		std::filesystem::current_path(Predefine_ResourceDir);
-		video::test_AVPacketPlayer();
+		// 获取 UTC 时间
+		Poco::DateTime utcTime(accurateTime);
 
-		// test_SptsEncodeMux();
-		// test_tsduck();
-		return 0;
+		// 定义格式字符串
+		std::string format = "%Y-%m-%d %H:%M:%S";
+
+		// 使用 Poco::DateTimeFormatter 格式化时间
+		std::string formattedTime = Poco::DateTimeFormatter::format(utcTime, format);
+
+		// 输出格式化后的时间
+		std::cout << "Formatted Time: " << formattedTime << std::endl;
 	}
-	catch (std::runtime_error const &e)
-	{
-		std::cout << e.what() << std::endl;
-		throw;
-	}
+};
+
+int main()
+{
+	Poco::Net::NTPClient client{Poco::Net::SocketAddress::Family::IPv4};
+	MyEventHandler eventHandler;
+	client.response += Poco::delegate(&eventHandler, &MyEventHandler::onNTPResponse);
+	// int result = client.request("ntp.ntsc.ac.cn");
+	int result = client.request("time.windows.com");
 }
+
+// int main()
+// {
+// 	try
+// 	{
+// 		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
+// 		// return 0;
+
+// 		std::filesystem::current_path(Predefine_ResourceDir);
+// 		video::test_AVPacketPlayer();
+
+// 		// test_SptsEncodeMux();
+// 		// test_tsduck();
+// 		return 0;
+// 	}
+// 	catch (std::runtime_error const &e)
+// 	{
+// 		std::cout << e.what() << std::endl;
+// 		throw;
+// 	}
+// }
 
 // int main()
 //{
