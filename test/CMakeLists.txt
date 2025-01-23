@@ -15,13 +15,11 @@ include(target_import_tsduck)
 add_executable(${ProjectName} ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 target_compile_definitions(${ProjectName} PRIVATE Predefine_ResourceDir="D:/video/视频开发测试")
 target_import_src(${ProjectName})
+
+target_link_libraries(${ProjectName} PUBLIC -Wl,--start-group)
 target_import_boost_asio(${ProjectName} PUBLIC)
 target_import_qt_core(${ProjectName} PUBLIC)
 target_import_ffmpeg_wrapper(${ProjectName} PUBLIC)
 target_import_tsduck(${ProjectName} PUBLIC)
-
-target_link_libraries(${ProjectName} PUBLIC
-					  sdl2-wrapper
-					  libPocoNet
-					  libPocoUtil
-					  libPocoFoundation)
+target_link_libraries(${ProjectName} PUBLIC sdl2-wrapper)
+target_link_libraries(${ProjectName} PUBLIC -Wl,--end-group)
