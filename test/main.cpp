@@ -26,26 +26,25 @@ void LogBuffer();
 
 class MyEventHandler
 {
+private:
+	Poco::Timestamp T1 = Poco::Timestamp(); // Originate Time
+
 public:
 	// 定义事件处理器方法
 	void onNTPResponse(void const *sender, Poco::Net::NTPEventArgs &args)
 	{
-		Poco::Timestamp T1 = args.packet().originateTime(); // Originate Time
-		Poco::Timestamp T2 = args.packet().receiveTime();   // Receive Time
-		Poco::Timestamp T3 = args.packet().transmitTime();  // Transmit Time
-		Poco::Timestamp T4 = Poco::Timestamp();             // Current client time when receiving the response
-		Poco::Timespan delay = (T4 - T1) - (T3 - T2);
+		Poco::Timestamp T2 = args.packet().receiveTime();  // Receive Time
+		Poco::Timestamp T3 = args.packet().transmitTime(); // Transmit Time
+		Poco::Timestamp T4 = Poco::Timestamp();            // Current client time when receiving the response
+		Poco::Timespan delay = ((T4 - T1) - (T3 - T2)) / 2;
 		Poco::Timespan offset = ((T2 - T1) + (T3 - T4)) / 2;
 		Poco::Timestamp accurateTime = T4 + offset;
-
-		// 获取 UTC 时间
-		Poco::DateTime utcTime(accurateTime);
 
 		// 定义格式字符串
 		std::string format = "%Y-%m-%d %H:%M:%S";
 
 		// 使用 Poco::DateTimeFormatter 格式化时间
-		std::string formattedTime = Poco::DateTimeFormatter::format(utcTime, format);
+		std::string formattedTime = Poco::DateTimeFormatter::format(accurateTime, format);
 
 		// 输出格式化后的时间
 		std::cout << "Formatted Time: " << formattedTime << std::endl;
