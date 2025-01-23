@@ -1,10 +1,7 @@
 #include <algorithm>
 #include <base/container/List.h>
 #include <base/di/SingletonGetter.h>
-#include <base/math/ChXFilter.h>
-#include <base/math/DirectionDetecter.h>
 #include <base/string/ToHexString.h>
-#include <ffmpeg-wrapper/mux/SptsEncodeMux.h>
 #include <filesystem>
 #include <iostream>
 #include <QtCore/QCoreApplication>
@@ -12,7 +9,6 @@
 #include <sdl2-wrapper/AVPacketPlayer.h>
 #include <sstream>
 #include <stdexcept>
-#include <test_tsduck.h>
 #include <time.h>
 #include <windows.h>
 
