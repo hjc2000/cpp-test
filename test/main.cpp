@@ -56,8 +56,8 @@ int main()
 	Poco::Net::NTPClient client{Poco::Net::SocketAddress::Family::IPv4};
 	MyEventHandler eventHandler;
 	client.response += Poco::delegate(&eventHandler, &MyEventHandler::onNTPResponse);
-	// int result = client.request("ntp.ntsc.ac.cn");
-	int result = client.request("time.windows.com");
+	// client.request("ntp.ntsc.ac.cn");
+	client.request("time.windows.com");
 }
 
 // int main()
