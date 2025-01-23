@@ -38,7 +38,7 @@ public:
 		Poco::Timestamp T4 = Poco::Timestamp();            // Current client time when receiving the response
 		Poco::Timespan delay = ((T4 - T1) - (T3 - T2)) / 2;
 		Poco::Timespan offset = ((T2 - T1) + (T3 - T4)) / 2;
-		Poco::Timestamp accurateTime = T4 + offset;
+		Poco::Timestamp accurateTime = T4 + offset + Poco::Timespan(0, 8, 0, 0, 0);
 
 		// 定义格式字符串
 		std::string format = "%Y-%m-%d %H:%M:%S";
