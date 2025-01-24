@@ -49,7 +49,7 @@ int main()
 	QApplication app{argc, argv};
 	QWidget window{};
 	window.resize(1920, 1080);
-	window.setWindowTitle("Simple Qt Window");
+	window.setWindowTitle("Hello World");
 	window.showMaximized();
 	return app.exec();
 }
