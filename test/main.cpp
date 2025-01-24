@@ -4,7 +4,6 @@
 #include <base/string/ToHexString.h>
 #include <filesystem>
 #include <iostream>
-#include <MainWindow.h>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 #include <sstream>
 #include <stdexcept>
@@ -13,40 +12,25 @@
 
 void LogBuffer();
 
-// int main()
-// {
-// 	try
-// 	{
-// 		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
-// 		// return 0;
-
-// 		std::filesystem::current_path(Predefine_ResourceDir);
-// 		video::test_AVPacketPlayer();
-
-// 		// test_SptsEncodeMux();
-// 		// test_tsduck();
-// 		return 0;
-// 	}
-// 	catch (std::runtime_error const &e)
-// 	{
-// 		std::cout << e.what() << std::endl;
-// 		throw;
-// 	}
-// }
-
 int main()
 {
-	int argc = 1;
+	try
+	{
+		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
+		// return 0;
 
-	char *argv[] = {
-		const_cast<char *>("Hello World"),
-		nullptr,
-	};
+		std::filesystem::current_path(Predefine_ResourceDir);
+		video::test_AVPacketPlayer();
 
-	QApplication app{argc, argv};
-	test::MainWindow window{};
-	window.showMaximized();
-	return app.exec();
+		// test_SptsEncodeMux();
+		// test_tsduck();
+		return 0;
+	}
+	catch (std::runtime_error const &e)
+	{
+		std::cout << e.what() << std::endl;
+		throw;
+	}
 }
 
 // #include<iostream>
