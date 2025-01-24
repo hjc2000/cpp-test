@@ -6,6 +6,8 @@
 #include <iostream>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDebug>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QWidget>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 #include <sstream>
 #include <stdexcept>
@@ -14,37 +16,44 @@
 
 void LogBuffer();
 
+// int main()
+// {
+// 	try
+// 	{
+// 		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
+// 		// return 0;
+
+// 		std::filesystem::current_path(Predefine_ResourceDir);
+// 		video::test_AVPacketPlayer();
+
+// 		// test_SptsEncodeMux();
+// 		// test_tsduck();
+// 		return 0;
+// 	}
+// 	catch (std::runtime_error const &e)
+// 	{
+// 		std::cout << e.what() << std::endl;
+// 		throw;
+// 	}
+// }
+
 int main()
 {
-	try
-	{
-		// MessageBox(NULL, "Hello world!", "标题", MB_OK);
-		// return 0;
+	int argc = 1;
 
-		std::filesystem::current_path(Predefine_ResourceDir);
-		video::test_AVPacketPlayer();
+	char *argv[] = {
+		const_cast<char *>("Hello World"),
+		nullptr,
+	};
 
-		// test_SptsEncodeMux();
-		// test_tsduck();
-		return 0;
-	}
-	catch (std::runtime_error const &e)
-	{
-		std::cout << e.what() << std::endl;
-		throw;
-	}
+	QApplication app{argc, argv};
+	QWidget window{};
+	window.resize(320, 240);
+	window.setWindowTitle("Simple Qt Window");
+	window.show();
+
+	return app.exec();
 }
-
-// int main()
-//{
-//	int argc = 1;
-//	char *argv[] = {(char*)"appname", nullptr};
-//	QCoreApplication app(argc, argv);
-//
-//	qDebug() << "Hello, Qt console application!";
-//
-//	return app.exec();
-// }
 
 // #include<iostream>
 // #include<test_boost_asio.h>
