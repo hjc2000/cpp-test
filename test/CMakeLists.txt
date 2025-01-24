@@ -12,7 +12,7 @@ include(target_import_qt)
 include(target_import_ffmpeg_wrapper)
 include(target_import_tsduck)
 
-add_executable(${ProjectName} ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+add_executable(${ProjectName} WIN32 ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 target_compile_definitions(${ProjectName} PRIVATE Predefine_ResourceDir="D:/video/视频开发测试")
 target_import_src(${ProjectName})
 
