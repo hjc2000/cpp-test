@@ -4,10 +4,7 @@
 #include <base/string/ToHexString.h>
 #include <filesystem>
 #include <iostream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QDebug>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QWidget>
+#include <MainWindow.h>
 #include <sdl2-wrapper/AVPacketPlayer.h>
 #include <sstream>
 #include <stdexcept>
@@ -47,9 +44,7 @@ int main()
 	};
 
 	QApplication app{argc, argv};
-	QWidget window{};
-	window.resize(1920, 1080);
-	window.setWindowTitle("Hello World");
+	test::MainWindow window{};
 	window.showMaximized();
 	return app.exec();
 }
