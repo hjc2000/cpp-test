@@ -19,10 +19,10 @@ namespace test
 			setWindowTitle("带有侧边栏的 Hello World");
 
 			// 创建一个中央部件
-			QWidget *centralWidget = new QWidget(this);
+			QWidget *centralWidget = new QWidget{this};
 
 			// 创建 QVBoxLayout 实例并将其设置为中央部件的布局
-			QVBoxLayout *layout = new QVBoxLayout(centralWidget);
+			QVBoxLayout *layout = new QVBoxLayout{centralWidget};
 			layout->setAlignment(Qt::Alignment{Qt::AlignmentFlag::AlignTop});
 
 			// 添加一些按钮到布局中作为示例
