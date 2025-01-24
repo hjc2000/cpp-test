@@ -48,10 +48,9 @@ int main()
 
 	QApplication app{argc, argv};
 	QWidget window{};
-	window.resize(320, 240);
+	window.resize(1920, 1080);
 	window.setWindowTitle("Simple Qt Window");
-	window.show();
-
+	window.showMaximized();
 	return app.exec();
 }
 
