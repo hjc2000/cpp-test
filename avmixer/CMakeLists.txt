@@ -1,14 +1,18 @@
+cmake_minimum_required(VERSION 3.8)
+
 if(1)
-    cmake_minimum_required(VERSION 3.8)
+	get_filename_component(CURRENT_DIR_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+	set(ProjectName "${CURRENT_DIR_NAME}")
 
-    set(ProjectName avmixer)
-    project(${ProjectName})
+	include($ENV{cpp_lib_build_scripts_path}/cmake-module/setup.cmake)
 
-    set(CMAKE_CXX_STANDARD 20)
-    set(CMAKE_C_STANDARD 17)
+	project(${ProjectName})
+	enable_language(ASM)
+	set(CMAKE_CXX_STANDARD 20)
+	set(CMAKE_C_STANDARD 17)
 endif()
 
-include($ENV{cpp_lib_build_scripts_path}/cmake-module/setup.cmake)
+
 include(target_import_cli11)
 include(target_import_ffmpeg_wrapper)
 
