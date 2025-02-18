@@ -1,14 +1,10 @@
-#include <algorithm>
 #include <base/container/List.h>
 #include <base/di/SingletonGetter.h>
 #include <base/string/ToHexString.h>
 #include <filesystem>
 #include <iostream>
 #include <sdl2-wrapper/AVPacketPlayer.h>
-#include <sstream>
 #include <stdexcept>
-#include <time.h>
-#include <windows.h>
 
 void LogBuffer();
 
