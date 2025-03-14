@@ -3,7 +3,6 @@ cmake_minimum_required (VERSION 3.8)
 project ("video")
 
 # 包含子项目。
-add_subdirectory(${CMAKE_SOURCE_DIR}/sdl2-wrapper)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test)
 add_subdirectory(${CMAKE_SOURCE_DIR}/avmixer)
 add_subdirectory(${CMAKE_SOURCE_DIR}/check-avstream)
