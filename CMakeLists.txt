@@ -18,7 +18,7 @@ include(target_import_ffmpeg_wrapper)
 include(target_import_tsduck)
 include(target_import_sdl2_wrapper)
 
-add_executable(${ProjectName} ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+add_executable(${ProjectName})
 target_compile_definitions(${ProjectName} PRIVATE Predefine_ResourceDir="D:/video/视频开发测试")
 target_import_src(${ProjectName})
 
